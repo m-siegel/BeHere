@@ -1,0 +1,6 @@
+# For project
+.env
+node_modules
+
+# General for Mac users
+.DS_Store

@@ -1,0 +1,65 @@
+/** By Ilana-Mahmea */
+
+import * as mongodb from "mongodb";
+const uri = process.env.MONGO_URI || "mongodb://localhost:21017";
+const client = new mongodb.MongoClient(uri);
+
+const userConnect = {}; // To export default
+
+const databaseName = "be-here-db";
+userConnect.databaseName = databaseName;
+const usersCollectionName = "users";
+userConnect.collectionName = usersCollectionName;
+
+/**
+ * Adds the parameter object to the users collection.
+ * @param {Object} objToAdd User object to add to the users collection.
+ * @returns {Object:
+ *     {success: boolean, message: string, insertedIdString: string, ?err: Error}}
+ *     Object indicating the success of the operation and containing the string
+ *     version of the inserted object's MongoDB ObjectId.
+ * @throws {TypeError} If the parameter object is null.
+ */
+export async function addToCollection(objToAdd) {
+  if (!objToAdd) {
+    throw new TypeError("objToAdd must not be null.");
+  }
+  try {
+    await client.connect();
+    const database = client.db(databaseName);
+    const collection = database.collection(usersCollectionName);
+    const res = await collection.insertOne(objToAdd);
+    if (res.acknowledged) {
+      return {
+        success: true,
+        message: "Successfully added user.",
+        insertedIdString: res.insertedId.toString(),
+        err: null,
+      };
+    }
+    return {
+      success: false,
+      message:
+        "Could not add user. Database did not acknowledge insert request.",
+      insertedIdString: "",
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      message: "An error occurred while trying to insert the user object.",
+      insertedIdString: "",
+      err: e,
+    };
+  } finally {
+    await client.close();
+  }
+}
+userConnect.addToCollection = addToCollection;
+
+// TODO delete by _id
+
+// TODO Find by parameters
+
+// TODO update by parameters

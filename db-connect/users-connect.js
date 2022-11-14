@@ -1,7 +1,7 @@
 /** By Ilana-Mahmea */
 
 import * as mongodb from "mongodb";
-const uri = process.env.MONGO_URI || "mongodb://localhost:21017";
+const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
 const userConnect = {}; // To export default
 
 const databaseName = "be-here-db";

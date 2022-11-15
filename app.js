@@ -54,14 +54,14 @@ app.use(
     })
 );
 
-initializePassport(passport, getUserByUsername, getUserById);
-app.use(passport.initialize());
-app.use(passport.session());
+// initializePassport(passport, getUserByUsername, getUserById);
+// app.use(passport.initialize());
+// app.use(passport.session());
 /**
  *  Within action attribute of form, inter "/logout?_method=DELETE" method="POST".
  *  This will delete the session for the user when logging out
  */
-app.use(methodOverride("_method"));
+// app.use(methodOverride("_method"));
 
 // TODO: set up routers
 app.use("/", router);

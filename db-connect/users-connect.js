@@ -581,6 +581,89 @@ userConnect.getUsersByOrganizations = getUsersByOrganizations;
 
 // Specific functions -- update
 
+// TODO: check
+/**
+ * Updates the user document with the id that matches the parameter userIdString.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {!Object} updatesObj Valid MongDB update object,
+ *     for example {$set: {username: "example"}},
+ * @returns {Object:
+ *     {success: boolean, updatedCount: number, message: string, ?err: Error}}
+ *     Object indicating the success of the operation.
+ */
+export async function updateById(userIdString, updatesObj) {
+  const client = new mongodb.MongoClient(uri);
+  let idObj;
+  try {
+    idObj = convertStringToObjectId(userIdString);
+  } catch (e) {
+    return {
+      success: false,
+      message: "Error creating ObjectId from parameter idString.",
+      userIdString: userIdString,
+      err: e,
+    };
+  }
+  if (!(updatesObj instanceof Object)) {
+    return {
+      success: false,
+      updatedCount: 0,
+      message: "Updates object must be an object.",
+      err: new TypeError("updatesObj must be an Object"),
+    };
+  }
+  try {
+    await client.connect();
+    const database = client.db(databaseName);
+    const collection = database.collection(usersCollectionName);
+
+    const res = await collection.updateOne({ _id: idObj }, updatesObj);
+
+    if (res.acknowledged) {
+      if (res.updatedCount) {
+        return {
+          success: true,
+          updatedCount: 1,
+          message: "Successfully updated user.",
+          // TODO: include updated object?
+          err: null,
+        };
+      } else if (res.matchedCount) {
+        return {
+          success: true,
+          updatedCount: 0,
+          message: "User not updated.",
+          err: null,
+        };
+      } else {
+        return {
+          success: false,
+          updatedCount: 0,
+          message: "User not found.",
+          err: null,
+        };
+      }
+    }
+    return {
+      success: false,
+      updatedCount: 0,
+      message: "Request not acknowledged.",
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      updatedCount: 0,
+      msg: "Error updating user.",
+      err: e,
+    };
+  } finally {
+    await client.close();
+  }
+}
+userConnect.updateOne = updateOne;
+
 /**
  * Pushes the given eventRSVP object to the specified user docement's "following" array.
  * @param {string} userIdString String version of the _id of the document to update.

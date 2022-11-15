@@ -4,7 +4,7 @@
 [Tim Crawley](https://github.com/tcrawley2) and [Ilana-Mahmea Siegel](https://github.com/m-siegel/)
 
 ## Release Notes:
-- release 0.0.0 - Proof of work midpoint Nov 15 for class.
+- release 0.0.0 - Proof of work midpoint Nov 15 for class. Very much a draft -- we're aware of the redundant code from our branches and the TODOs.
 
 ## What
 A fullstack web application for sharing events within an organization. Users sign up with their organization email, which allows them to post events for other organization members to see. Users can see, upvote and RSVP to events that are posted within their organization.

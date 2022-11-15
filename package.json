@@ -1,5 +1,5 @@
 {
-  "name": "temp",
+  "name": "be-here",
   "version": "0.0.0",
   "author": "Tim Crawley, Ilana-Mahmea Siegel",
   "description": "Fullstack web app for sharing events within an organization community",
@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/www.js",
     "devStart": "nodemon ./bin/www.js"
   },
   "dependencies": {

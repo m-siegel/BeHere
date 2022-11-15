@@ -22,7 +22,7 @@ import dotenv from "dotenv";
 
 // Set up path for express.static in a way that fits ES6
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const pathToPublicDir = resolve(__dirname, "front-end/public");
+const pathToFrontendStaticFiles = resolve(__dirname, "./front-end/build");
 
 dotenv.config(); // So can access environment variables from .env file
 
@@ -33,7 +33,15 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(pathToPublicDir));
+app.use(express.static(pathToFrontendStaticFiles));
+
+// NOTE: for testing front end routing to back with proxy
+app.use(
+  express.Router().get("/test", (req, res) => {
+    console.log("got request");
+    res.send;
+  })
+);
 
 // TODO: set up session and passport
     // app.use(passport.initialize());

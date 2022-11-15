@@ -8,6 +8,8 @@ import router from "./routes/routes.js";
 import passport from "passport";
 import initializePassport from "./util/passport-config.js";
 import session from "express-session";
+import methodOverride from "method-override";
+
 
 import dotenv from "dotenv";
 // TODO: import session and passport
@@ -44,9 +46,14 @@ app.use(
     })
 );
 
-//initializePassport(passport, getUserByUsername, getUserById);
+initializePassport(passport, getUserByUsername, getUserById);
 app.use(passport.initialize());
 app.use(passport.session());
+/**
+ *  Within action attribute of form, inter "/logout?_method=DELETE" method="POST".
+ *  This will delete the session for the user when logging out
+ */
+app.use(methodOverride("_method"));
 
 // TODO: set up routers
 app.use("/", router);

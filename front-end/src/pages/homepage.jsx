@@ -10,8 +10,8 @@ function Homepage() {
 			<Navbar />
 			<div className="container">
 				<h1 className="title">Welcome to BeHere</h1>
-				<Row className="flex">
-					<Col className="prompt" xs={6}>
+				<Row className="row">
+					<Col className="col-xxl-6">
 						<Link className="btn btn-primary" to="./signupPage">
 								Go to sign up page
 						</Link>
@@ -19,7 +19,7 @@ function Homepage() {
 								Go to the feed page
 						</Link>
 					</Col>
-					<Col className="prompt" xs={6}>
+					<Col className="col-xxl-6">
 						<LoginForm />
 					</Col>
 				</Row>

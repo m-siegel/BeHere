@@ -129,8 +129,9 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# General for Mac users
-.DS_Store
-
+# Misc
 yarn.lock
 package-lock.json
+
+# For Mac users
+.DS_Store

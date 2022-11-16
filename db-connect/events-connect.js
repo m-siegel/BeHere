@@ -393,6 +393,12 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
     }
 }
 
+// Event previews -- need eventId, name, eventOrgName, creator, tags, location/time
+    // TODO -- get all events where user is in following list
+    // TODO -- all events where user is creator
+    // TODO -- all events for an organization
+
+
 
 
 export default eventsConnect;

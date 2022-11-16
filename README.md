@@ -3,6 +3,9 @@
 ## Authors
 [Tim Crawley](https://github.com/tcrawley2) and [Ilana-Mahmea Siegel](https://github.com/m-siegel/)
 
+## Milestones for class:
+- **Proof of 60% progress as of Nov 15: [release version 0.0.0, tag nov15_60%](https://github.com/m-siegel/BeHere/releases/tag/nov15_60%25)**. This is very much a draft -- we were feeling things out and trying to encounter bugs and gaps in knowledge early, so we focused on "proof of concept" type versions, not near-final-draft versions. We got React router working and routing from the front to the back, but just in a way that tested whether or not we could do it. We merged our branches just before this and hadn't yet figured out how we were going to handle redundant code, or the TODOs and bugs in the code. **You can see the merged version on the `main` branch, Tim's work on the `tim` branch and Ilana-Mahmea's work on the `mea` branch.**
+
 ## What
 A fullstack web application for sharing events within an organization. Users sign up with their organization email, which allows them to post events for other organization members to see. Users can see, upvote and RSVP to events that are posted within their organization.
 

@@ -1,6 +1,8 @@
+import React from "react";
 import { Link } from "react-router-dom";
 // TODO: should change <a> to link, but then it won't render
 
+// Change "a" to "Link"
 function Navbar(props) {
   // TODO: change active based on props
   return (

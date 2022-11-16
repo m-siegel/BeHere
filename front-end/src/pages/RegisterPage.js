@@ -1,3 +1,5 @@
+// By Mea
+
 import BasePage from "../building-blocks/BasePage.js";
 
 function RegisterPage() {

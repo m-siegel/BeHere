@@ -1,3 +1,5 @@
+// By Mea
+
 import React from "react";
 
 function DetailedEvent() {

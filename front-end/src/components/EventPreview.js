@@ -40,7 +40,6 @@ function EventPreview(props) {
             {/* <Link className="timea-nav-btn" to={`/event/${info._id}`}>
               <p>Details</p>
             </Link> */}
-
             <IconButtonDropdown
               iconPath="./icons/bootstrap-calendar-heart.svg"
               descriptionText="RSVP"
@@ -83,20 +82,16 @@ function EventPreview(props) {
               descriptionText="Details"
               linkPath={`/event/${info._id}`}
             ></IconLinkButton>
-            {() => {
-              // BUG: not entering here
+            {info.creator === "a" ? (
               // TODO: make props.user a thing for info.creator === props.user.id
-              console.log("creator: ", info.creator);
-              if (info.creator === "a") {
-                return (
-                  <IconLinkButton
-                    iconPath="./icons/bootstrap-pencil.svg"
-                    descriptionText="RSVP"
-                    linkPath={`/edit/${info._id}`}
-                  ></IconLinkButton>
-                );
-              }
-            }}
+              <IconLinkButton
+                iconPath="./icons/bootstrap-pencil.svg"
+                descriptionText="RSVP"
+                linkPath={`/edit/${info._id}`}
+              ></IconLinkButton>
+            ) : (
+              <div></div>
+            )}
           </nav>
         </div>
       </div>

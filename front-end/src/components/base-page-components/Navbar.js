@@ -1,32 +1,60 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// TODO: should change <a> to link, but then it won't render
+import IconLinkButton from "./IconLinkButton.js";
+import IconButtonDropdown from "./IconButtonDropdown.js";
+import "../../stylesheets/Navbar.css";
+// TODO: should change <Link> to link, but then it won't render
 
 // Change "a" to "Link"
 function Navbar(props) {
   // TODO: change active based on props
   return (
-    <nav className="row">
-      <div className="col-3">
-        <a className="nav-a active" aria-current="page" href="/home">
-          Home
-        </a>
+    <nav className="row text-center">
+      <div className="col">
+        <IconLinkButton
+          className="nav-a active" /* TODO: active based on window, do css for it*/
+          aria-current="page" // TODO: keep this?
+          iconPath="./icons/home-empty-mea.svg"
+          descriptionText="Home"
+          linkPath={"/home"}
+        ></IconLinkButton>
       </div>
-      <div className="col-3">
-        <a className="nav-a " aria-current="page" href="/create">
-          Create
-        </a>
+      <div className="col">
+        <IconLinkButton
+          className="nav-a"
+          iconPath="./icons/create-empty-mea.svg"
+          descriptionText="Create"
+          linkPath={"/edit"} // TODO: edit without id creates one
+        ></IconLinkButton>
       </div>
-      <div className="col-3">
-        <a className="nav-a " aria-current="page" href="/dashboard">
-          Dashboard
-        </a>
+      <div className="col">
+        <IconLinkButton
+          className="nav-a"
+          iconPath="./icons/calendar-empty-mea.svg"
+          descriptionText="Dashboard"
+          linkPath={"/dashboard"}
+        ></IconLinkButton>
       </div>
-      <div className="col-3">
-        {/* TODO: his will be a dropdown for settings and logout */}
-        <a className="nav-a " aria-current="page" href="/userSettings">
-          Me
-        </a>
+      <div className="col">
+        <IconButtonDropdown
+          iconPath="./icons/user-empty-mea.svg"
+          descriptionText="Me"
+          dropdownMenu={[
+            // TODO: change dropdown to allow for icon buttons in this menu, too
+            {
+              text: "Settings",
+              onClick: () => {
+                console.log("clicked 'Settings'");
+              },
+            },
+            {
+              text: "Log Out",
+              onClick: () => {
+                console.log("clicked 'Log Out'");
+              },
+            },
+          ]}
+        ></IconButtonDropdown>
       </div>
     </nav>
     // TODO: get this working
@@ -35,27 +63,27 @@ function Navbar(props) {
     //   <div className="container-fluid">
     //     <ul className="row navbar-nav">
     //       <li className="nav-item col-3">
-    //         <a className="nav-a active" aria-current="page" href="#">
+    //         <Link className="nav-a active" aria-current="page" to="#">
     //           Home
-    //         </a>
+    //         </Link>
     //       </li>
 
     //       <li className="nav-item col-3">
-    //         <a className="nav-a active" aria-current="page" href="#">
+    //         <Link className="nav-a active" aria-current="page" to="#">
     //           Create
-    //         </a>
+    //         </Link>
     //       </li>
 
     //       <li className="nav-item col-3">
-    //         <a className="nav-a active" aria-current="page" href="#">
+    //         <Link className="nav-a active" aria-current="page" to="#">
     //           Dashboard
-    //         </a>
+    //         </Link>
     //       </li>
 
     //       <li className="nav-item col-3">
-    //         <a className="nav-a active" aria-current="page" href="#">
+    //         <Link className="nav-a active" aria-current="page" to="#">
     //           Me
-    //         </a>
+    //         </Link>
     //       </li>
     //     </ul>
     //   </div>

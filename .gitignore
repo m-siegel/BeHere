@@ -254,6 +254,7 @@ dist
 # Misc
 yarn.lock
 package-lock.json
+.vscode/
 
 # For Mac users
 .DS_Store

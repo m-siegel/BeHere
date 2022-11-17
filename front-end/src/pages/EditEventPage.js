@@ -1,6 +1,6 @@
 // By Tim
 
-import BasePage from "../building-blocks/BasePage.js";
+import BasePage from "../components/base-page-components/BasePage.js";
 
 function EditEventPage() {
   return (

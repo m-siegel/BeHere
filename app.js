@@ -10,12 +10,11 @@ import initializePassport from "./util/passport-config.js";
 import session from "express-session";
 import methodOverride from "method-override";
 
-
 import dotenv from "dotenv";
 // TODO: import session and passport
 
-    // import initializePassport from "./passport-config.js"
-    // initializePassport(passport, getUserByUsername, getUserById); maybe also getUserByEmail
+// import initializePassport from "./passport-config.js"
+// initializePassport(passport, getUserByUsername, getUserById); maybe also getUserByEmail
 // TODO import our initializePassport, getUserBySomething and getUserById for setting up passport
 
 // TODO: Import routers here
@@ -44,14 +43,14 @@ app.use(
 );
 
 // TODO: set up session and passport
-    // app.use(passport.initialize());
-    // app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-    })
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 
 // initializePassport(passport, getUserByUsername, getUserById);
@@ -64,10 +63,16 @@ app.use(
 // app.use(methodOverride("_method"));
 
 // TODO: set up routers
-app.use("/", router);
+// app.use("/", router);
 
-app.use((req, res) => {
-    res.sendFile(pathToPublicDir, "/index.html");
-})
+// TODO: DELETE -- this is just for testing
+import experimentRouter from "./routes/fake-dev-router-to-delete.js";
+app.use("/", experimentRouter);
+
+// app.use((req, res) => {
+//   res.sendFile(pathToFrontendStaticFiles, "/index.html");
+// });
+
+app.use(express.static(pathToFrontendStaticFiles));
 
 export default app;

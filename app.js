@@ -5,34 +5,47 @@ import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import router from "./routes/routes.js";
+import authRouter from "./routes/authentication-routes.js";
 import passport from "passport";
 import initializePassport from "./util/passport-config.js";
 import session from "express-session";
-import methodOverride from "method-override";
-
-
+import userConnect from "./db-connect/users-connect.js";
 import dotenv from "dotenv";
-// TODO: import session and passport
 
-    // import initializePassport from "./passport-config.js"
-    // initializePassport(passport, getUserByUsername, getUserById); maybe also getUserByEmail
-// TODO import our initializePassport, getUserBySomething and getUserById for setting up passport
-
-// TODO: Import routers here
-
-// Set up path for express.static in a way that fits ES6
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pathToFrontendStaticFiles = resolve(__dirname, "./front-end/build");
 
 dotenv.config(); // So can access environment variables from .env file
-
 const app = express();
 
-// Generated with express-generator. Updated to match ES6.
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+initializePassport(
+  passport,
+  userConnect.getUserByContactEmail,
+  userConnect.getUserById
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(cookieParser());
+
+// TODO: Import routers here
+
+// Set up path for express.static in a way that fits ES6
+
+// Generated with express-generator. Updated to match ES6.
+
 app.use(express.static(pathToFrontendStaticFiles));
 
 // NOTE: for testing front end routing to back with proxy
@@ -43,31 +56,8 @@ app.use(
   })
 );
 
-// TODO: set up session and passport
-    // app.use(passport.initialize());
-    // app.use(passport.session());
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-
-// initializePassport(passport, getUserByUsername, getUserById);
-// app.use(passport.initialize());
-// app.use(passport.session());
-/**
- *  Within action attribute of form, inter "/logout?_method=DELETE" method="POST".
- *  This will delete the session for the user when logging out
- */
-// app.use(methodOverride("_method"));
-
 // TODO: set up routers
 app.use("/", router);
-
-app.use((req, res) => {
-    res.sendFile(pathToPublicDir, "/index.html");
-})
+//app.use("/api/auth", authRouter);
 
 export default app;

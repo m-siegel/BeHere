@@ -1,6 +1,7 @@
 /* Ilana-Mahmea */
 
 import express from "express";
+import passport from "passport";
 const router = express.Router();
 
 // TODO: sync up with session
@@ -12,5 +13,8 @@ router.post("/getAuthentication", (req, res) => {
 });
 
 // TODO: log in user
+
 // TODO: log out user
 // TODO: register user -- from form
+
+export default router;

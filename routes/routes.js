@@ -9,12 +9,13 @@ router.get("/login", (req, res) => {
   res.send("this is ok");
 });
 
-router.post("/login", (req, res) => {
+router.post(
+  "/login",
   passport.authenticate("local", {
     successRedirect: "/HomePage",
     failureRedirect: "/LoginPage",
-  });
-});
+  })
+);
 
 /**
  * will check for authenticated user

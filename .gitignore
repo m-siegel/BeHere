@@ -257,3 +257,5 @@ package-lock.json
 
 # For Mac users
 .DS_Store
+
+.vscode

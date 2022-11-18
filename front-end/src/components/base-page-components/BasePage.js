@@ -2,14 +2,15 @@
 
 import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
+import "../../stylesheets/BasePage.css";
 
 function BasePage(props) {
   return (
-    <div className="container-fluid">
+    <div>
       <header>
         <Navbar currPage={props.currPage}></Navbar>
       </header>
-      <main>{props.children}</main>
+      <main className="container-fluid">{props.children}</main>
       <footer>
         <Footer></Footer>
       </footer>

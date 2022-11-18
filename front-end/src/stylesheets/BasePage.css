@@ -1,0 +1,7 @@
+.Navbar {
+  background-color: rgb(250, 141, 165);
+}
+
+.Navbar>.col:hover {
+  background-color: aliceblue;
+}

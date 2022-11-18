@@ -11,7 +11,8 @@ function IconButtonDropdown(props) {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <img src={props.iconPath} alt={`${props.descriptionText} icon`}></img>
+        {/* <img src={props.iconPath} alt={`${props.descriptionText} icon`}></img> */}
+        {props.icon}
         <p>
           <small className="text-muted">{props.descriptionText}</small>
         </p>
@@ -19,7 +20,6 @@ function IconButtonDropdown(props) {
 
       <ul className="dropdown-menu">
         {props.dropdownMenu.map((d) => (
-          // TODO: will this onlick work??
           <li>
             <button className="dropdown-item" type="button" onClick={d.onClick}>
               {d.text}

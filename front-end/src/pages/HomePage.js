@@ -29,6 +29,7 @@ function HomePage(props) {
 
   useEffect(() => {
     loadPreviews();
+    // Can return to clean up previous effect, eg stop fetch
   }, []); // TODO: is there a better way so we don't get the warning?
 
   // TODO: more style so it the cards don't overlap, there's less space between rows, etc.

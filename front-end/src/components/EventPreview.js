@@ -86,7 +86,7 @@ function EventPreview(props) {
               // TODO: make props.user a thing for info.creator === props.user.id
               <IconLinkButton
                 iconPath="./icons/bootstrap-pencil.svg"
-                descriptionText="RSVP"
+                descriptionText="Edit"
                 linkPath={`/edit/${info._id}`}
               ></IconLinkButton>
             ) : (

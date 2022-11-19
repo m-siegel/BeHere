@@ -1,14 +1,14 @@
 // Created by Tim Crawley
 
 import { MongoClient, ObjectId } from "mongodb";
-const uri = process.env.URI || "mongodb://localhost:27017";
+const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
 const dbName = "be-here-db";
 const eventsCol = "events";
 
 const eventsConnect = {};
 eventsConnect.dbName = dbName;
 eventsConnect.eventsCol = "events";
-eventsConnect.uri = uri;
+eventsConnect.uri = uri; // TODO: I'm not sure we should do this
 
 /**
  * Adds the given event object to the events collection
@@ -179,7 +179,7 @@ export async function getEventPreviews(orgName) {
         {
           _id: 1,
           name: 1,
-          eventOrgName: 1,
+          organization: 1, // BUG: mea changed same thing refered to as eventOrgName elsewhere
           creator: 1,
           tags: 1,
           location: 1,
@@ -193,7 +193,7 @@ export async function getEventPreviews(orgName) {
       return {
         success: true,
         msg: "Events found.",
-        events: res,
+        events: await res.toArray(), // TODO: talk to tim -- mea changed
         err: null,
       };
     }

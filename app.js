@@ -49,14 +49,6 @@ app.use(cookieParser());
 
 app.use(express.static(pathToFrontendStaticFiles));
 
-// NOTE: for testing front end routing to back with proxy
-app.use(
-  express.Router().get("/test", (req, res) => {
-    console.log("got request");
-    res.send;
-  })
-);
-
 // TODO: set up routers
 app.use("/", router);
 

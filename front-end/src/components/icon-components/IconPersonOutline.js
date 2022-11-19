@@ -22,7 +22,7 @@ function IconPersonOutline({ size, color, className }) {
 }
 
 IconPersonOutline.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

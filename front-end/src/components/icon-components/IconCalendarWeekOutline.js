@@ -23,7 +23,7 @@ function IconCalendarWeekOutline({ size, color, className }) {
 }
 
 IconCalendarWeekOutline.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

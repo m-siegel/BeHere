@@ -22,7 +22,7 @@ function IconPencilFilled({ size, color, className }) {
 }
 
 IconPencilFilled.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

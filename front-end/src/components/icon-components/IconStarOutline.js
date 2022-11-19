@@ -22,7 +22,7 @@ function IconStarOutline({ size, color, className }) {
 }
 
 IconStarOutline.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

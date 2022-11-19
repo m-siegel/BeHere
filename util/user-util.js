@@ -20,24 +20,38 @@ const userUtil = {};
  */
 export async function registerUser(registrationInfo) {
   // TODO: Validate parameters, esp email
+  if (!generalUtil.validEmailStructure(registrationInfo.orgEmail)) {
+    return {
+      success: false,
+      reason: `${registrationInfo.orgEmail} is an invalid email address.`,
+      userIdString: "",
+    };
+  }
+  if (!generalUtil.validEmailStructure(registrationInfo.contactEmail)) {
+    return {
+      success: false,
+      reason: `${registrationInfo.contactEmail} is an invalid email address.`,
+      userIdString: "",
+    };
+  }
   if (await userConnect.usernameInUse(registrationInfo.username)) {
     return {
       success: false,
-      reason: "username",
+      reason: `The email ${registrationInfo.contactEmail} has been claimed by another user.`,
       userIdString: "",
     };
   }
   if (await userConnect.emailInUse(registrationInfo.contactEmail)) {
     return {
       success: false,
-      reason: "contactEmail",
+      reason: `The email ${registrationInfo.contactEmail} has been claimed by another user.`,
       userIdString: "",
     };
   }
   if (await userConnect.emailInUse(registrationInfo.orgEmail)) {
     return {
       success: false,
-      reason: "orgEmail",
+      reason: `The email ${registrationInfo.orgEmail} has been claimed by another user.`,
       userIdString: "",
     };
   }

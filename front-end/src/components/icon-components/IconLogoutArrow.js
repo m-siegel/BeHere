@@ -29,7 +29,7 @@ function IconLogoutArrow({ size, color, className, path }) {
 }
 
 IconLogoutArrow.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
   path: PropTypes.element.isRequired,

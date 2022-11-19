@@ -23,7 +23,7 @@ function IconPlusSquareOutline({ size, color, className }) {
 }
 
 IconPlusSquareOutline.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import IconLinkButton from "./IconLinkButton.js";
 import IconButtonDropdown from "./IconButtonDropdown.js";
 import IconHouseOutline from "../icon-components/IconHouseOutline.js";
@@ -10,10 +11,8 @@ import IconCalendarWeekFilled from "../icon-components/IconCalendarWeekFilled.js
 import IconPersonOutline from "../icon-components/IconPersonOutline.js";
 import IconPersonFilled from "../icon-components/IconPersonFilled.js";
 
-import "../../stylesheets/Navbar.css";
-// TODO: should change <Link> to link, but then it won't render
+// TODO: refactor icon buttons and figure out where active state/prop for style should go
 
-// Change "a" to "Link"
 function Navbar(props) {
   const pathname = window.location.pathname;
 
@@ -22,108 +21,84 @@ function Navbar(props) {
   // TODO: change active based on props
   return (
     <nav className="row text-center Navbar">
-      <div className="col">
-        <IconLinkButton
-          className="nav-a"
-          aria-current="page" // TODO: keep this?
-          icon={
-            pathname === "/home" ? ( // TODO: or === /event:id
-              <IconHouseFilled className="icon active" color="blue" />
-            ) : (
-              <IconHouseOutline className="icon" color="#282323" /> // TODO: figure out color
-            )
-          }
-          descriptionText="Home"
-          linkPath={"/home"}
-        ></IconLinkButton>
-      </div>
-      <div className="col">
-        <IconLinkButton
-          className="nav-a" // TODO: with url params
-          icon={
-            pathname === "/edit" ? (
-              <IconPlusSquareFilled className="active" color="blue" />
-            ) : (
-              <IconPlusSquareOutline color="#282323" />
-            )
-          }
-          descriptionText="Create"
-          linkPath={"/edit"} // TODO: edit without id creates one
-        ></IconLinkButton>
-      </div>
-      <div className="col">
-        <IconLinkButton
-          className="nav-a"
-          icon={
-            pathname === "/dashboard" ? (
-              <IconCalendarWeekFilled className="active" color="blue" />
-            ) : (
-              <IconCalendarWeekOutline color="#282323" />
-            )
-          }
-          descriptionText="Dashboard"
-          linkPath={"/dashboard"}
-        ></IconLinkButton>
-      </div>
-      <div className="col">
-        <IconButtonDropdown // TODO: with url params
-          icon={
-            pathname === "/settings" ? (
-              <IconPersonOutline className="active" color="blue" />
-            ) : (
-              <IconPersonOutline color="#282323" />
-            )
-          }
-          descriptionText="Me"
-          dropdownMenu={[
-            // TODO: change dropdown to allow for icon buttons in this menu, too
-            {
-              text: "Settings",
-              onClick: () => {
-                console.log("clicked 'Settings'");
-              },
-            },
-            {
-              text: "Log Out",
-              onClick: () => {
-                console.log("clicked 'Log Out'");
-              },
-            },
-          ]}
-        ></IconButtonDropdown>
-      </div>
+      <IconLinkButton
+        className="nav-a col"
+        aria-current="page" // TODO: keep this?
+        icon={
+          pathname === "/home" ? ( // TODO: or === /event:id
+            <IconHouseFilled
+              className="icon active"
+              color="blue"
+              size="1.5em"
+            />
+          ) : (
+            <IconHouseOutline className="icon" color="#282323" size="1.5em" /> // TODO: figure out color
+          )
+        }
+        descriptionText="Home"
+        linkPath={"/home"}
+      ></IconLinkButton>
+
+      <IconLinkButton
+        className="nav-a col" // TODO: with url params
+        icon={
+          pathname === "/edit" ? (
+            <IconPlusSquareFilled
+              className="active"
+              color="blue"
+              size="1.5em"
+            />
+          ) : (
+            <IconPlusSquareOutline color="#282323" size="1.5em" />
+          )
+        }
+        descriptionText="Create"
+        linkPath={"/edit"} // TODO: edit without id creates one
+      ></IconLinkButton>
+
+      <IconLinkButton
+        className="nav-a col"
+        icon={
+          pathname === "/dashboard" ? (
+            <IconCalendarWeekFilled
+              className="active"
+              color="blue"
+              size="1.5em"
+            />
+          ) : (
+            <IconCalendarWeekOutline color="#282323" size="1.5em" />
+          )
+        }
+        descriptionText="Dashboard"
+        linkPath={"/dashboard"}
+      ></IconLinkButton>
+
+      <IconButtonDropdown
+        className="col" // TODO: with url params
+        icon={
+          pathname === "/settings" ? (
+            <IconPersonFilled className="active" color="blue" size="1.5em" />
+          ) : (
+            <IconPersonOutline color="#282323" className="col" size="1.5em" />
+          )
+        }
+        descriptionText="Me"
+        dropdownMenu={[
+          // TODO: change dropdown to allow for icon buttons in this menu, too
+          // TODO: link now working when sent to IconButton
+          <Link className="dropdown-item" to="/settings">
+            Settings
+          </Link>,
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={() => console.log("clicked log out")}
+          >
+            Log Out
+          </button>,
+        ]}
+      ></IconButtonDropdown>
     </nav>
-    // TODO: get this working
-    // TODO: style
-    // <nav className="navbar navbar-expand-lg bg-light">
-    //   <div className="container-fluid">
-    //     <ul className="row navbar-nav">
-    //       <li className="nav-item col-3">
-    //         <Link className="nav-a active" aria-current="page" to="#">
-    //           Home
-    //         </Link>
-    //       </li>
-
-    //       <li className="nav-item col-3">
-    //         <Link className="nav-a active" aria-current="page" to="#">
-    //           Create
-    //         </Link>
-    //       </li>
-
-    //       <li className="nav-item col-3">
-    //         <Link className="nav-a active" aria-current="page" to="#">
-    //           Dashboard
-    //         </Link>
-    //       </li>
-
-    //       <li className="nav-item col-3">
-    //         <Link className="nav-a active" aria-current="page" to="#">
-    //           Me
-    //         </Link>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </nav>
   );
 }
 

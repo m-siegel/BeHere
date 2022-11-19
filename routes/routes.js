@@ -2,12 +2,10 @@ import express from "express";
 import passport from "passport";
 import eventsConnect from "../db-connect/events-connect.js";
 import { eventify } from "../util/event-util.js";
+import { registerUser } from "../util/user-util.js";
 import bcrypt from "bcrypt";
-const router = express.Router();
 
-router.get("/login", (req, res) => {
-  res.send("this is ok");
-});
+const router = express.Router();
 
 router.post(
   "/login",
@@ -107,10 +105,80 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
 
 router.delete("/logout", (req, res) => {
   req.logOut();
-  res.redirect("/homepage");
+  res.redirect("/");
 });
 
 // TODO -- "/DeleteEvent"
-//
+
+// Mea
+
+// I don't think we can get the user's session passport info
+// from the front end, so we can use this.
+// post request so it doesn't show in the url
+router.post("/getPassportUser", (req, res) => {
+  res.json(req.session?.passport?.user);
+});
+
+// router.get("/test", (req, res) => {
+//   res.send("testing... testing... tested!");
+// });
+
+/**
+ * Gets the events for the users first organization. Sends a json
+ * response with an object { success: Boolean,
+ *                            msg: a string explaining the operation outcome,
+ *                            events: An array of event objects, or null
+ *                            err: null, or the error that was caught
+ *                            }
+ */
+router.get("/api/getEventPreviews", async (req, res) => {
+  try {
+    // TODO -- commented out for dev; uncomment and delete orgName = "rohan.gov"
+    // if (req.session.passport.user.oranizations.length) {
+    try {
+      // V2: get events for any of the user's orgs
+      // const orgName = req.session.passport.user.oranizations[0];
+      const orgName = "rohan.gov";
+      const eventsResponse = await eventsConnect.getEventPreviews(orgName);
+      return res.json(eventsResponse);
+    } catch (e) {
+      return res.json({
+        success: false,
+        message: "Encountered error in /getEventPreviews",
+        events: null,
+        err: e,
+      });
+    }
+    // } else {
+    //   return res.json({
+    //     success: false,
+    //     message: "User has no organizations.",
+    //     events: null,
+    //     err: null,
+    //   });
+    // }
+  } catch (e) {
+    return res.json({
+      success: false,
+      message:
+        "Error encountered with getting user organizations from session.",
+      events: null,
+      err: e,
+    });
+  }
+});
+
+router.post("/api/register", async (req, res) => {
+  try {
+    const registerRes = await registerUser(req.body);
+    res.json(registerRes);
+  } catch (e) {
+    res.json({
+      success: false,
+      reason: "route",
+      userIdString: "",
+    });
+  }
+});
 
 export default router;

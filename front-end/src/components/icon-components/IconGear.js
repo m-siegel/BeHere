@@ -22,7 +22,7 @@ function IconGear({ size, color, className, path }) {
 }
 
 IconGear.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
   path: PropTypes.element.isRequired,

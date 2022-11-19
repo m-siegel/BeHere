@@ -1,0 +1,25 @@
+@import "../stylesheets/timeaColors.css";
+
+.RegisterPage {
+  background-color: var(--timea-dark-brown);
+  color: #FFF;
+  /* width: 100vw; */
+  min-height: 100vh;
+}
+
+.RegisterPage.container-fluid {
+  padding-left: 0;
+  /* weird scrolling thing with extra room if include padding-right: 0*/
+  /* padding-right: 0; */
+}
+
+.col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+form {
+  min-width: 30vw;
+}

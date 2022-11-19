@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 // TODO: propTypes
 
-function IconLinkButton({ icon, descriptionText, linkPath }) {
+function IconLinkButton({ icon, descriptionText, linkPath, className }) {
   return (
     // TODO: option for without link if link is null?
-    <Link to={linkPath} className="IconLinkButton">
+    <Link to={linkPath} className={`IconLinkButton ${className}`}>
       <button type="button" className="btn">
         {/* <img src={iconPath} alt={`${descriptionText} icon`}></img> */}
         {icon}

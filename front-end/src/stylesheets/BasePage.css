@@ -1,7 +1,34 @@
+@import "./timeaColors.css";
+
+.BasePage {
+  background-color: var(--timea-dark-brown);
+  color: #FFF;
+  width: 100vw;
+}
+
+main {
+  min-height: 85vh;
+}
+
 .Navbar {
-  background-color: rgb(250, 141, 165);
+  background-color: var(--timea-yellow);
+  min-height: 10vh;
+  width: 100vw;
+  color: var(--timea-dark-brown);
 }
 
 .Navbar>.col:hover {
-  background-color: aliceblue;
+  background-color: #FFF;
+}
+
+.Footer {
+  min-height: 5vh;
+  width: 100vw;
+  text-align: center;
+}
+
+.Footer>div {
+  padding-top: .2em;
+  background-color: var(--timea-yellow);
+  color: var(--timea-dark-brown);
 }

@@ -25,7 +25,7 @@ function IconQuestionMark({ size, color, className, path }) {
 }
 
 IconQuestionMark.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
   path: PropTypes.element.isRequired,

@@ -25,7 +25,7 @@ function IconCalendarHeartOutline({ size, color, className }) {
 }
 
 IconCalendarHeartOutline.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

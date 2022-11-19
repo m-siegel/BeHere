@@ -7,17 +7,19 @@ import IconButtonDropdown from "./base-page-components/IconButtonDropdown";
 
 // Make component based on previews object
 
+// TODO: split into compontents
+// TODO: fix weird spacing that's new
 function EventPreview(props) {
   const info = props.previewObject;
   return (
-    <div className="card">
+    <div className="EventPreview card">
       <div className="card-body">
         <h4 className="card-title">{info.name}</h4>
         <div className="card-text">
           <dl>
             <div>
               <dt>When</dt>
-              <dd>{info.time}</dd>
+              <dd>{info.start}</dd>
             </div>
             <div>
               <dt>Where</dt>
@@ -36,6 +38,7 @@ function EventPreview(props) {
               </dd>
             </div>
           </dl>
+
           <nav>
             {/* <Link className="timea-nav-btn" to={`/event/${info._id}`}>
               <p>Details</p>
@@ -45,31 +48,38 @@ function EventPreview(props) {
               descriptionText="RSVP"
               dropdownMenu={[
                 // TODO: these should be RSVPs that update the event following info for the user and maybe event
-                {
-                  text: "Going",
-                  onClick: () => {
+                <button
+                  className="btn"
+                  onClick={() => {
                     console.log("clicked 'Going'");
-                  },
-                },
-                {
-                  text: "Maybe",
-                  onClick: () => {
+                  }}
+                >
+                  Going
+                </button>,
+                <button
+                  className="btn"
+                  onClick={() => {
                     console.log("clicked 'Maybe'");
-                  },
-                },
-                // Do we want "not going" if people aren't going to be invited?
-                {
-                  text: "Not Going",
-                  onClick: () => {
+                  }}
+                >
+                  Maybe
+                </button>,
+                <button
+                  className="btn"
+                  onClick={() => {
                     console.log("clicked 'Not Going'");
-                  },
-                },
-                {
-                  text: "Following",
-                  onClick: () => {
+                  }}
+                >
+                  Not Going
+                </button>,
+                <button
+                  className="btn"
+                  onClick={() => {
                     console.log("clicked 'Following'");
-                  },
-                },
+                  }}
+                >
+                  Following
+                </button>,
               ]}
             ></IconButtonDropdown>
             <IconLinkButton
@@ -82,7 +92,7 @@ function EventPreview(props) {
               descriptionText="Details"
               linkPath={`/event/${info._id}`}
             ></IconLinkButton>
-            {info.creator === "a" ? (
+            {info.creator === props.user?._id ? (
               // TODO: make props.user a thing for info.creator === props.user.id
               <IconLinkButton
                 iconPath="./icons/bootstrap-pencil.svg"

@@ -22,7 +22,7 @@ function IconCalendarHeartFilled({ size, color, className }) {
 }
 
 IconCalendarHeartFilled.propTypes = {
-  size: PropTypes.number,
+  size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };

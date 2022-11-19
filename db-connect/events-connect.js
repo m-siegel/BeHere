@@ -154,15 +154,15 @@ eventsConnect.updateEvent = updateEvent;
 
 /**
  * Returns all of the events in the org (for event previews).
- * @param {object} orgName      The name of the organization.
+ * @param {object} organization      The name of the organization.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
  *                            events: An array of event objects, or null
  *                            err: null, or the error that was caught
  *                            }
  */
-// Event previews -- need eventId, name, eventOrgName, creator, tags, location/time
-export async function getEventPreviews(orgName) {
+// Event previews -- need eventId, name, organization, creator, tags, location/time
+export async function getEventPreviews(organization) {
   // create date/time variable to use within db call query
   // const timeNow = new Date().get
   const client = new MongoClient(uri);
@@ -173,13 +173,13 @@ export async function getEventPreviews(orgName) {
     const res = await collection
       .find(
         {
-          organization: orgName,
+          organization: organization,
           //start: { $gte: /* today's variable */}
         },
         {
           _id: 1,
           name: 1,
-          eventOrgName: 1,
+          organization: 1,
           creator: 1,
           tags: 1,
           location: 1,

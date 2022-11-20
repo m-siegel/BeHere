@@ -1,7 +1,7 @@
 // Created by Tim Crawley
 
 import { MongoClient, ObjectId } from "mongodb";
-const uri = process.env.URI || "mongodb://localhost:27017";
+let uri = process.env.URI || "mongodb://localhost:27017";
 const dbName = "be-here-db";
 const eventsCol = "events";
 
@@ -9,6 +9,11 @@ const eventsConnect = {};
 eventsConnect.dbName = dbName;
 eventsConnect.eventsCol = "events";
 eventsConnect.uri = uri;
+
+export function initializeURI() {
+  uri = process.env.MONGO_URI || "mongodb://localhost:27017";
+}
+eventsConnect.initializeURI = initializeURI;
 
 /**
  * Adds the given event object to the events collection

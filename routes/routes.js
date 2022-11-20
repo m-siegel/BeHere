@@ -12,8 +12,8 @@ router.get("/login", (req, res) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/HomePage",
-    failureRedirect: "/LoginPage",
+    successRedirect: "/home",
+    failureRedirect: "/login",
   })
 );
 
@@ -24,12 +24,12 @@ function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/LoginPage");
+  res.redirect("/login");
 }
 
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/HomePage");
+    return res.redirect("/home");
   }
   next();
 }

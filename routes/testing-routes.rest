@@ -6,3 +6,18 @@ content-type: application/json
   "password": "keepitsecret"
 }
 
+# POST http://localhost:3001/create-event HTTP/1.1
+# content-type: application/json
+
+# {
+#   "name": "Test event",
+#   "description": "a test event",
+#   "organization": "a test org",
+#   "location": "San Jose",
+#   "start": "8:00",
+#   "finish": "12:00",
+#   "tags": ["sports"]
+# }
+
+# POST http://localhost:3001/getAuthentication HTTP/1.1
+# content-type: application/json

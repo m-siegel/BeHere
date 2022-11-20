@@ -154,7 +154,7 @@ eventsConnect.updateEvent = updateEvent;
 
 /**
  * Returns all of the events in the org (for event previews).
- * @param {object} organization      The name of the organization.
+ * @param {string} organization      The name of the organization.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
  *                            events: An array of event objects, or null
@@ -216,6 +216,135 @@ export async function getEventPreviews(organization) {
   }
 }
 eventsConnect.getEventPreviews = getEventPreviews;
+
+/**
+ * Returns all of the events in the org (for event previews).
+ * @param {MongoDB ObjectId} _id      The ID of the user.
+ * @returns {object}        { success: Boolean,
+ *                            msg: a string explaining the operation outcome,
+ *                            events: An array of event objects, or null
+ *                            err: null, or the error that was caught
+ *                            }
+ */
+// Event previews -- need eventId, name, organization, creator, tags, location/time
+export async function getEventPreviewsForUser(id) {
+  // create date/time variable to use within db call query
+  // const timeNow = new Date().get
+  const client = new MongoClient(uri);
+  const userId = new ObjectId(id);
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(eventsCol);
+    const res = await collection
+      .find(
+        {
+          // how will we query? by userId or email?
+          creator: userId,
+          //start: { $gte: /* today's variable */}
+        },
+        {
+          _id: 1,
+          name: 1,
+          organization: 1,
+          creator: 1,
+          tags: 1,
+          location: 1,
+          start: 1,
+        }
+      )
+      .sort({
+        start: 1,
+      });
+    if (res) {
+      return {
+        success: true,
+        msg: "Events found.",
+        events: res,
+        err: null,
+      };
+    }
+    return {
+      success: false,
+      msg: "You currently haven't created any events.",
+      events: null,
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      msg: "An error occurred. Please try again later.",
+      events: null,
+      err: e,
+    };
+  } finally {
+    client.close();
+  }
+}
+eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
+
+/**
+ * Returns all of the events a specific user follows.
+ * @param {MongoDB ObjectId} _id      The ID of the user.
+ * @returns {object}        { success: Boolean,
+ *                            msg: a string explaining the operation outcome,
+ *                            events: An array of event objects, or null
+ *                            err: null, or the error that was caught
+ *                            }
+ */
+export async function getUserFollowedEventPreviews(id) {
+  const client = new MongoClient(uri);
+  const userId = new ObjectId(id);
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(eventsCol);
+    const res = await collection
+      .find(
+        {
+          followedBy: userId,
+          //start: { $gte: /* today's variable */}
+        },
+        {
+          _id: 1,
+          name: 1,
+          organization: 1,
+          creator: 1,
+          tags: 1,
+          location: 1,
+          start: 1,
+        }
+      )
+      .sort({
+        start: 1,
+      });
+    if (res) {
+      return {
+        success: true,
+        msg: "Events found.",
+        events: res,
+        err: null,
+      };
+    }
+    return {
+      success: false,
+      msg: "You currently don't follow any events.",
+      events: null,
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      msg: "An error occurred. Please try again later.",
+      events: null,
+      err: e,
+    };
+  } finally {
+    client.close();
+  }
+}
 
 /**
  * Returns one event (for expanded view)

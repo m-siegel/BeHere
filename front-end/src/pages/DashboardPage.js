@@ -38,7 +38,7 @@ function DashboardPage(props) {
 
 DashboardPage.propTypes = {
   // Define prop-types for Dashboard Page
-  user: PropTypes.object.isrequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default DashboardPage;

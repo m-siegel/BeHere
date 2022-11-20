@@ -13,12 +13,6 @@ function LoginPage() {
           <h1 className="title">Welcome to BeHere</h1>
           <div className="row">
             <div className="col-xxl-6">
-              <Link className="btn btn-primary" to="./signupPage">
-                Go to sign up page
-              </Link>
-              <Link className="btn btn-primary" to="./feedPage">
-                Go to the feed page
-              </Link>
               <button onClick={() => fetch("/test")}>
                 Testing some backend route. Should print "got request" to
                 console.

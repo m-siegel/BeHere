@@ -10,6 +10,7 @@ import passport from "passport";
 import initializePassport from "./util/passport-config.js";
 import session from "express-session";
 import userConnect from "./db-connect/users-connect.js";
+import eventsConnect from "./db-connect/events-connect.js";
 import dotenv from "dotenv";
 
 // Set up path for express.static in a way that fits ES6
@@ -18,6 +19,9 @@ const pathToFrontendStaticFiles = resolve(__dirname, "./front-end/build");
 
 dotenv.config(); // So can access environment variables from .env file
 const app = express();
+
+eventsConnect.initializeURI();
+userConnect.initializeURI();
 
 app.use(logger("dev"));
 app.use(express.json());

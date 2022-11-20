@@ -19,6 +19,9 @@ const pathToFrontendStaticFiles = resolve(__dirname, "./front-end/build");
 dotenv.config(); // So can access environment variables from .env file
 const app = express();
 
+// Set up .env uri or local uri after .env has been configured
+userConnect.initializeURI();
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

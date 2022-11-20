@@ -1,13 +1,20 @@
 /** By Ilana-Mahmea */
 
 import * as mongodb from "mongodb";
-const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
+
+// Since this is imported before .env is configured, can't do .env uri || local uri here
+let uri = "mongodb://localhost:27017";
 const userConnect = {}; // To export default
 
 const databaseName = "be-here-db";
 userConnect.databaseName = databaseName;
 const usersCollectionName = "users";
 userConnect.collectionName = usersCollectionName;
+
+export function initializeURI() {
+  uri = process.env.MONGO_URI || "mongodb://localhost:27017";
+}
+userConnect.initializeURI = initializeURI;
 
 // Generic functions
 

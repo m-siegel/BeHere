@@ -113,6 +113,7 @@ function EventPreview(props) {
 
 EventPreview.propTypes = {
   previewObject: PropTypes.object.isRequired,
+  user: PropTypes.string.isRequired,
 };
 
 export default EventPreview;

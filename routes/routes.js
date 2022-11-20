@@ -137,8 +137,8 @@ router.get("/api/getEventPreviews", async (req, res) => {
     // if (req.session.passport.user.oranizations.length) {
     try {
       // V2: get events for any of the user's orgs
-      // const orgName = req.session.passport.user.oranizations[0];
-      const orgName = "rohan.gov";
+      const orgName = req.session.passport.user.oranizations[0];
+      // const orgName = "rohan.gov";
       const eventsResponse = await eventsConnect.getEventPreviews(orgName);
       return res.json(eventsResponse);
     } catch (e) {

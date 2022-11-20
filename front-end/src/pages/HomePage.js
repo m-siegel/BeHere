@@ -16,9 +16,7 @@ function HomePage(props) {
     const res = await (await fetch("/api/getEventPreviews")).json();
     if (res && res.events) {
       // TODO: check res.success?
-      console.log("from res", res.events);
       setPreviews(res.events);
-      console.log("as state", previews);
     }
   }
 
@@ -51,11 +49,11 @@ function HomePage(props) {
               <EventPreview previewObject={p} user={user}></EventPreview>
             </div>
           ))}
-          {previews.map((p) => (
+          {/* {previews.map((p) => (
             <div className="col" key={p._id}>
               <EventPreview previewObject={p} user={user}></EventPreview>
             </div>
-          ))}
+          ))} */}
         </div>
       </BasePage>
     </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../../stylesheets/IconButtonDropdown.css";
 // TODO: propTypes
 
@@ -26,5 +27,12 @@ function IconButtonDropdown(props) {
     </div>
   );
 }
+
+IconButtonDropdown.propTypes = {
+  className: PropTypes.string,
+  icon: PropTypes.element.isRequired,
+  descriptionText: PropTypes.string.isRequired,
+  dropdownMenu: PropTypes.arrayOf(PropTypes.element),
+};
 
 export default IconButtonDropdown;

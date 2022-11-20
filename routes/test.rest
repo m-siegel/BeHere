@@ -1,0 +1,29 @@
+# POST http://localhost:3001/api/testingPost
+# content-type: application/json
+# {
+#   "string":"string"
+# }
+
+# GET http://localhost:3001/login
+
+# POST http://localhost:3001/login
+# content-type: application/json
+
+# {
+#   "contactEmail": "frodo@hobbiton.org",
+#   "password": "keepitsecret"
+# }
+
+POST http://localhost:3001/api/register
+content-type: application/json
+
+{
+  "firstName": "Frodo",
+  "lastName": "Baggins",
+  "username": "Ring Bearer",
+  "contactEmail": "mr_underhill@hobbiton.org",
+  "orgEmail": "frodo123@hobbiton.org",
+  "password": "keepitsecret"
+}
+
+# GET http://localhost:3001/api/getEventPreviews

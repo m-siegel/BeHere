@@ -1,5 +1,6 @@
 // By Mea
-
+import React from "react";
+import PropTypes from "prop-types";
 import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import "../../stylesheets/BasePage.css";
@@ -9,7 +10,7 @@ function BasePage(props) {
     <div className="BasePage">
       <div className="container-fluid">
         <header>
-          <Navbar currPage={props.currPage}></Navbar>
+          <Navbar></Navbar>
         </header>
         <main>{props.children}</main>
         <footer>
@@ -19,5 +20,9 @@ function BasePage(props) {
     </div>
   );
 }
+
+BasePage.propTypes = {
+  children: PropTypes.element,
+};
 
 export default BasePage;

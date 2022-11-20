@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
-import RegisterFormInput from "./RegisterFormInput";
+// import PropTypes from "prop-types";
+import FormInput from "./FormInput";
 
 // TODO: validation of password and password confirmation? validation of email?
 
@@ -12,22 +12,22 @@ function RegisterForm() {
   return (
     <div className="RegisterForm">
       <form id="registerForm">
-        <RegisterFormInput
+        <FormInput
           type="text"
           idAndName="firstName"
-          text="First Name"
+          labelContent="First Name"
         />
-        <RegisterFormInput type="text" idAndName="lastName" text="Last Name" />
-        <RegisterFormInput type="text" idAndName="username" text="Username" />
-        <RegisterFormInput
+        <FormInput type="text" idAndName="lastName" labelContent="Last Name" />
+        <FormInput type="text" idAndName="username" labelContent="Username" />
+        <FormInput
           type="email"
           idAndName="orgEmail"
-          text="Organization Email"
+          labelContent="Organization Email"
         />
-        <RegisterFormInput
+        <FormInput
           type="password"
           idAndName="password"
-          text="Password"
+          labelContent="Password"
         />
         <button type="submit" className="btn btn-primary">
           Register
@@ -36,5 +36,7 @@ function RegisterForm() {
     </div>
   );
 }
+
+RegisterForm.propTypes = {};
 
 export default RegisterForm;

@@ -6,28 +6,28 @@
   width: 100vw;
 }
 
-main {
+.BasePage main {
   min-height: 85vh;
 }
 
-.Navbar {
+.BasePage .Navbar {
   background-color: var(--timea-yellow);
   min-height: 10vh;
   width: 100vw;
   color: var(--timea-dark-brown);
 }
 
-.Navbar>.col:hover {
+.BasePage .Navbar>.col:hover {
   background-color: #FFF;
 }
 
-.Footer {
+.BasePage .Footer {
   min-height: 5vh;
   width: 100vw;
   text-align: center;
 }
 
-.Footer>div {
+.BasePage .Footer>div {
   padding-top: .2em;
   background-color: var(--timea-yellow);
   color: var(--timea-dark-brown);

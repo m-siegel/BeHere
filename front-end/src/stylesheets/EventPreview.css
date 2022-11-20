@@ -1,38 +1,38 @@
-@import "./timeaColors.css"
+@import "./timeaColors.css";
 
 /* TODO: I don't think this is necessary if it's inline */
-.preview-tags li:first-child {
+.EventPreview .preview-tags li:first-child {
   list-style-type: none;
 }
 
-.preview-tags {
+.EventPreview .preview-tags {
   padding-left: 0;
   margin-bottom: 0;
 }
 
-.preview-tags li {
+.EventPreview .preview-tags li {
   display: inline-block;
   padding: 0 0.5em;
 }
 
 /* https://unused-css.com/blog/css-horizontal-lists/ */
-.preview-tags li:not(:last-child) {
+.EventPreview .preview-tags li:not(:last-child) {
   border-right: 1px solid #1c1717;
 }
 
-dl>div>dt {
+.EventPreview dl>div>dt {
   display: inline-block;
   padding: 0 0.5em;
 }
 
-dl>div>dd {
-  display: inline-block;
-}
-
-IconLinkDropdown {
+.EventPreview dl>div>dd {
   display: inline-block;
 }
 
 .EventPreview {
   color: var(--timea-dark-brown);
+}
+
+.EventPreview .card {
+  max-width: 90vw;
 }

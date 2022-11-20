@@ -7,19 +7,26 @@
   min-height: 100vh;
 }
 
-.RegisterPage.container-fluid {
+.RegisterPage>.container-fluid {
   padding-left: 0;
   /* weird scrolling thing with extra room if include padding-right: 0*/
   /* padding-right: 0; */
 }
 
-.col {
+.RegisterPage .col {
   display: flex;
-  align-items: center;
   justify-content: center;
   min-height: 100vh;
 }
 
-form {
+.RegisterPage .img-col {
+  align-items: center;
+}
+
+.RegisterPage .form-col {
+  margin-top: 10vh;
+}
+
+.RegisterForm input {
   min-width: 30vw;
 }

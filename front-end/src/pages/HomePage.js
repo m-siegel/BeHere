@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { propTypes } from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
+import "../stylesheets/HomePage.css";
 
 // TODO: takes time to load events before rendering -- make prettier
 
@@ -41,21 +42,26 @@ function HomePage(props) {
   // TODO: more style so it the cards don't overlap, there's less space between rows, etc.
   // TODO: message if no upcoming events
   return (
-    <BasePage>
-      <h1>Home Page</h1>
-      <p>{JSON.stringify(user)}</p>
-      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-        {previews.map((p) => (
-          <div className="col" key={p._id}>
-            <EventPreview previewObject={p} user={user}></EventPreview>
-          </div>
-        ))}
-      </div>
-    </BasePage>
+    <div className="HomePage">
+      <BasePage>
+        <h1>Home Page</h1>
+        <div className="row">
+          {previews.map((p) => (
+            <div className="col" key={p._id}>
+              <EventPreview previewObject={p} user={user}></EventPreview>
+            </div>
+          ))}
+          {previews.map((p) => (
+            <div className="col" key={p._id}>
+              <EventPreview previewObject={p} user={user}></EventPreview>
+            </div>
+          ))}
+        </div>
+      </BasePage>
+    </div>
   );
 }
 
-// TODO: for every component
-// HomePage.propTypes = ????
+HomePage.propTypes = {};
 
 export default HomePage;

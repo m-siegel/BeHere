@@ -1,9 +1,9 @@
 /** By Ilana-Mahmea */
 
 import * as mongodb from "mongodb";
-
 // Since this is imported before .env is configured, can't do .env uri || local uri here
 let uri = "mongodb://localhost:27017";
+
 const userConnect = {}; // To export default
 
 const databaseName = "be-here-db";

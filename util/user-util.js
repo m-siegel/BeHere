@@ -37,7 +37,7 @@ export async function registerUser(registrationInfo) {
   if (await userConnect.usernameInUse(registrationInfo.username)) {
     return {
       success: false,
-      reason: `The email ${registrationInfo.contactEmail} has been claimed by another user.`,
+      reason: `The username ${registrationInfo.username} has been claimed by another user.`,
       userIdString: "",
     };
   }

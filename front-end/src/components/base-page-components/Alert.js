@@ -7,17 +7,17 @@ function Alert({ type, heading, message }) {
   // TODO: validate type is "warning", "success", etc.
   type = type ? type : "info";
 
-  if (heading && message) {
+  if (heading || message) {
     return (
       <div className="Alert">
         <div
-          class={`alert alert-${type} alert-dismissible fade show`}
+          className={`alert alert-${type} alert-dismissible fade show`}
           role="alert"
         >
           <strong>{`${heading}`}</strong> {message}
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="alert"
             aria-label="Close"
           ></button>

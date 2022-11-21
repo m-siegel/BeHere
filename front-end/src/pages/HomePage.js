@@ -49,11 +49,6 @@ function HomePage(props) {
               <EventPreview previewObject={p} user={user}></EventPreview>
             </div>
           ))}
-          {/* {previews.map((p) => (
-            <div className="col" key={p._id}>
-              <EventPreview previewObject={p} user={user}></EventPreview>
-            </div>
-          ))} */}
         </div>
       </BasePage>
     </div>

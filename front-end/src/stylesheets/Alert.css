@@ -1,0 +1,15 @@
+.Alert .alert-warning {
+  background-color: rgb(255, 232, 103);
+}
+
+.Alert .alert-danger {
+  background-color: rgb(251, 95, 95);
+}
+
+.Alert .alert-success {
+  background-color:rgb(76, 255, 76)
+}
+
+.Alert .alert-info {
+  background-color: rgb(72, 255, 255)
+}

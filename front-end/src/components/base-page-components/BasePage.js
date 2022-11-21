@@ -22,7 +22,11 @@ function BasePage(props) {
 }
 
 BasePage.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    // https://stackoverflow.com/questions/42122522/reactjs-what-should-the-proptypes-be-for-this-props-children
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default BasePage;

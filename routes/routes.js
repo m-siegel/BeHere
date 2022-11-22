@@ -7,6 +7,20 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+router.get("/api/getEvent/:id", (req, res) => {
+  const eventId = req.params.id;
+  console.log(`The event id is: ${eventId}`);
+  res.json({
+    name: "Test event",
+    description: "a test event",
+    organization: "a test org",
+    location: "San Jose",
+    start: "8:00",
+    finish: "12:00",
+    tags: ["sports"],
+  });
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {

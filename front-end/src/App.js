@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useParams,
+} from "react-router-dom";
 
 import "./App.css";
 
@@ -16,6 +20,7 @@ import UserSettingsPage from "./pages/UserSettingsPage.js";
 
 // TODO: look at tutorial -- should this be in index not app?
 function App() {
+  const params = useParams();
   const router = createBrowserRouter([
     {
       path: "/", // TODO: home if logged in?
@@ -44,11 +49,15 @@ function App() {
     },
     // {
     //   path: "/event:eventId",
-    //   element:  <EventDetailsPage eventId={eventId}></EventDetailsPage>,
+    //   element: <EventDetailsPage eventId={params}></EventDetailsPage>,
     // },
     {
       path: "/edit", // TODO: url param, like /event
       element: <EditEventPage></EditEventPage>,
+    },
+    {
+      path: "/edit:eventId",
+      element: <EditEventPage eventId={params}></EditEventPage>,
     },
     {
       path: "/settings",

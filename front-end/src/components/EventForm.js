@@ -8,7 +8,13 @@ function EventForm({ event }) {
         <label htmlFor="name" className="form-label">
           Name:{" "}
         </label>
-        <input type="text" className="form-control" id="name" required></input>
+        <input
+          type="text"
+          className="form-control"
+          id="name"
+          value={event?.name}
+          required
+        ></input>
       </div>
       <div className="row">
         <label htmlFor="description" className="form-label">
@@ -18,6 +24,7 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="description"
+          value={event?.description}
           required
         ></textarea>
       </div>
@@ -29,6 +36,7 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="organization"
+          value={event?.organization}
           required
         ></input>
       </div>
@@ -40,6 +48,7 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="location"
+          value={event?.location}
           required
         ></input>
       </div>
@@ -47,7 +56,13 @@ function EventForm({ event }) {
         <label htmlFor="start" className="form-label">
           Start:{" "}
         </label>
-        <input type="text" className="form-control" id="start" required></input>
+        <input
+          type="text"
+          className="form-control"
+          id="start"
+          value={event?.start}
+          required
+        ></input>
       </div>
       <div className="row">
         <label htmlFor="finish" className="form-label">
@@ -57,6 +72,7 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="finish"
+          value={event?.finish}
           required
         ></input>
       </div>
@@ -69,6 +85,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="music"
+                {...(!!event?.tags && event.tags.indexOf("music") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="music"
               />
               <label className="form-check-label" htmlFor="music">
@@ -80,6 +99,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="sports"
+                {...(!!event?.tags && event.tags.indexOf("sports") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="sports"
               />
               <label className="form-check-label" htmlFor="sports">
@@ -91,6 +113,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="movies"
+                {...(!!event?.tags && event.tags.indexOf("movies") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="movies"
               />
               <label className="form-check-label" htmlFor="movies">
@@ -102,6 +127,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="networking"
+                {...(!!event?.tags && event.tags.indexOf("networking") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="networking"
               />
               <label className="form-check-label" htmlFor="networking">
@@ -113,6 +141,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="party"
+                {...(!!event?.tags && event.tags.indexOf("party") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="party"
               />
               <label className="form-check-label" htmlFor="party">
@@ -124,6 +155,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="food"
+                {...(!!event?.tags && event.tags.indexOf("food") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="food"
               />
               <label className="form-check-label" htmlFor="food">
@@ -135,6 +169,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="dance"
+                {...(!!event?.tags && event.tags.indexOf("dance") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="dance"
               />
               <label className="form-check-label" htmlFor="dance">
@@ -146,6 +183,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="education"
+                {...(!!event?.tags && event.tags.indexOf("education") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="education"
               />
               <label className="form-check-label" htmlFor="education">
@@ -157,6 +197,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="fitness"
+                {...(!!event?.tags && event.tags.indexOf("fitness") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="fitness"
               />
               <label className="form-check-label" htmlFor="fitness">
@@ -168,6 +211,9 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="hangout"
+                {...(!!event?.tags && event.tags.indexOf("hangout") !== -1
+                  ? "checked"
+                  : "unchecked")}
                 value="hangout"
               />
               <label className="form-check-label" htmlFor="hangout">
@@ -185,7 +231,7 @@ function EventForm({ event }) {
 }
 
 EventForm.propTypes = {
-  event: PropTypes.object.isRequired,
+  event: PropTypes.object,
 };
 
 export default EventForm;

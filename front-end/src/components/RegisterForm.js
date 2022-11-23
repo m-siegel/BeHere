@@ -19,7 +19,7 @@ function RegisterForm({ setAlert }) {
   async function onSubmit(evt) {
     evt.preventDefault();
     setAlert({
-      type: "",
+      type: "info",
       heading: "",
       message: <div>Attempting registration...</div>,
     });

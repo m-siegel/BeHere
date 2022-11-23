@@ -2,14 +2,19 @@
 import "../stylesheets/RegisterPage.css";
 import React, { useState } from "react";
 import RegisterForm from "../components/RegisterForm";
-import Alert from "../components/base-page-components/Alert";
+// import Alert from "../components/base-page-components/Alert";
+import useAlert from "../hooks/useAlert";
 
 function RegisterPage() {
-  const [alert, setAlert] = useState({
-    type: "",
-    heading: "",
-    message: <div></div>,
-  });
+  // const [alert, setAlert] = useState({
+  //   type: "",
+  //   heading: "",
+  //   message: "",
+  // });
+
+  // const [alert, setAlert] = useState(<Alert type="" heading="" message="" />);
+
+  const [AlertComponent, setAlert] = useAlert();
 
   return (
     <div className="RegisterPage">
@@ -24,11 +29,12 @@ function RegisterPage() {
           </div>
           <div className="col form-col">
             <div>
-              <Alert
+              {/* <Alert
                 type={alert.type}
                 heading={alert.heading}
                 message={alert.message}
-              />
+              /> */}
+              <AlertComponent />
               <h1>Register</h1>
               <RegisterForm setAlert={setAlert} />
             </div>

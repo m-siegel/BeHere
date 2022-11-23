@@ -39,13 +39,9 @@ function App() {
       element: <DashboardPage></DashboardPage>,
     },
     {
-      path: "/event", // TODO: url param
+      path: "/event/:id", // TODO: url param
       element: <EventDetailsPage></EventDetailsPage>,
     },
-    // {
-    //   path: "/event:eventId",
-    //   element:  <EventDetailsPage eventId={eventId}></EventDetailsPage>,
-    // },
     {
       path: "/edit", // TODO: url param, like /event
       element: <EditEventPage></EditEventPage>,

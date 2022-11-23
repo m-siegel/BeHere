@@ -31,7 +31,7 @@ function EventPreview(props) {
                 <dd>
                   {
                     <ul className="preview-tags">
-                      {info.tags.map((t) => (
+                      {info.tags?.map((t) => (
                         <li key={t}>{t}</li>
                       ))}
                     </ul>

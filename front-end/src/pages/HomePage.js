@@ -32,7 +32,7 @@ function HomePage(props) {
   }
 
   useEffect(() => {
-    loadPreviews();
+    // loadPreviews();
     getUserPassportInfo();
     // Can return to clean up previous effect, eg stop fetch
   }, []); // TODO: is there a better way so we don't get the warning?
@@ -44,11 +44,18 @@ function HomePage(props) {
       <BasePage>
         <h1>Home Page</h1>
         <div className="row">
-          {previews.map((p) => (
-            <div className="col" key={p._id}>
-              <EventPreview previewObject={p} user={user}></EventPreview>
+          {previews.length ? (
+            previews.map((p) => (
+              <div className="col" key={p._id}>
+                <EventPreview previewObject={p} user={user}></EventPreview>
+              </div>
+            ))
+          ) : (
+            <div>
+              <div>No events are listed for your organization.</div>
+              <div>Check back later or create a new event yourself!</div>
             </div>
-          ))}
+          )}
         </div>
       </BasePage>
     </div>

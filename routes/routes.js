@@ -103,9 +103,14 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
   });
 });
 
-router.delete("/logout", (req, res) => {
-  req.logOut();
-  res.redirect("/");
+// NOTE: Mea changed
+router.post("/logout", (req, res) => {
+  req.logOut((err) => {
+    if (err) {
+      return res.json({ success: false, err: err });
+    }
+    return res.json({ success: true, err: null });
+  });
 });
 
 // TODO -- "/DeleteEvent"
@@ -116,7 +121,12 @@ router.delete("/logout", (req, res) => {
 // from the front end, so we can use this.
 // post request so it doesn't show in the url
 router.post("/getPassportUser", (req, res) => {
-  res.json(req.session?.passport?.user);
+  // TODO: fix wherever this was used
+  const user = req.session?.passport?.user;
+  if (user) {
+    return res.json(req.session?.passport?.user);
+  }
+  return res.json({});
 });
 
 // router.get("/test", (req, res) => {
@@ -137,7 +147,8 @@ router.get("/api/getEventPreviews", async (req, res) => {
     // if (req.session.passport.user.oranizations.length) {
     try {
       // V2: get events for any of the user's orgs
-      const orgName = req.session.passport.user.oranizations[0];
+      const orgName = req.session.passport?.user?.oranizations[0];
+
       // const orgName = "rohan.gov";
       const eventsResponse = await eventsConnect.getEventPreviews(orgName);
       return res.json(eventsResponse);

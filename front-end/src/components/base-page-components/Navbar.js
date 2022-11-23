@@ -1,6 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import IconLinkButton from "./IconLinkButton.js";
 import IconButtonDropdown from "./IconButtonDropdown.js";
 import IconHouseOutline from "../icon-components/IconHouseOutline.js";
@@ -14,8 +13,20 @@ import IconPersonFilled from "../icon-components/IconPersonFilled.js";
 
 // TODO: refactor icon buttons and figure out where active state/prop for style should go
 
-function Navbar(props) {
+function Navbar() {
   const pathname = window.location.pathname;
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    const res = await (
+      await fetch("/logout", {
+        method: "POST",
+      })
+    ).json();
+    if (res.success) {
+      navigate("/login", { replace: true });
+    }
+  }
 
   // TODO: change whole column to be clickable?
 
@@ -88,18 +99,34 @@ function Navbar(props) {
           dropdownMenu={[
             // TODO: change dropdown to allow for icon buttons in this menu, too
             // TODO: link now working when sent to IconButton
-            <Link className="dropdown-item" to="/settings">
-              Settings
-            </Link>,
             <button
               className="dropdown-item"
               type="button"
-              onClick={() => console.log("clicked log out")}
+              // Link wouldn't work here.
+              // https://atomizedobjects.com/blog/react/how-to-redirect-in-reactjs/
+              onClick={() => navigate("/settings", { replace: true })}
+            >
+              Settings
+            </button>,
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={handleLogout}
             >
               Log Out
             </button>,
           ]}
         ></IconButtonDropdown>
+        <button
+          onClick={async () => {
+            const res = await fetch("/getPassportUser", { method: "POST" });
+            if (res) {
+              console.log(await res.json());
+            } else {
+              console.log("res is null");
+            }
+          }}
+        ></button>
       </nav>
     </div>
   );

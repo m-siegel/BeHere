@@ -1,19 +1,11 @@
 // By Mea
 import "../stylesheets/RegisterPage.css";
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
-// import Alert from "../components/base-page-components/Alert";
 import useAlert from "../hooks/useAlert";
 
 function RegisterPage() {
-  // const [alert, setAlert] = useState({
-  //   type: "",
-  //   heading: "",
-  //   message: "",
-  // });
-
-  // const [alert, setAlert] = useState(<Alert type="" heading="" message="" />);
-
   const [AlertComponent, setAlert] = useAlert();
 
   return (
@@ -29,14 +21,15 @@ function RegisterPage() {
           </div>
           <div className="col form-col">
             <div>
-              {/* <Alert
-                type={alert.type}
-                heading={alert.heading}
-                message={alert.message}
-              /> */}
               <AlertComponent />
               <h1>Register</h1>
               <RegisterForm setAlert={setAlert} />
+              <div>
+                Already have an account?{" "}
+                <Link to="/login" className="link">
+                  Go to login.
+                </Link>
+              </div>
             </div>
           </div>
         </div>

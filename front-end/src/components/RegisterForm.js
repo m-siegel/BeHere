@@ -139,7 +139,7 @@ function RegisterForm({ setAlert }) {
           value={password}
           onChange={(evt) => setPassword(evt.target.value)}
         />
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mb-5">
           Register
         </button>
       </form>

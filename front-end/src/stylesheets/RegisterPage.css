@@ -30,3 +30,7 @@
 .RegisterForm input {
   min-width: 30vw;
 }
+
+.RegisterPage .link {
+  color: var(--timea-blue)
+}

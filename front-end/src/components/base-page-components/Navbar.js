@@ -10,6 +10,9 @@ import IconCalendarWeekOutline from "../icon-components/IconCalendarWeekOutline.
 import IconCalendarWeekFilled from "../icon-components/IconCalendarWeekFilled.js";
 import IconPersonOutline from "../icon-components/IconPersonOutline.js";
 import IconPersonFilled from "../icon-components/IconPersonFilled.js";
+import IconGear from "../icon-components/IconGear.js";
+import IconLogoutArrow from "../icon-components/IconLogoutArrow.js";
+import IconOnClickButton from "./IconOnClickButton.js";
 
 // TODO: refactor icon buttons and figure out where active state/prop for style should go
 
@@ -32,103 +35,92 @@ function Navbar() {
 
   // TODO: change active based on props
   return (
-    <div className="Navbar">
-      <nav className="row text-center Navbar">
-        <IconLinkButton
-          className="nav-a col"
-          aria-current="page" // TODO: keep this?
-          icon={
-            pathname === "/home" ? ( // TODO: or === /event:id
-              <IconHouseFilled
-                className="icon active"
-                color="blue"
-                size="1.5em"
-              />
-            ) : (
-              <IconHouseOutline className="icon" color="#282323" size="1.5em" /> // TODO: figure out color
-            )
-          }
-          descriptionText="Home"
-          linkPath={"/home"}
-        ></IconLinkButton>
+    <nav className="row text-center Navbar">
+      <IconLinkButton
+        className={pathname === "/home" ? "nav-a col active" : "nav-a col"}
+        aria-current="page" // TODO: keep this?
+        icon={
+          pathname === "/home" ? (
+            <IconHouseFilled color="blue" />
+          ) : (
+            <IconHouseOutline />
+          )
+        }
+        descriptionText="Home"
+        linkPath={"/home"}
+      ></IconLinkButton>
 
-        <IconLinkButton
-          className="nav-a col" // TODO: with url params
-          icon={
-            pathname === "/edit" ? (
-              <IconPlusSquareFilled
-                className="active"
-                color="blue"
-                size="1.5em"
-              />
-            ) : (
-              <IconPlusSquareOutline color="#282323" size="1.5em" />
-            )
-          }
-          descriptionText="Create"
-          linkPath={"/edit"} // TODO: edit without id creates one
-        ></IconLinkButton>
+      <IconLinkButton
+        className={pathname === "/edit" ? "nav-a col active" : "nav-a col"}
+        icon={
+          pathname === "/edit" ? (
+            <IconPlusSquareFilled color="blue" />
+          ) : (
+            <IconPlusSquareOutline />
+          )
+        }
+        descriptionText="Create"
+        linkPath={"/edit"}
+      ></IconLinkButton>
 
-        <IconLinkButton
-          className="nav-a col"
-          icon={
-            pathname === "/dashboard" ? (
-              <IconCalendarWeekFilled
-                className="active"
-                color="blue"
-                size="1.5em"
-              />
-            ) : (
-              <IconCalendarWeekOutline color="#282323" size="1.5em" />
-            )
-          }
-          descriptionText="Dashboard"
-          linkPath={"/dashboard"}
-        ></IconLinkButton>
+      <IconLinkButton
+        className={pathname === "/dashboard" ? "nav-a col active" : "nav-a col"}
+        icon={
+          pathname === "/dashboard" ? (
+            <IconCalendarWeekFilled color="blue" />
+          ) : (
+            <IconCalendarWeekOutline />
+          )
+        }
+        descriptionText="Dashboard"
+        linkPath={"/dashboard"}
+      ></IconLinkButton>
 
-        <IconButtonDropdown
-          className="col" // TODO: with url params
-          icon={
-            pathname === "/settings" ? (
-              <IconPersonFilled className="active" color="blue" size="1.5em" />
-            ) : (
-              <IconPersonOutline color="#282323" className="col" size="1.5em" />
-            )
-          }
-          descriptionText="Me"
-          dropdownMenu={[
-            // TODO: change dropdown to allow for icon buttons in this menu, too
-            // TODO: link now working when sent to IconButton
-            <button
-              className="dropdown-item"
-              type="button"
-              // Link wouldn't work here.
-              // https://atomizedobjects.com/blog/react/how-to-redirect-in-reactjs/
-              onClick={() => navigate("/settings", { replace: true })}
-            >
-              Settings
-            </button>,
-            <button
-              className="dropdown-item"
-              type="button"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>,
-          ]}
-        ></IconButtonDropdown>
-        <button
-          onClick={async () => {
-            const res = await fetch("/getPassportUser", { method: "POST" });
-            if (res) {
-              console.log(await res.json());
-            } else {
-              console.log("res is null");
+      <IconButtonDropdown
+        className={pathname === "/settings" ? "col active" : "col"}
+        icon={
+          pathname === "/settings" ? (
+            <IconPersonFilled color="blue" />
+          ) : (
+            <IconPersonOutline />
+          )
+        }
+        descriptionText="Me"
+        dropdownMenu={[
+          <IconOnClickButton
+            className="dropdown-item"
+            // https://atomizedobjects.com/blog/react/how-to-redirect-in-reactjs/
+            onClick={() => navigate("/settings", { replace: true })}
+            icon={
+              pathname === "/settings" ? (
+                <IconGear color="blue" />
+              ) : (
+                <IconGear />
+              )
             }
-          }}
-        ></button>
-      </nav>
-    </div>
+            descriptionText={" Settings"}
+            inline={true}
+          ></IconOnClickButton>,
+          <IconOnClickButton
+            className="dropdown-item"
+            onClick={handleLogout}
+            icon={<IconLogoutArrow />}
+            descriptionText={" Log Out"}
+            inline={true}
+          ></IconOnClickButton>,
+        ]}
+      ></IconButtonDropdown>
+      <button
+        onClick={async () => {
+          const res = await fetch("/getPassportUser", { method: "POST" });
+          if (res) {
+            console.log(await res.json());
+          } else {
+            console.log("res is null");
+          }
+        }}
+      ></button>
+    </nav>
   );
 }
 

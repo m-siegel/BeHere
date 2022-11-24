@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-// TODO: propTypes
 
 function IconLinkButton({ icon, descriptionText, linkPath, className }) {
   return (
     // TODO: option for without link if link is null?
-    <Link to={linkPath} className={`IconLinkButton ${className}`}>
+    <Link to={linkPath} className={`IconButton IconLinkButton ${className}`}>
       <button type="button" className="btn">
         {icon}
         <p>
@@ -20,7 +19,7 @@ function IconLinkButton({ icon, descriptionText, linkPath, className }) {
 IconLinkButton.propTypes = {
   icon: PropTypes.element.isRequired,
   descriptionText: PropTypes.string.isRequired,
-  linkPath: PropTypes.string.isRequired,
+  linkPath: PropTypes.string,
   className: PropTypes.string,
 };
 

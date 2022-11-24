@@ -17,7 +17,7 @@
   color: var(--timea-dark-brown);
 }
 
-.BasePage .Navbar>.col:hover {
+.BasePage .Navbar .col:hover {
   background-color: #FFF;
 }
 
@@ -31,4 +31,22 @@
   padding-top: .2em;
   background-color: var(--timea-yellow);
   color: var(--timea-dark-brown);
+}
+
+.BasePage .Navbar .IconButton {
+  color: var(--timea-dark-brown)
+}
+
+.BasePage .Navbar .IconButton .Icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.BasePage .Navbar .IconButton:hover:not(.active) {
+  color: red
+}
+
+.BasePage .Navbar .dropdown-item .Icon {
+  width: 1em;
+  height: 1em;
 }

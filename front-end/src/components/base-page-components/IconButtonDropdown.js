@@ -6,9 +6,9 @@ import "../../stylesheets/IconButtonDropdown.css";
 function IconButtonDropdown(props) {
   return (
     <div
-      className={`IconButtonDropdown dropdown-center col ${props.className}`}
+      className={`IconButton IconButtonDropdown dropdown-center col ${props.className}`}
     >
-      <div className={`IconButtonDropdown`} data-bs-toggle="dropdown">
+      <div data-bs-toggle="dropdown">
         <button className="btn col" type="button" aria-expanded="false">
           {props.icon}
           <p>
@@ -29,7 +29,7 @@ function IconButtonDropdown(props) {
 
 IconButtonDropdown.propTypes = {
   className: PropTypes.string,
-  icon: PropTypes.element.isRequired,
+  iconPath: PropTypes.element.isRequired,
   descriptionText: PropTypes.string.isRequired,
   dropdownMenu: PropTypes.arrayOf(PropTypes.element),
 };

@@ -1,30 +1,21 @@
 /* Ilana-Mahmea */
+
 import React from "react";
 import PropTypes from "prop-types";
+import BaseBootstrapIcon from "./BaseBootstrapIcon.js";
 
-function IconPersonFill({ size, color, className }) {
-  // TODO: do validation?
-  size = size ? size : 16;
-  color = color ? color : "#000000";
+function IconPersonFilled({ size, color, className }) {
   return (
-    // Bootstrap icon
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={`${size}`}
-      height={`${size}`}
-      fill={`${color}`}
-      className={`bi bi-person-fill ${className}`}
-      viewBox="0 0 16 16"
-    >
+    <BaseBootstrapIcon size={size} color={color} className={className}>
       <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-    </svg>
+    </BaseBootstrapIcon>
   );
 }
 
-IconPersonFill.propTypes = {
+IconPersonFilled.propTypes = {
   size: PropTypes.string,
   color: PropTypes.string,
   className: PropTypes.string,
 };
 
-export default IconPersonFill;
+export default IconPersonFilled;

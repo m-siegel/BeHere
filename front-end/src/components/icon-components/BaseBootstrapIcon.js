@@ -1,12 +1,13 @@
 /* Ilana-Mahmea */
-// TODO: is this helpful at all as something that could receive just the path string?
 import React from "react";
 import PropTypes from "prop-types";
 
-function BaseBootstrapIcon({ size, color, className, path }) {
+function BaseBootstrapIcon({ children, className, size, color, viewBox }) {
   // TODO: do validation?
-  size = size ? size : 16;
-  color = color ? color : "#000000";
+  size = size ? size : "1.5em";
+  color = color ? color : "currentColor";
+  viewBox = viewBox ? viewBox : "0 0 16 16";
+
   return (
     // Bootstrap icon
     <svg
@@ -14,19 +15,20 @@ function BaseBootstrapIcon({ size, color, className, path }) {
       width={`${size}`}
       height={`${size}`}
       fill={`${color}`}
-      className={`${className}`}
-      viewBox="0 0 16 16"
+      className={`Icon BaseBootstrapIcon ${className}`}
+      viewBox={viewBox}
     >
-      {path}
+      {children}
     </svg>
   );
 }
 
 BaseBootstrapIcon.propTypes = {
+  children: PropTypes.element.isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
   className: PropTypes.string,
-  path: PropTypes.element.isRequired,
+  viewBox: PropTypes.string,
 };
 
 export default BaseBootstrapIcon;

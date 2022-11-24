@@ -2,15 +2,49 @@
 import "../stylesheets/EventPreview.css";
 import React from "react";
 import PropTypes from "prop-types";
-import IconLinkButton from "./base-page-components/IconLinkButton";
-import IconButtonDropdown from "./base-page-components/IconButtonDropdown";
+import IconLinkButton from "./base-page-components/IconLinkButton.js";
+import IconButtonDropdown from "./base-page-components/IconButtonDropdown.js";
+import IconOnClickButton from "./base-page-components/IconOnClickButton";
+import IconCalendarHeartFilled from "./icon-components/IconCalendarHeartFilled.js";
+import IconCalendarHeartOutline from "./icon-components/IconCalendarHeartOutline.js";
+import IconStarFilled from "./icon-components/IconStarFilled.js";
+import IconStarOutline from "./icon-components/IconStarOutline.js";
+import IconThreeDots from "./icon-components/IconThreeDots.js";
+import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 
 // Make component based on previews object
 
 // TODO: split into compontents
 // TODO: fix weird spacing that's new
-function EventPreview(props) {
-  const info = props.previewObject;
+function EventPreview({ previewObject, userId, onRSVP }) {
+  const info = previewObject;
+  let rsvped = "";
+  rsvped = info.followedBy?.includes(userId) ? "Follow" : rsvped;
+  rsvped = info.rsvpYes?.includes(userId) ? "Yes" : rsvped;
+  rsvped = info.rsvpMaybe?.includes(userId) ? "Maybe" : rsvped;
+  rsvped = info.rsvpNo?.includes(userId) ? "No" : rsvped;
+
+  function handleClickRSVP(rsvpStatus) {
+    // TODO: un-rsvp if they click their current state?
+    onRSVP(info, rsvpStatus);
+  }
+
+  // TODO: handle likes like rsvps, toggle, check with Tim
+  /*
+    <IconOnClickButton
+      onClick={toggleLike}
+      icon={
+        info.likes.inclued(userId) ? (
+          <IconStarFilled color="blue" />
+        ) : (
+          <IconStarOutline />
+        )
+      }
+      descriptionText={"Like"}
+      inline={true}
+    ></IconOnClickButton>
+   */
+
   return (
     <div className="EventPreview">
       <div className="card">
@@ -40,68 +74,75 @@ function EventPreview(props) {
               </div>
             </dl>
 
-            <nav>
-              {/* <Link className="timea-nav-btn" to={`/event/${info._id}`}>
-              <p>Details</p>
-            </Link> */}
+            <nav className="row">
               <IconButtonDropdown
-                iconPath="./icons/bootstrap-calendar-heart.svg"
+                className="rsvp-dropdown"
+                icon={
+                  rsvped ? (
+                    <IconCalendarHeartFilled color="blue" />
+                  ) : (
+                    <IconCalendarHeartOutline />
+                  )
+                }
                 descriptionText="RSVP"
                 dropdownMenu={[
-                  // TODO: these should be RSVPs that update the event following info for the user and maybe event
+                  // TODO: these should be RSVPs that update the event following info for the userId and maybe event
                   <button
-                    className="btn"
+                    className={rsvped === "Yes" ? "btn active" : "btn"}
                     onClick={() => {
-                      console.log("clicked 'Going'");
+                      handleClickRSVP("Yes");
                     }}
                   >
                     Going
                   </button>,
                   <button
-                    className="btn"
+                    className={rsvped === "Maybe" ? "btn active" : "btn"}
                     onClick={() => {
-                      console.log("clicked 'Maybe'");
+                      handleClickRSVP("Maybe");
                     }}
                   >
                     Maybe
                   </button>,
                   <button
-                    className="btn"
+                    className={rsvped === "No" ? "btn active" : "btn"}
                     onClick={() => {
-                      console.log("clicked 'Not Going'");
+                      handleClickRSVP("No");
                     }}
                   >
                     Not Going
                   </button>,
                   <button
-                    className="btn"
+                    className={rsvped === "Follow" ? "btn active" : "btn"}
                     onClick={() => {
-                      console.log("clicked 'Following'");
+                      handleClickRSVP("Follow");
                     }}
                   >
                     Following
                   </button>,
                 ]}
               ></IconButtonDropdown>
+
               <IconLinkButton
-                iconPath="./icons/bootstrap-star-fill.svg"
+                className="col"
+                icon={<IconStarOutline />}
                 descriptionText="Like"
-                linkPath={null} // TODO: handle in button
+                linkPath={null} // TODO: see relevant todo above
               ></IconLinkButton>
               <IconLinkButton
-                iconPath="./icons/bootstrap-question-circle.svg"
+                className="col"
+                icon={<IconThreeDots />}
                 descriptionText="Details"
                 linkPath={`/event/${info._id}`}
               ></IconLinkButton>
-              {info.creator === props.user?._id ? (
-                // TODO: make props.user a thing for info.creator === props.user.id
+              {info.creator === userId ? (
                 <IconLinkButton
-                  iconPath="./icons/bootstrap-pencil.svg"
+                  className="col"
+                  icon={<IconPencilOutline />}
                   descriptionText="Edit"
                   linkPath={`/edit/${info._id}`}
                 ></IconLinkButton>
               ) : (
-                <div></div>
+                <div className="col"></div>
               )}
             </nav>
           </div>
@@ -113,7 +154,8 @@ function EventPreview(props) {
 
 EventPreview.propTypes = {
   previewObject: PropTypes.object.isRequired,
-  user: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  onRSVP: PropTypes.func.isRequired,
 };
 
 export default EventPreview;

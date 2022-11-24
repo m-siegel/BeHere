@@ -36,3 +36,15 @@
 .EventPreview .card {
   max-width: 90vw;
 }
+
+.EventPreview .btn {
+  border: none;
+}
+
+.EventPreview .btn:hover {
+  color: red;
+}
+
+.EventPreview .rsvp-dropdown .btn.active {
+  color: blue;
+}

@@ -190,6 +190,10 @@ export async function getEventPreviews(organization) {
           tags: 1,
           location: 1,
           start: 1,
+          followedBy: 1,
+          rsvpYes: 1,
+          rsvpMaybe: 1,
+          rsvpNo: 1,
         }
       )
       .sort({
@@ -407,6 +411,8 @@ eventsConnect.getOneEvent = getOneEvent;
  *                           err: null, or the error that was caught
  *                           }
  */
+// TODO: Can this just be the event Id and the user Id to be faster?
+// TODO: Can this also do the following list?
 export async function eventRsvp(user, event, rsvpStatus) {
   const client = new MongoClient(uri);
   const eventId = new ObjectId(event._id);

@@ -28,14 +28,14 @@ export function initialize(passport, getUserByContactEmail, getUserById) {
   passport.serializeUser((user, done) =>
     done(null, {
       // TODO: we've been using _id. do we want to keep doing that?
-      id: user._id,
+      _id: user._id,
       username: user.username,
       organizations: user.organizations,
     })
   );
 
-  passport.deserializeUser((id, done) => {
-    return done(null, getUserById(id));
+  passport.deserializeUser((_id, done) => {
+    return done(null, getUserById(_id));
   });
 }
 

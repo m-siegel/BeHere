@@ -68,6 +68,7 @@ eventsConnect.addEvent = addEvent;
  *                           }
  */
 export async function deleteEvent(eventId) {
+  const eventId = new ObjectId(eventId);
   const client = new MongoClient(uri);
   try {
     await client.connect();
@@ -225,7 +226,7 @@ eventsConnect.getEventPreviews = getEventPreviews;
 
 /**
  * Returns all of the events in the org (for event previews).
- * @param {MongoDB ObjectId} _id      The ID of the user.
+ * @param {string} id      The ID of the user.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
  *                            events: An array of event objects, or null
@@ -292,7 +293,7 @@ eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
 
 /**
  * Returns all of the events a specific user follows.
- * @param {MongoDB ObjectId} _id      The ID of the user.
+ * @param {string} _id      The ID of the user.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
  *                            events: An array of event objects, or null
@@ -489,28 +490,38 @@ eventsConnect.eventRsvp = eventRsvp;
 
 /**
  * Returns am object that describes if a previous RSVP was already set.
- * @param {string} eventId A MongoDB Object Id of the event
- * @param {string} userId A MongoDB Object Id of the user
+ * @param {ObjectId} eventId A MongoDB Object Id of the event
+ * @param {ObjectId} userId A MongoDB Object Id of the user
  * @param {object} collection A MongoDB collection object
  * @returns {object} {exists: boolean,
  *                    value: String representation of existing RSVP, or null}
  */
 async function getRsvp(eventId, userId, collection) {
-  const rsvpYes = await collection.findOne({ _id: eventId, rsvpYes: userId });
-  const rsvpMaybe = await collection.findOne({ _id: eventId, rsvpYes: userId });
-  const rsvpNo = await collection.findOne({ _id: eventId, rsvpYes: userId });
+  // storing userIds as strings in arrays
+  const rsvpYes = await collection.findOne({
+    _id: eventId,
+    rsvpYes: userId.toString(),
+  });
+  const rsvpMaybe = await collection.findOne({
+    _id: eventId,
+    rsvpYes: userId.toString(),
+  });
+  const rsvpNo = await collection.findOne({
+    _id: eventId,
+    rsvpYes: userId.toString(),
+  });
 
-  if (!rsvpYes && !rsvpMaybe && !rsvpNo) {
+  if (!!!rsvpYes && !!!rsvpMaybe && !!!rsvpNo) {
     return {
       exists: false,
       value: null,
     };
-  } else if (rsvpYes) {
+  } else if (!!rsvpYes) {
     return {
       exists: true,
       value: "Yes",
     };
-  } else if (rsvpMaybe) {
+  } else if (!!rsvpMaybe) {
     return {
       exists: true,
       value: "Maybe",
@@ -525,8 +536,8 @@ async function getRsvp(eventId, userId, collection) {
 
 /**
  * Removes an existing RSVP for a user.
- * @param {MongodbObjectId} eventId
- * @param {MongodbObjectId} userId
+ * @param {ObjectId} eventId
+ * @param {ObjectId} userId
  * @param {MongodbCollection} collection
  * @param {string} value
  * @returns void
@@ -572,5 +583,58 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
 // TODO -- get all events where user is in following list
 // TODO -- all events where user is creator
 // TODO -- all events for an organization
+
+export async function toggleLike(eventId, userId) {
+  const client = new MongoClient(uri);
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(eventsCol);
+    const query = { _id: eventId, likes: userId };
+    const hasAlreadyLiked = await collection.findOne(query);
+    const addLikeInfo = { $push: { likes: userId } };
+    const removeLikeInfo = { $pull: { likes: userId } };
+    if (!!hasAlreadyLiked) {
+      const updateRes = await collection.updateOne(query, removeLikeInfo);
+      if (updateRes.acknowledged && updateRes.matchedCount) {
+        return {
+          // TODO -- discuss what will be passed back
+          success: true,
+          msg: "You've removed this like successfully.",
+          // anything else?
+          err: null,
+        };
+      }
+      return {
+        // TODO -- discuss what will be passed back
+        success: false,
+        msg: "An error has prevented you from unliking this event.",
+        // anything else?
+        err: null,
+      };
+    }
+    const updateRes = await collection.updateOne(query, addLikeInfo);
+    if (updateRes.acknowledged && updateRes.matchedCount) {
+      return {
+        // TODO -- discuss what will be passed back
+        success: true,
+        msg: "You've removed this like successfully.",
+        // anything else?
+        err: null,
+      };
+    }
+    return {
+      // TODO -- discuss what will be passed back
+      success: false,
+      msg: "An error has prevented you from unliking this event.",
+      // anything else?
+      err: null,
+    };
+  } catch (e) {
+    console.log("Error: ", e);
+    return { status: false, error: e };
+  }
+}
+eventsConnect.toggleLike = toggleLike;
 
 export default eventsConnect;

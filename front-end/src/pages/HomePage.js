@@ -76,7 +76,7 @@ function HomePage(props) {
               <div className="col" key={p._id}>
                 <EventPreview
                   previewObject={p}
-                  userId={user.id} // TODO: make naming consistent
+                  userId={user._id} // TODO: make naming consistent
                   onRSVP={handleRSVP}
                 ></EventPreview>
               </div>

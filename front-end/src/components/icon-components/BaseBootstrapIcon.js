@@ -24,7 +24,10 @@ function BaseBootstrapIcon({ children, className, size, color, viewBox }) {
 }
 
 BaseBootstrapIcon.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element),
+  ]),
   size: PropTypes.number,
   color: PropTypes.string,
   className: PropTypes.string,

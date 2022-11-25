@@ -67,8 +67,8 @@ eventsConnect.addEvent = addEvent;
  *                           err: null, or the error that was caught
  *                           }
  */
-export async function deleteEvent(eventId) {
-  const eventId = new ObjectId(eventId);
+export async function deleteEvent(eventIdString) {
+  const eventId = new ObjectId(eventIdString);
   const client = new MongoClient(uri);
   try {
     await client.connect();
@@ -519,17 +519,17 @@ async function getRsvp(eventId, userId, collection) {
     rsvpYes: userId.toString(),
   });
 
-  if (!!!rsvpYes && !!!rsvpMaybe && !!!rsvpNo) {
+  if (!rsvpYes && !rsvpMaybe && !rsvpNo) {
     return {
       exists: false,
       value: null,
     };
-  } else if (!!rsvpYes) {
+  } else if (rsvpYes) {
     return {
       exists: true,
       value: "Yes",
     };
-  } else if (!!rsvpMaybe) {
+  } else if (rsvpMaybe) {
     return {
       exists: true,
       value: "Maybe",
@@ -602,7 +602,7 @@ export async function toggleLike(eventId, userId) {
     const hasAlreadyLiked = await collection.findOne(query);
     const addLikeInfo = { $push: { likes: userId } };
     const removeLikeInfo = { $pull: { likes: userId } };
-    if (!!hasAlreadyLiked) {
+    if (hasAlreadyLiked) {
       const updateRes = await collection.updateOne(query, removeLikeInfo);
       if (updateRes.acknowledged && updateRes.matchedCount) {
         return {

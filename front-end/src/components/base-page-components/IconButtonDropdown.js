@@ -29,7 +29,7 @@ function IconButtonDropdown(props) {
 
 IconButtonDropdown.propTypes = {
   className: PropTypes.string,
-  iconPath: PropTypes.element.isRequired,
+  icon: PropTypes.element.isRequired,
   descriptionText: PropTypes.string.isRequired,
   dropdownMenu: PropTypes.arrayOf(PropTypes.element),
 };

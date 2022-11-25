@@ -16,6 +16,7 @@ export function eventify(obj) {
     rsvpYes: [],
     rsvpMaybe: [],
     rsvpNo: [],
+    likes: [],
   };
   return object;
 }

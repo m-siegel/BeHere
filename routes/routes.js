@@ -7,6 +7,20 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+router.get("/api/getEvent/:id", (req, res) => {
+  const eventId = req.params.id;
+  console.log(`The event id is: ${eventId}`);
+  res.json({
+    name: "Test event",
+    description: "a test event",
+    organization: "a test org",
+    location: "San Jose",
+    start: "8:00",
+    finish: "12:00",
+    tags: ["sports"],
+  });
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -14,6 +28,11 @@ router.post(
     failureRedirect: "/login",
   })
 );
+
+router.get("/getPassportUser", checkAuthenticated, (req, res) => {
+  console.log(req.passport.session);
+  res.json(req.passport.session.user);
+});
 
 /**
  * will check for authenticated user
@@ -132,6 +151,49 @@ router.post("/getPassportUser", (req, res) => {
 // router.get("/test", (req, res) => {
 //   res.send("testing... testing... tested!");
 // });
+
+/**
+ * Responds with events for the dashboard page
+ */
+router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
+  const orgName = req?.session?.passport?.user?.organizations;
+
+  try {
+    if (req.params.type === "created") {
+      // retrieve all events that the user created
+      const response = await eventsConnect.getEventPreviewsForUser(
+        req.session.passport.user.id
+      );
+      //const eventsResponse = await response.json();
+      return res.json({
+        success: true,
+        message: "",
+        events: response,
+        err: null,
+      });
+    } else {
+      // retreive all events that the user follows
+      const response = await eventsConnect.getUserFollowedEventPreviews(
+        req.session.passport.user.id
+      );
+      const eventsResponse = await response.json();
+      return res.json({
+        success: true,
+        message: "",
+        events: eventsResponse,
+        err: null,
+      });
+    }
+  } catch (e) {
+    console.log("Error: ", e);
+    return res.json({
+      success: false,
+      message: "Encountered error in /api/getEventPreviews/dash",
+      events: null,
+      err: e,
+    });
+  }
+});
 
 /**
  * Gets the events for the users first organization. Sends a json

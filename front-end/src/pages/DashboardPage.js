@@ -10,16 +10,44 @@ function DashboardPage(props) {
   const [myEventDisplayed, setMyEventDisplayed] = useState(true);
   // need a getFollowingEvents function
   // need a getMyEvents function
+  useEffect(() => {
+    const loadData = async () => {
+      let data;
+      try {
+        const res = myEventDisplayed
+          ? await fetch("/api/getEventPreviews/dash/created")
+          : await fetch("/api/getEventPreviews/dash/followed");
+        data = await res.json();
+      } catch (e) {
+        console.log("Error: ", e);
+      }
+      setPreviews(data.previews);
+    };
+    loadData();
 
-  async function getMyEventPreviews() {}
-  async function getFollowingEventPreviews() {}
+    return () => {};
+  }, [previews, myEventDisplayed]);
+
+  const displayMyEvents = () => {
+    console.log("myEvents button clicked");
+    setMyEventDisplayed(true);
+  };
+
+  const displayFollowingEvents = () => {
+    console.log("myFollowed button clicked");
+    setMyEventDisplayed(false);
+  };
 
   return (
     <BasePage>
       <h1>My Dashboard</h1>
       <div className="filter-buttons">
-        <button id="btnMyEvents">My events</button>
-        <button id="btnFollowing">Following</button>
+        <button id="btnMyEvents" onClick={displayMyEvents}>
+          My events
+        </button>
+        <button id="btnFollowing" onClick={displayFollowingEvents}>
+          Following
+        </button>
       </div>
       <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
         {previews.map((p) => (

@@ -143,30 +143,29 @@ router.post("/getPassportUser", (req, res) => {
  */
 router.get("/api/getEventPreviews", async (req, res) => {
   try {
-    // TODO -- commented out for dev; uncomment and delete orgName = "rohan.gov"
-    // if (req.session.passport.user.oranizations.length) {
-    try {
-      // V2: get events for any of the user's orgs
-      const orgName = req.session.passport?.user?.organizations[0];
-      const eventsResponse = await eventsConnect.getEventPreviews(orgName);
-      return res.json(eventsResponse);
-    } catch (e) {
-      console.error(e);
+    if (req.session.passport?.user?.organizations?.length) {
+      try {
+        // V2: get events for any of the user's orgs
+        const orgName = req.session.passport?.user?.organizations[0];
+        const eventsResponse = await eventsConnect.getEventPreviews(orgName);
+        return res.json(eventsResponse);
+      } catch (e) {
+        console.error(e);
+        return res.json({
+          success: false,
+          message: "Encountered error in /getEventPreviews",
+          events: null,
+          err: e,
+        });
+      }
+    } else {
       return res.json({
         success: false,
-        message: "Encountered error in /getEventPreviews",
+        message: "User has no organizations.",
         events: null,
-        err: e,
+        err: null,
       });
     }
-    // } else {
-    //   return res.json({
-    //     success: false,
-    //     message: "User has no organizations.",
-    //     events: null,
-    //     err: null,
-    //   });
-    // }
   } catch (e) {
     return res.json({
       success: false,

@@ -119,7 +119,7 @@ export async function updateEvent(eventObj) {
       { _id: id },
       {
         $set: {
-          // TODO -- discuss what will be passed into eventObj
+          // TODO -- discuss what will be passed into eventObj -- what about time?
           // name, description, tags, (date/time/place)?
           name: eventObj.name,
           description: eventObj.description,
@@ -203,7 +203,7 @@ export async function getEventPreviews(organization) {
       return {
         success: true,
         msg: "Events found.",
-        events: await res.toArray(), // TODO: talk to tim -- mea changed
+        events: await res.toArray(),
         err: null,
       };
     }
@@ -416,6 +416,8 @@ eventsConnect.getOneEvent = getOneEvent;
 export async function eventRsvp(user, event, rsvpStatus) {
   const client = new MongoClient(uri);
   const eventId = new ObjectId(event._id);
+  // BUG: this is creating a new userId that doesn't match the param string
+  // TODO: do we want to pass/store all these as objectIds or as strings?
   const userId = new ObjectId(user._id);
   try {
     await client.connect();

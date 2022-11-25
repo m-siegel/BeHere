@@ -18,7 +18,6 @@ function HomePage(props) {
 
   async function loadPreviews() {
     const res = await (await fetch("/api/getEventPreviews")).json();
-    console.log("res in homepage: ", res);
     if (res && res.events) {
       // TODO: check res.success?
       setPreviews(res.events);
@@ -41,7 +40,7 @@ function HomePage(props) {
     loadPreviews();
     getUserPassportInfo();
     // Can return to clean up previous effect, eg stop fetch
-  }, []); // TODO: is there a better way so we don't get the warning?
+  }, []);
 
   // TODO: can we just do eventId not whole event?
   // TODO: should they be able to un-rsvp
@@ -49,7 +48,7 @@ function HomePage(props) {
     try {
       const res = await fetch("/rsvp", {
         method: "POST",
-        headers: { "Content-Type": "applicatino/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event: event, rsvpStatus: rsvp }),
       });
       if (res.err) {
@@ -62,12 +61,10 @@ function HomePage(props) {
         await loadPreviews();
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 
-  // TODO: more style so it the cards don't overlap, there's less space between rows, etc.
-  // TODO: message if no upcoming events
   return (
     <div className="HomePage">
       <BasePage>

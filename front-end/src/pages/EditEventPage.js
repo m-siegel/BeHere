@@ -44,8 +44,8 @@ function EditEventPage(props) {
       const eId = params.eventId;
       try {
         const res = await fetch(`/api/getEvent/:${eId}`);
-        if (await res.json().event) {
-          const event = await res.json().event;
+        const event = await res.json().event;
+        if (!!event) {
           return event;
         } else {
           console.log("creating a default event");

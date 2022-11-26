@@ -13,7 +13,8 @@ function useAlert() {
             className={`alert alert-${type} alert-dismissible fade show`}
             role="alert"
           >
-            <strong>{`${heading}`}</strong> {message}
+            <strong>{`${heading ? heading : ""}`}</strong>{" "}
+            {message ? message : ""}
             <button
               type="button"
               className="btn-close"

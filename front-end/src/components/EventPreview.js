@@ -7,7 +7,7 @@ import EventPreviewNavbar from "./EventPreviewNavbar.js";
 
 // Make component based on previews object
 
-function EventPreview({ previewObject, userId, onRSVP, onLike }) {
+function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
   const info = previewObject;
   let rsvped = "";
   rsvped = info.rsvpYes?.includes(userId) ? "Yes" : rsvped;
@@ -24,7 +24,7 @@ function EventPreview({ previewObject, userId, onRSVP, onLike }) {
   }
 
   return (
-    <div className="EventPreview">
+    <div className={`EventPreview ${className}`}>
       <div className="card">
         <div className="card-body">
           <h4 className="card-title">{info.name}</h4>
@@ -56,6 +56,7 @@ EventPreview.propTypes = {
   userId: PropTypes.string.isRequired,
   onRSVP: PropTypes.func.isRequired,
   onLike: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 export default EventPreview;

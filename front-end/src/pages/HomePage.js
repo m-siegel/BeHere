@@ -16,6 +16,8 @@ function HomePage(props) {
 
   const [AlertComponent, setAlert] = useAlert();
 
+  let counter = 0;
+
   async function loadPreviews() {
     const res = await (await fetch("/api/getEventPreviews")).json();
     if (res && res.events) {
@@ -123,6 +125,7 @@ function HomePage(props) {
                   userId={user._id}
                   onRSVP={handleRSVP}
                   onLike={handleLike}
+                  className={`color-${counter++ % 3}`}
                 ></EventPreview>
               </div>
             ))

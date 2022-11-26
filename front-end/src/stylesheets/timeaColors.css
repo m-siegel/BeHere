@@ -1,8 +1,11 @@
 :root {
   --timea-dark-brown: #282323;
-  --timea-orange: #EE7549;
+  /* --timea-orange: #EE7549; */
+  --timea-orange: #ffa280;
   --timea-yellow: #FBE583;
-  --timea-blue: #62D1DF;
-  --timea-purple: #9D6ED4;
+  /* --timea-blue: #62D1DF; */
+  --timea-blue: #a0f4ff;
+  /* --timea-purple: #9D6ED4; */
+  --timea-purple: #cea3ff;
 
 }

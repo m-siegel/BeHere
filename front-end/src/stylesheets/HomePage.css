@@ -12,3 +12,15 @@
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
+.HomePage .EventPreview.color-0 .card {
+  background-color: var(--timea-orange);
+}
+
+.HomePage .EventPreview.color-1 .card {
+  background-color: var(--timea-blue);
+}
+
+.HomePage .EventPreview.color-2 .card {
+  background-color: var(--timea-purple);
+}

@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { PropTypes } from "prop-types";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
+import "../stylesheets/DashboardPage.css";
 
 function DashboardPage(props) {
   const [previews, setPreviews] = useState([]);
@@ -13,8 +14,7 @@ function DashboardPage(props) {
   const [user, setUser] = useState({});
 
   const [AlertComponent, setAlert] = useAlert();
-  // need a getFollowingEvents function
-  // need a getMyEvents function
+
   const loadData = useCallback(async () => {
     let data;
     try {
@@ -85,11 +85,23 @@ function DashboardPage(props) {
       <h1>My Dashboard</h1>
       <AlertComponent />
       <div className="filter-buttons">
-        <button id="btnMyEvents" onClick={displayMyEvents}>
-          My events
+        <button
+          id="btnMyEvents"
+          className={
+            myEventDisplayed ? "btn btn-primary" : "btn btn-outline-primary"
+          }
+          onClick={displayMyEvents}
+        >
+          Events I've created
         </button>
-        <button id="btnFollowing" onClick={displayFollowingEvents}>
-          Following
+        <button
+          id="btnFollowing"
+          className={
+            myEventDisplayed ? "btn btn-outline-primary" : "btn btn-primary"
+          }
+          onClick={displayFollowingEvents}
+        >
+          Events I'm following
         </button>
       </div>
       <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">

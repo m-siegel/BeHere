@@ -17,6 +17,13 @@
   color: var(--timea-dark-brown);
 }
 
+.BasePage header {
+   /* sticky navbar */
+   position: sticky;
+   top: 0;
+   z-index: 1;
+}
+
 .BasePage .Navbar .col:hover {
   background-color: #FFF;
 }

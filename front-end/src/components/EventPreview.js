@@ -75,75 +75,77 @@ function EventPreview({ previewObject, userId, onRSVP }) {
             </dl>
 
             <nav className="row">
-              <IconButtonDropdown
-                className="rsvp-dropdown"
-                icon={
-                  rsvped ? (
-                    <IconCalendarHeartFilled color="blue" />
-                  ) : (
-                    <IconCalendarHeartOutline />
-                  )
-                }
-                descriptionText="RSVP"
-                dropdownMenu={[
-                  // TODO: these should be RSVPs that update the event following info for the userId and maybe event
-                  <button
-                    className={rsvped === "Yes" ? "btn active" : "btn"}
-                    onClick={() => {
-                      handleClickRSVP("Yes");
-                    }}
-                  >
-                    Going
-                  </button>,
-                  <button
-                    className={rsvped === "Maybe" ? "btn active" : "btn"}
-                    onClick={() => {
-                      handleClickRSVP("Maybe");
-                    }}
-                  >
-                    Maybe
-                  </button>,
-                  <button
-                    className={rsvped === "No" ? "btn active" : "btn"}
-                    onClick={() => {
-                      handleClickRSVP("No");
-                    }}
-                  >
-                    Not Going
-                  </button>,
-                  <button
-                    className={rsvped === "Follow" ? "btn active" : "btn"}
-                    onClick={() => {
-                      handleClickRSVP("Follow");
-                    }}
-                  >
-                    Following
-                  </button>,
-                ]}
-              ></IconButtonDropdown>
-
-              <IconLinkButton
-                className="col"
-                icon={<IconStarOutline />}
-                descriptionText="Like"
-                linkPath={null} // TODO: see relevant todo above
-              ></IconLinkButton>
-              <IconLinkButton
+              <IconLinkButton // Details button
                 className="col"
                 icon={<IconThreeDots />}
                 descriptionText="Details"
                 linkPath={`/event/${info._id}`}
               ></IconLinkButton>
-              {info.creator === userId ? (
-                <IconLinkButton
-                  className="col"
-                  icon={<IconPencilOutline />}
-                  descriptionText="Edit"
-                  linkPath={`/edit/${info._id}`}
-                ></IconLinkButton>
-              ) : (
-                <div className="col"></div>
-              )}
+              <IconLinkButton // Like button
+                className="col"
+                icon={<IconStarOutline />}
+                descriptionText="Like"
+                linkPath={null} // TODO: see relevant todo above
+              ></IconLinkButton>
+              {
+                // RSVP Menu if not created by user
+                info.creator !== userId ? (
+                  <IconButtonDropdown
+                    className="rsvp-dropdown col"
+                    icon={
+                      rsvped ? (
+                        <IconCalendarHeartFilled color="blue" />
+                      ) : (
+                        <IconCalendarHeartOutline />
+                      )
+                    }
+                    descriptionText="RSVP"
+                    dropdownMenu={[
+                      // TODO: these should be RSVPs that update the event following info for the userId and maybe event
+                      <button
+                        className={rsvped === "Yes" ? "btn active" : "btn"}
+                        onClick={() => {
+                          handleClickRSVP("Yes");
+                        }}
+                      >
+                        Going
+                      </button>,
+                      <button
+                        className={rsvped === "Maybe" ? "btn active" : "btn"}
+                        onClick={() => {
+                          handleClickRSVP("Maybe");
+                        }}
+                      >
+                        Maybe
+                      </button>,
+                      <button
+                        className={rsvped === "No" ? "btn active" : "btn"}
+                        onClick={() => {
+                          handleClickRSVP("No");
+                        }}
+                      >
+                        Not Going
+                      </button>,
+                      <button
+                        className={rsvped === "Follow" ? "btn active" : "btn"}
+                        onClick={() => {
+                          handleClickRSVP("Follow");
+                        }}
+                      >
+                        Following
+                      </button>,
+                    ]}
+                  ></IconButtonDropdown>
+                ) : (
+                  // Edit button if created by user
+                  <IconLinkButton
+                    className="col"
+                    icon={<IconPencilOutline />}
+                    descriptionText="Edit"
+                    linkPath={`/edit/${info._id}`}
+                  ></IconLinkButton>
+                )
+              }
             </nav>
           </div>
         </div>

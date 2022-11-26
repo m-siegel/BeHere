@@ -24,7 +24,7 @@ function RegisterPage() {
               <AlertComponent />
               <h1>Register</h1>
               <RegisterForm setAlert={setAlert} />
-              <div>
+              <div className="bottom-link">
                 Already have an account?{" "}
                 <Link to="/login" className="link">
                   Go to login.

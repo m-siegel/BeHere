@@ -34,3 +34,7 @@
 .RegisterPage .link {
   color: var(--timea-blue)
 }
+
+.RegisterPage .bottom-link {
+  margin-bottom: 10vh;
+}

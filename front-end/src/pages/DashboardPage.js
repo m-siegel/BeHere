@@ -2,12 +2,11 @@
 
 import BasePage from "../components/base-page-components/BasePage.js";
 import { useState, useEffect, useCallback } from "react";
-import { PropTypes } from "prop-types";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
 import "../stylesheets/DashboardPage.css";
 
-function DashboardPage(props) {
+function DashboardPage() {
   const [previews, setPreviews] = useState([]);
   const [myEventDisplayed, setMyEventDisplayed] = useState(true);
   const [checkedEvents, setCheckedEvents] = useState(false);
@@ -112,7 +111,6 @@ function DashboardPage(props) {
                 previewObject={p}
                 userId={user._id}
                 onRSVP={handleRSVP}
-                //key={p._id}
               ></EventPreview>
             </div>
           ))
@@ -130,7 +128,7 @@ function DashboardPage(props) {
 }
 
 DashboardPage.propTypes = {
-  // Define prop-types for Dashboard Page
+  // Not using props
 };
 
 export default DashboardPage;

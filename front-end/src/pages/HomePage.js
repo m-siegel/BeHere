@@ -16,8 +16,6 @@ function HomePage(props) {
 
   const [AlertComponent, setAlert] = useAlert();
 
-  let counter = 0;
-
   async function loadPreviews() {
     const res = await (await fetch("/api/getEventPreviews")).json();
     if (res && res.events) {
@@ -118,14 +116,14 @@ function HomePage(props) {
         <AlertComponent />
         <div className="row">
           {previews.length ? (
-            previews.map((p) => (
+            previews.map((p, i) => (
               <div className="col" key={p._id}>
                 <EventPreview
                   previewObject={p}
                   userId={user._id}
                   onRSVP={handleRSVP}
                   onLike={handleLike}
-                  className={`color-${counter++ % 3}`}
+                  className={`color-${i % 3}`}
                 ></EventPreview>
               </div>
             ))

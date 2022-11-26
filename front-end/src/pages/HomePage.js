@@ -45,6 +45,15 @@ function HomePage(props) {
   // TODO: can we just do eventId not whole event?
   // TODO: should they be able to un-rsvp
   async function handleRSVP(event, rsvp) {
+    setAlert({
+      type: "success",
+      message: "💌 RSVPing...",
+    });
+    setTimeout(() => {
+      setAlert({
+        message: "",
+      });
+    }, 2000);
     try {
       const res = await fetch("/rsvp", {
         method: "POST",
@@ -66,6 +75,15 @@ function HomePage(props) {
   }
 
   async function handleLike(eventId) {
+    setAlert({
+      type: "success",
+      message: "👍 Updating like...",
+    });
+    setTimeout(() => {
+      setAlert({
+        message: "",
+      });
+    }, 2000);
     try {
       const res = await fetch("/toggleLike", {
         method: "POST",

@@ -102,7 +102,13 @@ function EventPreview({ previewObject, userId, onRSVP, onLike }) {
                       <IconStarOutline />
                     )
                   }
-                  descriptionText="Like"
+                  descriptionText={
+                    info.likes?.length
+                      ? info.likes.length === 1
+                        ? "1 like"
+                        : `${info.likes.length} likes`
+                      : "Like"
+                  }
                   onClick={handleClickLike}
                 ></IconOnClickButton>
               </div>

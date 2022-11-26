@@ -229,7 +229,7 @@ export async function getEventPreviews(organization) {
 eventsConnect.getEventPreviews = getEventPreviews;
 
 /**
- * Returns all of the events in the org (for event previews).
+ * Returns all of the events that the user created.
  * @param {string} id      The ID of the user.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
@@ -238,11 +238,11 @@ eventsConnect.getEventPreviews = getEventPreviews;
  *                            }
  */
 // Event previews -- need eventId, name, organization, creator, tags, location/time
-export async function getEventPreviewsForUser(id) {
+export async function getUserCreatedEventPreviews(id) {
   // create date/time variable to use within db call query
   // const timeNow = new Date().get
   const client = new MongoClient(uri);
-  const userId = new ObjectId(id);
+  //const userId = new ObjectId(id);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -251,7 +251,7 @@ export async function getEventPreviewsForUser(id) {
       .find(
         {
           // how will we query? by userId or email?
-          creator: userId,
+          creator: id,
           //start: { $gte: /* today's variable */}
         },
         {
@@ -266,7 +266,9 @@ export async function getEventPreviewsForUser(id) {
       )
       .sort({
         start: 1,
-      });
+      })
+      .toArray();
+    console.log(res);
     if (res) {
       return {
         success: true,
@@ -293,7 +295,7 @@ export async function getEventPreviewsForUser(id) {
     client.close();
   }
 }
-eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
+eventsConnect.getUserCreatedEventPreviews = getUserCreatedEventPreviews;
 
 /**
  * Returns all of the events a specific user follows.
@@ -306,7 +308,7 @@ eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
  */
 export async function getUserFollowedEventPreviews(id) {
   const client = new MongoClient(uri);
-  const userId = new ObjectId(id);
+  //const userId = new ObjectId(id);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -314,7 +316,7 @@ export async function getUserFollowedEventPreviews(id) {
     const res = await collection
       .find(
         {
-          followedBy: userId,
+          $or: [{ rsvpYes: id }, { rsvpMaybe: id }],
           //start: { $gte: /* today's variable */}
         },
         {
@@ -329,7 +331,9 @@ export async function getUserFollowedEventPreviews(id) {
       )
       .sort({
         start: 1,
-      });
+      })
+      .toArray();
+    console.log("followed events: ", res);
     if (res) {
       return {
         success: true,
@@ -356,13 +360,14 @@ export async function getUserFollowedEventPreviews(id) {
     client.close();
   }
 }
+eventsConnect.getUserFollowedEventPreviews = getUserFollowedEventPreviews;
 
 /**
  * Returns one event (for expanded view)
  * @param {string} eventId      The ID of one event.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
- *                            events: An array of event objects, or null
+ *                            event: An event object, or null
  *                            err: null, or the error that was caught
  *                            }
  */

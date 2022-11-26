@@ -16,7 +16,7 @@ import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 
 // TODO: split into compontents
 // TODO: fix weird spacing that's new
-function EventPreview({ previewObject, userId, onRSVP }) {
+function EventPreview({ previewObject, userId, onRSVP, onLike }) {
   const info = previewObject;
   let rsvped = "";
   rsvped = info.followedBy?.includes(userId) ? "Follow" : rsvped;
@@ -27,6 +27,10 @@ function EventPreview({ previewObject, userId, onRSVP }) {
   function handleClickRSVP(rsvpStatus) {
     // TODO: un-rsvp if they click their current state?
     onRSVP(info, rsvpStatus);
+  }
+
+  function handleClickLike() {
+    onLike(info._id);
   }
 
   // TODO: handle likes like rsvps, toggle, check with Tim
@@ -74,19 +78,35 @@ function EventPreview({ previewObject, userId, onRSVP }) {
               </div>
             </dl>
 
+            {
+              // Details button
+            }
             <nav className="row">
-              <IconLinkButton // Details button
+              <IconLinkButton
                 className="col"
                 icon={<IconThreeDots />}
                 descriptionText="Details"
                 linkPath={`/event/${info._id}`}
               ></IconLinkButton>
-              <IconLinkButton // Like button
-                className="col"
-                icon={<IconStarOutline />}
-                descriptionText="Like"
-                linkPath={null} // TODO: see relevant todo above
-              ></IconLinkButton>
+
+              {
+                // Like button
+                // Div so aligns like others
+              }
+              <div className="col">
+                <IconOnClickButton
+                  icon={
+                    info.likes?.includes(userId) ? (
+                      <IconStarFilled color="blue" />
+                    ) : (
+                      <IconStarOutline />
+                    )
+                  }
+                  descriptionText="Like"
+                  onClick={handleClickLike}
+                ></IconOnClickButton>
+              </div>
+
               {
                 // RSVP Menu if not created by user
                 info.creator !== userId ? (
@@ -158,6 +178,7 @@ EventPreview.propTypes = {
   previewObject: PropTypes.object.isRequired,
   userId: PropTypes.string.isRequired,
   onRSVP: PropTypes.func.isRequired,
+  onLike: PropTypes.func.isRequired,
 };
 
 export default EventPreview;

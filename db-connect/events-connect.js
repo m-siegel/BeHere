@@ -195,6 +195,7 @@ export async function getEventPreviews(organization) {
           rsvpYes: 1,
           rsvpMaybe: 1,
           rsvpNo: 1,
+          likes: 1,
         }
       )
       .sort({
@@ -592,14 +593,19 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
 // TODO -- all events where user is creator
 // TODO -- all events for an organization
 
-export async function toggleLike(eventId, userId) {
+export async function toggleLike(eventIdString, userId) {
   const client = new MongoClient(uri);
+  // MEA -- DELETE THIS CHANGE
+  const eventId = new ObjectId(eventIdString);
   try {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
-    const query = { _id: eventId, likes: userId };
-    const hasAlreadyLiked = await collection.findOne(query);
+    const query = { _id: eventId };
+    const hasAlreadyLiked = await collection.findOne({
+      _id: eventId,
+      likes: userId,
+    });
     const addLikeInfo = { $push: { likes: userId } };
     const removeLikeInfo = { $pull: { likes: userId } };
     if (hasAlreadyLiked) {
@@ -622,11 +628,12 @@ export async function toggleLike(eventId, userId) {
       };
     }
     const updateRes = await collection.updateOne(query, addLikeInfo);
+    console.log("updateRes: ", updateRes);
     if (updateRes.acknowledged && updateRes.matchedCount) {
       return {
         // TODO -- discuss what will be passed back
         success: true,
-        msg: "You've removed this like successfully.",
+        msg: "You've added this like successfully.",
         // anything else?
         err: null,
       };
@@ -634,12 +641,12 @@ export async function toggleLike(eventId, userId) {
     return {
       // TODO -- discuss what will be passed back
       success: false,
-      msg: "An error has prevented you from unliking this event.",
+      msg: "An error has prevented you from liking this event.",
       // anything else?
       err: null,
     };
   } catch (e) {
-    console.log("Error: ", e);
+    console.error("Error: ", e);
     return { status: false, error: e };
   }
 }

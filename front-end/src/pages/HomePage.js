@@ -65,6 +65,32 @@ function HomePage(props) {
     }
   }
 
+  async function handleLike(eventId) {
+    try {
+      const res = await fetch("/toggleLike", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: eventId }),
+      });
+      if (res.err) {
+        setAlert({
+          type: "warning",
+          message: "Error toggling 'like'. Please try again later.",
+        });
+        return;
+      } else {
+        await loadPreviews();
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+      setAlert({
+        type: "warning",
+        message: "Error toggling 'like'. Please try again later.",
+      });
+    }
+  }
+
   return (
     <div className="HomePage">
       <BasePage>
@@ -76,8 +102,9 @@ function HomePage(props) {
               <div className="col" key={p._id}>
                 <EventPreview
                   previewObject={p}
-                  userId={user._id} // TODO: make naming consistent
+                  userId={user._id}
                   onRSVP={handleRSVP}
+                  onLike={handleLike}
                 ></EventPreview>
               </div>
             ))

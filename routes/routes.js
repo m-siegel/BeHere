@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import eventsConnect from "../db-connect/events-connect.js";
+import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
 import { eventify } from "../util/event-util.js";
 import { registerUser } from "../util/user-util.js";
 import bcrypt from "bcrypt";
@@ -134,24 +134,6 @@ router.post("/logout", (req, res) => {
 
 // TODO -- "/DeleteEvent"
 
-// Mea
-
-// I don't think we can get the user's session passport info
-// from the front end, so we can use this.
-// post request so it doesn't show in the url
-router.post("/getPassportUser", (req, res) => {
-  // TODO: fix wherever this was used
-  const user = req.session?.passport?.user;
-  if (user) {
-    return res.json(req.session?.passport?.user);
-  }
-  return res.json({});
-});
-
-// router.get("/test", (req, res) => {
-//   res.send("testing... testing... tested!");
-// });
-
 /**
  * Responds with events for the dashboard page
  */
@@ -191,6 +173,45 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
       message: "Encountered error in /api/getEventPreviews/dash",
       events: null,
       err: e,
+    });
+  }
+});
+
+// Movec
+// Mea
+
+// I don't think we can get the user's session passport info
+// from the front end, so we can use this.
+// post request so it doesn't show in the url
+router.post("/getPassportUser", (req, res) => {
+  // TODO: fix wherever this was used
+  const user = req.session?.passport?.user;
+  if (user) {
+    return res.json(req.session?.passport?.user);
+  }
+  return res.json({});
+});
+
+router.post("/toggleLike", async (req, res) => {
+  const userId = req.session?.passport?.user?._id;
+  const eventId = req.body.eventId;
+  if (userId && eventId) {
+    try {
+      const dbResponse = await toggleLike(eventId, userId);
+      console.log("dbResponse: ", dbResponse);
+      return res.json(dbResponse);
+    } catch (e) {
+      return res.json({
+        success: false,
+        msg: "An error occurred when connecting to the database.",
+        err: e,
+      });
+    }
+  } else {
+    return res.json({
+      success: false,
+      msg: `Could not toggle like for user ${userId} and event ${eventId}`,
+      err: null,
     });
   }
 });

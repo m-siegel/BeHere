@@ -110,16 +110,6 @@ function Navbar() {
           ></IconOnClickButton>,
         ]}
       ></IconButtonDropdown>
-      <button
-        onClick={async () => {
-          const res = await fetch("/getPassportUser", { method: "POST" });
-          if (res) {
-            console.log(await res.json());
-          } else {
-            console.log("res is null");
-          }
-        }}
-      ></button>
     </nav>
   );
 }

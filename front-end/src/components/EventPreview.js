@@ -19,7 +19,6 @@ import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 function EventPreview({ previewObject, userId, onRSVP, onLike }) {
   const info = previewObject;
   let rsvped = "";
-  rsvped = info.followedBy?.includes(userId) ? "Follow" : rsvped;
   rsvped = info.rsvpYes?.includes(userId) ? "Yes" : rsvped;
   rsvped = info.rsvpMaybe?.includes(userId) ? "Maybe" : rsvped;
   rsvped = info.rsvpNo?.includes(userId) ? "No" : rsvped;
@@ -151,14 +150,6 @@ function EventPreview({ previewObject, userId, onRSVP, onLike }) {
                         }}
                       >
                         Not Going
-                      </button>,
-                      <button
-                        className={rsvped === "Follow" ? "btn active" : "btn"}
-                        onClick={() => {
-                          handleClickRSVP("Follow");
-                        }}
-                      >
-                        Following
                       </button>,
                     ]}
                   ></IconButtonDropdown>

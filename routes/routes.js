@@ -1,25 +1,26 @@
 import express from "express";
 import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
+import userConnect from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
 import { registerUser } from "../util/user-util.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
 
-router.get("/api/getEvent/:id", (req, res) => {
-  const eventId = req.params.id;
-  console.log(`The event id is: ${eventId}`);
-  res.json({
-    name: "Test event",
-    description: "a test event",
-    organization: "a test org",
-    location: "San Jose",
-    start: "8:00",
-    finish: "12:00",
-    tags: ["sports"],
-  });
-});
+// router.get("/api/getEvent/:id", (req, res) => {
+//   const eventId = req.params.id;
+//   console.log(`The event id is: ${eventId}`);
+//   res.json({
+//     name: "Test event",
+//     description: "a test event",
+//     organization: "a test org",
+//     location: "San Jose",
+//     start: "8:00",
+//     finish: "12:00",
+//     tags: ["sports"],
+//   });
+// });
 
 router.post(
   "/login",
@@ -177,7 +178,7 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
   }
 });
 
-// Movec
+// Moved
 // Mea
 
 // I don't think we can get the user's session passport info
@@ -190,6 +191,47 @@ router.post("/getPassportUser", (req, res) => {
     return res.json(req.session?.passport?.user);
   }
   return res.json({});
+});
+
+router.post("/api/getUsernameById", async (req, res) => {
+  const userId = req.body.userId;
+  if (userId) {
+    try {
+      const dbResult = await userConnect.getUserById(userId);
+      // console.log("dbResult: ", dbResult);
+      // return res.send();
+      if (dbResult.user?.username) {
+        return res.json({
+          success: true,
+          message: "Username found.",
+          username: dbResult.user.username,
+          err: null,
+        });
+      } else {
+        return res.json({
+          success: false,
+          message: `No ${dbResult.user ? "user" : "username"} found.`,
+          username: "",
+          err: null,
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      return res.json({
+        success: false,
+        message: "An error was encountered when finding the username.",
+        username: "",
+        err: e,
+      });
+    }
+  } else {
+    return res.json({
+      success: false,
+      message: "No user id found.",
+      username: null,
+      err: null,
+    });
+  }
 });
 
 router.post("/toggleLike", async (req, res) => {
@@ -210,7 +252,7 @@ router.post("/toggleLike", async (req, res) => {
   } else {
     return res.json({
       success: false,
-      msg: `Could not toggle like for user ${userId} and event ${eventId}`,
+      msg: `Could not toggle like for user ${userId} and event ${eventId}.`,
       err: null,
     });
   }
@@ -256,6 +298,38 @@ router.get("/api/getEventPreviews", async (req, res) => {
         "Error encountered with getting user organizations from session.",
       events: null,
       err: e,
+    });
+  }
+});
+
+/**
+ * Gets the specified events Sends a json response with an object
+ * { success: Boolean,
+ *  msg: a string explaining the operation outcome,
+ *  events: An array of event objects, or null
+ *  err: null, or the error that was caught
+ *  }
+ */
+router.post("/api/getOneEvent", async (req, res) => {
+  if (req.body.eventId) {
+    try {
+      const eventsResponse = await eventsConnect.getOneEvent(req.body.eventId);
+      return res.json(eventsResponse);
+    } catch (e) {
+      console.error(e);
+      return res.json({
+        success: false,
+        message: "Encountered error in /api/getOneEvent",
+        event: null,
+        err: e,
+      });
+    }
+  } else {
+    return res.json({
+      success: false,
+      message: "No event id found",
+      event: null,
+      err: null,
     });
   }
 });

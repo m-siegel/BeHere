@@ -418,8 +418,6 @@ eventsConnect.getOneEvent = getOneEvent;
 export async function eventRsvp(user, event, rsvpStatus) {
   const client = new MongoClient(uri);
   const eventId = new ObjectId(event._id);
-  // BUG: this is creating a new userId that doesn't match the param string
-  // TODO: do we want to pass/store all these as objectIds or as strings?
   const userId = new ObjectId(user._id);
   try {
     await client.connect();

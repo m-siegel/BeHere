@@ -1,0 +1,78 @@
+@import "../stylesheets/timeaColors.css";
+
+/* General styling */
+
+.EventDetailsPage .row {
+  margin: 0;
+}
+
+/* Title styling */
+
+.EventDetailsPage .title-row {
+  z-index: 0;
+  text-align: center;
+}
+
+.EventDetailsPage .title-row .card {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 4.5em;
+  overflow: scroll;
+  background-color: var(--timea-blue);
+}
+
+.EventDetailsPage .title-row .card .card-body{
+  padding: 0;
+}
+
+/* Description and RSVP column styling */
+
+.EventDetailsPage .col.description-and-rsvps {
+  height: 75vh;
+  overflow: scroll;
+}
+
+/* Description and tags styling */
+
+.EventDetailsPage .EventDetailsDescription {
+  /* z-index: -1; */
+  background-color: var(--timea-purple);
+  /* margin-top: 0; */
+  margin-bottom: 5px;
+}
+
+.EventDetailsPage .EventDetailsDescription .card {
+  width: auto;
+}
+
+.EventDetailsPage .tags-list {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.EventDetailsPage .tags-list li {
+  display: inline-block;
+  padding: 0 0.5em;
+  border: 1px dotted #FFF;
+  margin: 0.1em
+}
+
+/* RSVPs and likes styling */
+
+.EventDetailsPage .EventDetailsLikesRsvps {
+  /* z-index: -1; */
+   background-color: var(--timea-blue);
+   margin-bottom: 5px;
+}
+
+.EventDetailsPage .EventDetailsLikesRsvps .card {
+  /* z-index: -1; */
+   background-color: var(--timea-blue);
+}
+
+/* Location and time styling */
+
+.EventDetailsPage .EventDetailsLocationTime {
+  /* z-index: -1; */
+  background-color: var(--timea-orange);
+}

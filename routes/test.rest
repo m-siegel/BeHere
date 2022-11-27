@@ -14,16 +14,23 @@
 #   "password": "keepitsecret"
 # }
 
-POST http://localhost:3001/api/register
+# POST http://localhost:3001/api/register
+# content-type: application/json
+
+# {
+#   "firstName": "Frodo",
+#   "lastName": "Baggins",
+#   "username": "Ring Bearer",
+#   "contactEmail": "mr_underhill@hobbiton.org",
+#   "orgEmail": "frodo123@hobbiton.org",
+#   "password": "keepitsecret"
+# }
+
+# GET http://localhost:3001/api/getEventPreviews
+
+POST http://localhost:3001/api/getOneEvent
 content-type: application/json
 
 {
-  "firstName": "Frodo",
-  "lastName": "Baggins",
-  "username": "Ring Bearer",
-  "contactEmail": "mr_underhill@hobbiton.org",
-  "orgEmail": "frodo123@hobbiton.org",
-  "password": "keepitsecret"
+  "eventId": "637848ee077b5a309cc4eaa8"
 }
-
-# GET http://localhost:3001/api/getEventPreviews

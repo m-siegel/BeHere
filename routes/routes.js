@@ -7,18 +7,24 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
-router.get("/api/getEvent/:id", (req, res) => {
+router.get("/api/getEvent/:id", async (req, res) => {
   const eventId = req.params.id;
   console.log(`The event id is: ${eventId}`);
-  res.json({
-    name: "Test event",
-    description: "a test event",
-    organization: "a test org",
-    location: "San Jose",
-    start: "8:00",
-    finish: "12:00",
-    tags: ["sports"],
-  });
+  const dbRes = await eventsConnect.getOneEvent(eventId);
+  console.log(dbRes);
+  if (dbRes.success) {
+    res.json(dbRes.event);
+  } else {
+    res.json({
+      name: "Test event",
+      description: "a test event",
+      organization: "a test org",
+      location: "San Jose",
+      start: "8:00",
+      finish: "12:00",
+      tags: ["sports"],
+    });
+  }
 });
 
 router.post(
@@ -61,7 +67,7 @@ router.post("/getAuthentication", (req, res) => {
 /**
  * Responds indicating whether or not an event is created or not
  */
-router.post("/create-event", checkAuthenticated, async (req, res) => {
+router.post("/api/create-event", checkAuthenticated, async (req, res) => {
   const event = eventify(req.body);
   const dbRes = await eventsConnect.addEvent(event);
   if (dbRes.success) {
@@ -83,7 +89,7 @@ router.post("/create-event", checkAuthenticated, async (req, res) => {
 /**
  * Responds indicating whether an event has been updated.
  */
-router.post("/edit-event", checkAuthenticated, async (req, res) => {
+router.post("/api/edit-event", checkAuthenticated, async (req, res) => {
   const dbRes = await eventsConnect.updateEvent(req.body);
   if (dbRes.success) {
     return res.json({
@@ -156,33 +162,23 @@ router.post("/getPassportUser", (req, res) => {
  * Responds with events for the dashboard page
  */
 router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
-  const orgName = req?.session?.passport?.user?.organizations;
+  //const orgName = req?.session?.passport?.user?.organizations;
 
   try {
     if (req.params.type === "created") {
       // retrieve all events that the user created
-      const response = await eventsConnect.getEventPreviewsForUser(
-        req.session.passport.user.id
+      console.log("within created events");
+      const response = await eventsConnect.getUserCreatedEventPreviews(
+        req.session.passport.user._id
       );
-      //const eventsResponse = await response.json();
-      return res.json({
-        success: true,
-        message: "",
-        events: response,
-        err: null,
-      });
+      return res.json(response);
     } else {
+      console.log("within followed events");
       // retreive all events that the user follows
       const response = await eventsConnect.getUserFollowedEventPreviews(
-        req.session.passport.user.id
+        req.session.passport.user._id
       );
-      const eventsResponse = await response.json();
-      return res.json({
-        success: true,
-        message: "",
-        events: eventsResponse,
-        err: null,
-      });
+      return res.json(response);
     }
   } catch (e) {
     console.log("Error: ", e);

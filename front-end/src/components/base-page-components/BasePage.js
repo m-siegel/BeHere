@@ -8,15 +8,15 @@ import "../../stylesheets/BasePage.css";
 function BasePage(props) {
   return (
     <div className="BasePage">
+      <header>
+        <Navbar></Navbar>
+      </header>
       <div className="container-fluid">
-        <header>
-          <Navbar></Navbar>
-        </header>
         <main>{props.children}</main>
-        <footer>
-          <Footer></Footer>
-        </footer>
       </div>
+      <footer>
+        <Footer></Footer>
+      </footer>
     </div>
   );
 }

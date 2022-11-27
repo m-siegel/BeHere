@@ -50,3 +50,11 @@
   width: 1em;
   height: 1em;
 }
+
+.BasePage .card {
+  color: var(--timea-dark-brown);
+}
+
+.BasePage .card h2 {
+  text-align: center;
+}

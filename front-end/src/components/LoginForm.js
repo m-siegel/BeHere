@@ -59,7 +59,7 @@ export default function LoginForm() {
           </div>
           <br />
           <p id="under-btn">
-            Not a member? <Link to="signupPage">Sign up</Link>.
+            Not a member? <Link to="/register">Sign up</Link>.
           </p>
         </form>
       </div>

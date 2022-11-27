@@ -1,26 +1,29 @@
 // By Tim
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+//import { useParams } from "react-router-dom";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventForm from "../components/EventForm.js";
-import PropTypes from "prop-types";
+import useAlert from "../hooks/useAlert.js";
+//import PropTypes from "prop-types";
 
-function EditEventPage(props) {
-  const params = useParams();
+function EditEventPage() {
+  //  const { eventId } = useParams();
+  // const [event, setEvent] = useState({});
+  const [AlertComponent, setAlert] = useAlert();
 
-  const defaultEvent = () => {
-    return {
-      _id: "12345",
-      name: "testing name",
-      description: "testing description",
-      organization: "test org",
-      location: "test location",
-      start: "testing time",
-      finish: "testing time",
-      tags: ["sports"],
-    };
-  };
-  const [event, setEvent] = useState(defaultEvent());
+  // const defaultEvent = () => {
+  //   return {
+  //     _id: "12345",
+  //     name: "testing name",
+  //     description: "testing description",
+  //     organization: "test org",
+  //     location: "test location",
+  //     start: "testing time",
+  //     finish: "testing time",
+  //     tags: ["sports"],
+  //   };
+  // };
+
   // function loadId() {
   //   setEventId(ObjectID("6378466d077b5a309cc4eaa7"))
   // }
@@ -39,33 +42,19 @@ function EditEventPage(props) {
   //   }
   // }
 
-  useEffect(() => {
-    const getEvent = async () => {
-      const eId = params.eventId;
-      try {
-        const res = await fetch(`/api/getEvent/:${eId}`);
-        const event = await res.json().event;
-        if (!!event) {
-          return event;
-        } else {
-          console.log("creating a default event");
-          return defaultEvent();
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    setEvent(() => {
-      getEvent();
-    });
-  }, [params.eventId]);
+  // useEffect(() => {
+  //   const event = getEvent(eventId);
+
+  //   setEvent(event);
+  // }, [getEvent, eventId]);
 
   return (
     <BasePage>
-      <div class="card">
-        <div class="card-body">
+      <AlertComponent />
+      <div className="card">
+        <div className="card-body">
           <h1>Edit your event</h1>
-          <EventForm event={event} />
+          <EventForm setAlert={setAlert} />
         </div>
       </div>
     </BasePage>
@@ -73,7 +62,7 @@ function EditEventPage(props) {
 }
 
 EditEventPage.propTypes = {
-  event: PropTypes.object,
+  //eventId: PropTypes.string,
 };
 
 export default EditEventPage;

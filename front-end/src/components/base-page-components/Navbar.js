@@ -51,16 +51,18 @@ function Navbar() {
       ></IconLinkButton>
 
       <IconLinkButton
-        className={pathname === "/edit" ? "nav-a col active" : "nav-a col"}
+        className={
+          pathname === "/create-event" ? "nav-a col active" : "nav-a col"
+        }
         icon={
-          pathname === "/edit" ? (
+          pathname === "/create-event" ? (
             <IconPlusSquareFilled color="blue" />
           ) : (
             <IconPlusSquareOutline />
           )
         }
         descriptionText="Create"
-        linkPath={"/edit"}
+        linkPath={"/create-event"}
       ></IconLinkButton>
 
       <IconLinkButton

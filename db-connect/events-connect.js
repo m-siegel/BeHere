@@ -230,7 +230,7 @@ export async function getEventPreviews(organization) {
 eventsConnect.getEventPreviews = getEventPreviews;
 
 /**
- * Returns all of the events in the org (for event previews).
+ * Returns all of the events that the user created.
  * @param {string} id      The ID of the user.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
@@ -239,11 +239,11 @@ eventsConnect.getEventPreviews = getEventPreviews;
  *                            }
  */
 // Event previews -- need eventId, name, organization, creator, tags, location/time
-export async function getEventPreviewsForUser(id) {
+export async function getUserCreatedEventPreviews(id) {
   // create date/time variable to use within db call query
   // const timeNow = new Date().get
   const client = new MongoClient(uri);
-  const userId = new ObjectId(id);
+  //const userId = new ObjectId(id);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -252,7 +252,7 @@ export async function getEventPreviewsForUser(id) {
       .find(
         {
           // how will we query? by userId or email?
-          creator: userId,
+          creator: id,
           //start: { $gte: /* today's variable */}
         },
         {
@@ -267,7 +267,9 @@ export async function getEventPreviewsForUser(id) {
       )
       .sort({
         start: 1,
-      });
+      })
+      .toArray();
+    console.log(res);
     if (res) {
       return {
         success: true,
@@ -294,7 +296,7 @@ export async function getEventPreviewsForUser(id) {
     client.close();
   }
 }
-eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
+eventsConnect.getUserCreatedEventPreviews = getUserCreatedEventPreviews;
 
 /**
  * Returns all of the events a specific user follows.
@@ -307,7 +309,7 @@ eventsConnect.getEventPreviewsForUser = getEventPreviewsForUser;
  */
 export async function getUserFollowedEventPreviews(id) {
   const client = new MongoClient(uri);
-  const userId = new ObjectId(id);
+  //const userId = new ObjectId(id);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -315,7 +317,7 @@ export async function getUserFollowedEventPreviews(id) {
     const res = await collection
       .find(
         {
-          followedBy: userId,
+          $or: [{ rsvpYes: id }, { rsvpMaybe: id }],
           //start: { $gte: /* today's variable */}
         },
         {
@@ -330,7 +332,9 @@ export async function getUserFollowedEventPreviews(id) {
       )
       .sort({
         start: 1,
-      });
+      })
+      .toArray();
+    console.log("followed events: ", res);
     if (res) {
       return {
         success: true,
@@ -357,13 +361,14 @@ export async function getUserFollowedEventPreviews(id) {
     client.close();
   }
 }
+eventsConnect.getUserFollowedEventPreviews = getUserFollowedEventPreviews;
 
 /**
  * Returns one event (for expanded view)
  * @param {string} eventId      The ID of one event.
  * @returns {object}        { success: Boolean,
  *                            msg: a string explaining the operation outcome,
- *                            events: An array of event objects, or null
+ *                            event: An event object, or null
  *                            err: null, or the error that was caught
  *                            }
  */
@@ -423,43 +428,58 @@ export async function eventRsvp(user, event, rsvpStatus) {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
-    const existingRsvp = getRsvp(eventId, userId, collection);
+    console.log("calling getRsvp");
+    const existingRsvp = await getRsvp(eventId, userId, collection);
+    console.log("checking if there is an existing RSVP");
     if (existingRsvp.exists) {
+      console.log("existingRsvp exists!: ", existingRsvp);
       if (existingRsvp.value === rsvpStatus) {
+        console.log("the rsvp has already been set");
         return {
           success: false,
           msg: `The RSVP has already been set to ${existingRsvp.value}`,
           err: null,
         };
       } else {
-        removeRsvpFromEvent(eventId, userId, collection, existingRsvp.value);
+        console.log("attempting to remove existing rsvp");
+        await removeRsvpFromEvent(
+          eventId,
+          userId,
+          collection,
+          existingRsvp.value
+        );
+        console.log("removed existing rsvp");
       }
     }
+    console.log("existingRsvp: ", existingRsvp);
     let res;
     if (rsvpStatus === "Yes") {
+      console.log("setting rsvp to 'yes'");
       res = await collection.updateOne(
         { _id: eventId },
         {
           $addToSet: {
-            rsvpYes: userId,
+            rsvpYes: userId.toString(),
           },
         }
       );
     } else if (rsvpStatus === "Maybe") {
+      console.log("setting rsvp to 'maybe'");
       res = await collection.updateOne(
         { _id: eventId },
         {
           $addToSet: {
-            rsvpMaybe: userId,
+            rsvpMaybe: userId.toString(),
           },
         }
       );
     } else if (rsvpStatus === "No") {
+      console.log("setting rsvp to 'no'");
       res = await collection.updateOne(
         { _id: eventId },
         {
           $addToSet: {
-            rsvpNo: userId,
+            rsvpNo: userId.toString(),
           },
         }
       );
@@ -470,6 +490,7 @@ export async function eventRsvp(user, event, rsvpStatus) {
         err: null,
       };
     }
+    console.log("res: ", res);
     if (res.acknowledged && res.modifiedCount) {
       return {
         success: true,
@@ -505,20 +526,22 @@ eventsConnect.eventRsvp = eventRsvp;
  */
 async function getRsvp(eventId, userId, collection) {
   // storing userIds as strings in arrays
+  console.log("in getRsvp");
   const rsvpYes = await collection.findOne({
     _id: eventId,
     rsvpYes: userId.toString(),
   });
   const rsvpMaybe = await collection.findOne({
     _id: eventId,
-    rsvpYes: userId.toString(),
+    rsvpMaybe: userId.toString(),
   });
   const rsvpNo = await collection.findOne({
     _id: eventId,
-    rsvpYes: userId.toString(),
+    rsvpNo: userId.toString(),
   });
 
   if (!rsvpYes && !rsvpMaybe && !rsvpNo) {
+    console.log("There isn't an existing rsvp");
     return {
       exists: false,
       value: null,
@@ -557,33 +580,38 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
         { _id: eventId },
         {
           $pull: {
-            rsvpYes: userId,
+            rsvpYes: userId.toString(),
           },
         }
       );
+      console.log("case Yes remove status: ", removeStatus);
       break;
     case "Maybe":
       removeStatus = await collection.updateOne(
         { _id: eventId },
         {
           $pull: {
-            rsvpMaybe: userId,
+            rsvpMaybe: userId.toString(),
           },
         }
       );
+      console.log("case Maybe remove status: ", removeStatus);
       break;
     case "No":
       removeStatus = await collection.updateOne(
         { _id: eventId },
         {
           $pull: {
-            rsvpNo: userId,
+            rsvpNo: userId.toString(),
           },
         }
       );
+      console.log("case No remove status: ", removeStatus);
       break;
+    default:
+      console.log("no status to remove");
   }
-  // TODO: finish
+  return;
 }
 
 // Event previews -- need eventId, name, eventOrgName, creator, tags, location/time
@@ -591,10 +619,10 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
 // TODO -- all events where user is creator
 // TODO -- all events for an organization
 
-export async function toggleLike(eventIdString, userId) {
-  const client = new MongoClient(uri);
-  // MEA -- DELETE THIS CHANGE
+export async function toggleLike(eventIdString, userIdString) {
   const eventId = new ObjectId(eventIdString);
+
+  const client = new MongoClient(uri);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -602,10 +630,10 @@ export async function toggleLike(eventIdString, userId) {
     const query = { _id: eventId };
     const hasAlreadyLiked = await collection.findOne({
       _id: eventId,
-      likes: userId,
+      likes: userIdString,
     });
-    const addLikeInfo = { $push: { likes: userId } };
-    const removeLikeInfo = { $pull: { likes: userId } };
+    const addLikeInfo = { $push: { likes: userIdString } };
+    const removeLikeInfo = { $pull: { likes: userIdString } };
     if (hasAlreadyLiked) {
       const updateRes = await collection.updateOne(query, removeLikeInfo);
       if (updateRes.acknowledged && updateRes.matchedCount) {

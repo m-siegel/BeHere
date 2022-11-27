@@ -1,9 +1,123 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link, useParams } from "react-router-dom";
+import CheckboxInput from "./CheckboxInput.js";
 import PropTypes from "prop-types";
 
-function EventForm({ event }) {
+function EventForm({ setAlert }) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
+  const [start, setStart] = useState("");
+  const [finish, setFinish] = useState("");
+  const [tags, setTags] = useState([]);
+  const [event, setEvent] = useState({});
+  const { eventId } = useParams();
+
+  const defaultEvent = () => {
+    return {
+      _id: "12345",
+      name: "testing name",
+      description: "testing description",
+      location: "test location",
+      start: "testing time",
+      finish: "testing time",
+      tags: ["sports"],
+    };
+  };
+
+  const getEvent = useCallback(async (eventId) => {
+    // const eId = props.eventId;
+    // console.log("eventId: ", eId);
+    try {
+      const res = await fetch(`/api/getEvent/${eventId}`);
+      const event = await res.json();
+      console.log("event: ", event);
+      if (event) {
+        return event;
+      } else {
+        console.log("creating a default event");
+        return defaultEvent();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  useEffect(() => {
+    const event = getEvent(eventId);
+    setEvent(event);
+  }, [event]);
+
+  // const fillFields = (event) => {
+  //   if (!event) {
+  //     return;
+  //   }
+
+  // };
+
+  async function onSubmit(evt) {
+    evt.preventDefault();
+    setAlert({
+      type: "info",
+      heading: "",
+      message: <div>Submitting...</div>,
+    });
+    try {
+      const res = await fetch("/api/edit-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+          location: location,
+          start: start,
+          finish: finish,
+          tags: tags,
+        }),
+      });
+      const responseJson = await res.json();
+      alertUser(responseJson);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function alertUser(info) {
+    if (info.success) {
+      setAlert({
+        type: "success",
+        heading: "Submission successful.",
+        message: (
+          <div>
+            <p>
+              Head over to your <Link to="/dashboard">dashboard</Link> to verify
+              the event.
+            </p>
+          </div>
+        ),
+      });
+    } else {
+      setAlert({
+        type: "failure",
+        heading: "Whoops",
+        message: (
+          <div>
+            <p>Some issues have occured. Please try again later.</p>
+          </div>
+        ),
+      });
+    }
+  }
+
   return (
-    <form action="/api/edit-event" method="POST">
+    <form
+      id="event-form"
+      action="/api/edit-event"
+      onSubmit={onSubmit}
+      method="POST"
+    >
       <div className="row">
         <label htmlFor="name" className="form-label">
           Name:{" "}
@@ -12,7 +126,10 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="name"
-          value={event?.name}
+          value={name}
+          onChange={(evt) => {
+            setName(evt.target.value);
+          }}
           required
         ></input>
       </div>
@@ -24,21 +141,12 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="description"
-          value={event?.description}
+          value={description}
+          onChange={(evt) => {
+            setDescription(evt.target.value);
+          }}
           required
         ></textarea>
-      </div>
-      <div className="row">
-        <label htmlFor="organization" className="form-label">
-          Organization:{" "}
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="organization"
-          value={event?.organization}
-          required
-        ></input>
       </div>
       <div className="row">
         <label htmlFor="location" className="form-label">
@@ -48,7 +156,10 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="location"
-          value={event?.location}
+          value={location}
+          onChange={(evt) => {
+            setLocation(evt.target.value);
+          }}
           required
         ></input>
       </div>
@@ -60,7 +171,10 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="start"
-          value={event?.start}
+          value={start}
+          onChange={(evt) => {
+            setStart(evt.target.value);
+          }}
           required
         ></input>
       </div>
@@ -72,7 +186,10 @@ function EventForm({ event }) {
           type="text"
           className="form-control"
           id="finish"
-          value={event?.finish}
+          value={finish}
+          onChange={(evt) => {
+            setFinish(evt.target.value);
+          }}
           required
         ></input>
       </div>
@@ -81,20 +198,38 @@ function EventForm({ event }) {
           Tags:
           <div>
             <div className="form-check form-check-inline">
-              <input
+              <CheckboxInput
+                type="checkbox"
+                idNameValue="music"
+                labelContent="Music"
+                defaultChecked={
+                  tags ? (tags.includes("music") ? true : false) : false
+                }
+              />
+              <CheckboxInput
+                type="checkbox"
+                idNameValue="sports"
+                labelContent="Sports"
+                isChecked={
+                  tags ? (tags.includes("sports") ? true : false) : false
+                }
+              />
+              {/* <input
                 className="form-check-input"
                 type="checkbox"
                 id="music"
-                {...(!!event?.tags && event.tags.indexOf("music") !== -1
+                checked={...(event.tags && event.tags.includes("music")
                   ? "checked"
-                  : "unchecked")}
+                  : null)}
                 value="music"
-              />
+              /> 
               <label className="form-check-label" htmlFor="music">
                 Music
               </label>
+              */}
             </div>
-            <div className="form-check form-check-inline">
+
+            {/* <div className="form-check form-check-inline">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -107,15 +242,12 @@ function EventForm({ event }) {
               <label className="form-check-label" htmlFor="sports">
                 Sports
               </label>
-            </div>
+            </div> */}
             <div className="form-check form-check-inline">
               <input
                 className="form-check-input"
                 type="checkbox"
                 id="movies"
-                {...(!!event?.tags && event.tags.indexOf("movies") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="movies"
               />
               <label className="form-check-label" htmlFor="movies">
@@ -127,9 +259,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="networking"
-                {...(!!event?.tags && event.tags.indexOf("networking") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="networking"
               />
               <label className="form-check-label" htmlFor="networking">
@@ -141,9 +270,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="party"
-                {...(!!event?.tags && event.tags.indexOf("party") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="party"
               />
               <label className="form-check-label" htmlFor="party">
@@ -155,9 +281,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="food"
-                {...(!!event?.tags && event.tags.indexOf("food") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="food"
               />
               <label className="form-check-label" htmlFor="food">
@@ -169,9 +292,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="dance"
-                {...(!!event?.tags && event.tags.indexOf("dance") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="dance"
               />
               <label className="form-check-label" htmlFor="dance">
@@ -183,9 +303,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="education"
-                {...(!!event?.tags && event.tags.indexOf("education") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="education"
               />
               <label className="form-check-label" htmlFor="education">
@@ -197,9 +314,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="fitness"
-                {...(!!event?.tags && event.tags.indexOf("fitness") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="fitness"
               />
               <label className="form-check-label" htmlFor="fitness">
@@ -211,9 +325,6 @@ function EventForm({ event }) {
                 className="form-check-input"
                 type="checkbox"
                 id="hangout"
-                {...(!!event?.tags && event.tags.indexOf("hangout") !== -1
-                  ? "checked"
-                  : "unchecked")}
                 value="hangout"
               />
               <label className="form-check-label" htmlFor="hangout">
@@ -231,7 +342,7 @@ function EventForm({ event }) {
 }
 
 EventForm.propTypes = {
-  event: PropTypes.object,
+  setAlert: PropTypes.func.isRequired,
 };
 
 export default EventForm;

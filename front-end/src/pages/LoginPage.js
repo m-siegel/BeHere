@@ -1,7 +1,6 @@
 // By Tim
 
 import React from "react";
-import { Link } from "react-router-dom";
 import LoginForm from "../components/LoginForm.js";
 import BasePage from "../components/base-page-components/BasePage.js";
 
@@ -12,12 +11,6 @@ function LoginPage() {
         <div className="container">
           <h1 className="title">Welcome to BeHere</h1>
           <div className="row">
-            <div className="col-xxl-6">
-              <button onClick={() => fetch("/test")}>
-                Testing some backend route. Should print "got request" to
-                console.
-              </button>
-            </div>
             <div className="col-xxl-6">
               <LoginForm />
             </div>

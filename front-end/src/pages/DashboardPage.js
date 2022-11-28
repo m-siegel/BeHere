@@ -79,51 +79,90 @@ function DashboardPage() {
     }
   }
 
+  async function handleLike(eventId) {
+    setAlert({
+      type: "success",
+      message: "👍 Updating like...",
+    });
+    setTimeout(() => {
+      setAlert({
+        message: "",
+      });
+    }, 2000);
+    try {
+      const res = await fetch("/toggleLike", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: eventId }),
+      });
+      if (res.err) {
+        setAlert({
+          type: "warning",
+          message: "Error toggling 'like'. Please try again later.",
+        });
+        return;
+      } else {
+        await loadData();
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+      setAlert({
+        type: "warning",
+        message: "Error toggling 'like'. Please try again later.",
+      });
+    }
+  }
+
   return (
-    <BasePage>
-      <h1>My Dashboard</h1>
-      <AlertComponent />
-      <div className="filter-buttons">
-        <button
-          id="btnMyEvents"
-          className={
-            myEventDisplayed ? "btn btn-primary" : "btn btn-outline-primary"
-          }
-          onClick={displayMyEvents}
-        >
-          Events I've created
-        </button>
-        <button
-          id="btnFollowing"
-          className={
-            myEventDisplayed ? "btn btn-outline-primary" : "btn btn-primary"
-          }
-          onClick={displayFollowingEvents}
-        >
-          Events I'm following
-        </button>
-      </div>
-      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
-        {previews.length ? (
-          previews.map((p) => (
-            <div className="col" key={p._id}>
-              <EventPreview
-                previewObject={p}
-                userId={user._id}
-                onRSVP={handleRSVP}
-              ></EventPreview>
+    <div className="DashboardPage">
+      <BasePage>
+        <h1>My Dashboard</h1>
+        <AlertComponent />
+        <div className="filter-buttons">
+          <button
+            id="btnMyEvents"
+            className={
+              myEventDisplayed ? "btn btn-primary" : "btn btn-outline-primary"
+            }
+            onClick={displayMyEvents}
+          >
+            Events I've created
+          </button>
+          <button
+            id="btnFollowing"
+            className={
+              myEventDisplayed ? "btn btn-outline-primary" : "btn btn-primary"
+            }
+            onClick={displayFollowingEvents}
+          >
+            Events I'm following
+          </button>
+        </div>
+        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
+          {previews.length ? (
+            previews.map((p, i) => (
+              <div className="col" key={p._id}>
+                <EventPreview
+                  previewObject={p}
+                  userId={user._id}
+                  onRSVP={handleRSVP}
+                  onLike={handleLike}
+                  className={`color-${i % 3}`}
+                ></EventPreview>
+              </div>
+            ))
+          ) : checkedEvents ? (
+            <div>
+              <div>No events are listed.</div>
+              <div>Check back later or create a new event yourself!</div>
             </div>
-          ))
-        ) : checkedEvents ? (
-          <div>
-            <div>No events are listed.</div>
-            <div>Check back later or create a new event yourself!</div>
-          </div>
-        ) : (
-          <div>Checking events...</div>
-        )}
-      </div>
-    </BasePage>
+          ) : (
+            <div>Checking events...</div>
+          )}
+        </div>
+      </BasePage>
+    </div>
   );
 }
 

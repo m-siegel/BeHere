@@ -60,7 +60,7 @@ function EditEventPage() {
           <EventForm setAlert={setAlert} setDel={setDel} />
         </div>
       </div>
-      <ConfirmDeleteComponent del={del} />
+      <ConfirmDeleteComponent del={del} setDel={setDel} setAlert={setAlert} />
     </BasePage>
   );
 }

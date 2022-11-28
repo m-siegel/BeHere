@@ -10,6 +10,12 @@
   min-height: 85vh;
 }
 
+.centering-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .BasePage .Navbar {
   background-color: var(--timea-yellow);
   min-height: 10vh;

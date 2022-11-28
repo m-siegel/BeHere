@@ -1,0 +1,8 @@
+.create-event-form textarea {
+  min-width: 30vw;
+  margin-bottom: 15px;
+}
+
+.create-event-form input[type="text"] {
+  min-width: 30vw;
+}

@@ -74,7 +74,7 @@ export async function deleteEvent(eventIdString) {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
-    const res = collection.deleteOne({ _id: eventId });
+    const res = await collection.deleteOne({ _id: eventId });
     if (res.acknowledged) {
       return {
         success: true,

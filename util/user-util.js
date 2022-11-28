@@ -66,8 +66,8 @@ export async function registerUser(registrationInfo) {
     registrationInfo.lastName,
     registrationInfo.username,
     hashedPassword,
-    registrationInfo.contactEmail,
-    registrationInfo.orgEmail
+    registrationInfo.contactEmail.toLowerCase(),
+    registrationInfo.orgEmail.toLowerCase()
   );
 
   // Add to database

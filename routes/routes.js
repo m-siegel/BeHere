@@ -29,6 +29,18 @@ router.get("/api/getEvent/:id", async (req, res) => {
   }
 });
 
+/**
+ * retrieving the user's organization (event route)
+ */
+router.get("/api/getOrganization", (req, res) => {
+  // const data = req.session.passport.user.organizations[0];
+  // console.log(data);
+  console.log(req.session.passport.user.organizations[0]);
+  res.json({
+    organization: req.session.passport.user.organizations[0],
+  });
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -70,20 +82,25 @@ router.post("/getAuthentication", (req, res) => {
  * Responds indicating whether or not an event is created or not
  */
 router.post("/api/create-event", checkAuthenticated, async (req, res) => {
-  const event = eventify(req.body);
+  console.log("passport is", req.session.passport.user.organizations[0]);
+  const event = eventify(
+    req.body,
+    req.session.passport.user._id,
+    req.session.passport.user.organizations[0]
+  );
   const dbRes = await eventsConnect.addEvent(event);
   if (dbRes.success) {
     return res.json({
       success: dbRes.success,
       msg: dbRes.msg,
       insertedId: dbRes.insertedId,
-      err: dbRes.err,
+      err: null,
     });
   }
   return res.json({
     success: false,
     msg: dbRes.msg,
-    insertedId: dbRes.insertedId,
+    insertedId: null,
     err: dbRes.err,
   });
 });

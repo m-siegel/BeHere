@@ -115,7 +115,7 @@ function EventDetailsPage({ event, className }) {
             <div className="row">
               <EventDetailsLocationTime
                 start={eventInfo.start}
-                end={eventInfo.end}
+                end={eventInfo.finish}
                 location={eventInfo.location}
               />
             </div>

@@ -276,6 +276,32 @@ router.post("/api/getUsernameById", async (req, res) => {
   }
 });
 
+router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
+  const eventId = req.body.eventId;
+  if (eventId) {
+    try {
+      const dbResult = await userConnect.getRsvpLikeUserPreviews(eventId);
+      return res.json(dbResult);
+    } catch (e) {
+      console.error(e);
+      return res.json({
+        success: false,
+        message:
+          "An error was encountered in the route for getting the user rsvp and like previews.",
+        username: "",
+        err: e,
+      });
+    }
+  } else {
+    return res.json({
+      success: false,
+      message: "No event id found.",
+      username: null,
+      err: null,
+    });
+  }
+});
+
 router.post("/toggleLike", async (req, res) => {
   const userId = req.session?.passport?.user?._id;
   const eventId = req.body.eventId;

@@ -186,6 +186,63 @@ export async function findMany(queryObj) {
 userConnect.findMany = findMany;
 
 /**
+ * Returns preview objects for each user that matches the given query.
+ * @param {Object} queryObj Query object to match users to (e.g. {rsvpYesEvents: eventIdString})
+ */
+export async function getUserPreviews(queryObj) {
+  // TODO: add pagination?
+  // TODO: add projection parameter?
+  const client = new mongodb.MongoClient(uri);
+  if (!(queryObj instanceof Object)) {
+    return {
+      success: false,
+      message: "Query must be an object.",
+      users: [],
+      err: new TypeError("queryObj must be an Object"),
+    };
+  }
+  try {
+    await client.connect();
+    const database = client.db(databaseName);
+    const collection = database.collection(usersCollectionName);
+    const res = await collection
+      .find(queryObj, {
+        projection: { username: 1, first_name: 1, last_name: 1 },
+      })
+      .sort({ username: 1 })
+      .toArray();
+    if (res) {
+      res.forEach((user) => {
+        user._id = user._id.toString();
+      });
+      return {
+        success: true,
+        message: "Found users.",
+        users: res,
+        err: null,
+      };
+    }
+    return {
+      success: false,
+      message: "No users matched the query.",
+      users: [],
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      message: "An error occurred while trying to find users.",
+      users: [],
+      err: e,
+    };
+  } finally {
+    await client.close();
+  }
+}
+userConnect.getUserPreviews = getUserPreviews;
+
+/**
  * Updates the first user document that matches the parameter query object.
  * @param {!Object} queryObj Valid MongDB query.
  * @param {!Object} updatesObj Valid MongDB update object,
@@ -629,6 +686,75 @@ export async function getUsersByOrganizations(organizations) {
   return await findMany({ organizations: { $all: organizations } });
 }
 userConnect.getUsersByOrganizations = getUsersByOrganizations;
+
+/**
+ * Gets the user previews for the users with the specified eventIdString in their likedEvents, rsvpYesEvents,
+ * rsvpNoEvents, or rsvpMaybeEvents arrays.
+ * @param {string} eventIdString String representation of the objectId of the event to find in the users
+ *     rsvp or like arrays.
+ * @returns {Object:
+ *     {success: boolean,
+ *      likeUsers: Array<Object>, likeMessage: string,
+ *      yesUsers: Array<Object>, yesMessage: string,
+ *      maybeUsers: Array<Object>, maybeMessage: string,
+ *      noUsers: Array<Object>, noMessage: string,
+ *      err: Object: {
+ *       likeErr: Error,
+ *       yesErr: Error,
+ *       maybeErr: Error,
+ *       noErr: Error,
+ *       }
+ *     }}
+ *     Object indicating the success of the operation and containing the retrieved objects.
+ *     See getUserPreviews for the shape of the objects returned in the users arrays.
+ */
+export async function getRsvpLikeUserPreviews(eventIdString) {
+  if (typeof eventIdString !== "string") {
+    return {
+      success: false,
+      message: "eventIdString must be a string",
+      user: null,
+      err: new TypeError(
+        `eventIdString must be a string, not a ${typeof eventIdString}`
+      ),
+    };
+  }
+  const likeRes = await getUserPreviews({ likedEvents: eventIdString });
+  const yesRes = await getUserPreviews({ rsvpYesEvents: eventIdString });
+  const maybeRes = await getUserPreviews({ rsvpMaybeEvents: eventIdString });
+  const noRes = await getUserPreviews({ rsvpNoEvents: eventIdString });
+  const res = { err: {}, success: true };
+  if (likeRes.success) {
+    res.likeUsers = likeRes.users;
+  } else {
+    res.likeMessage = likeRes.message;
+    res.err.likeErr = likeRes.err;
+    res.success = false;
+  }
+  if (yesRes.success) {
+    res.yesUsers = yesRes.users;
+  } else {
+    res.yesMessage = yesRes.message;
+    res.err.yesErr = yesRes.err;
+    res.success = false;
+  }
+  if (maybeRes.success) {
+    res.maybeUsers = maybeRes.users;
+  } else {
+    res.maybeMessage = maybeRes.message;
+    res.err.maybeErr = maybeRes.err;
+    res.success = false;
+  }
+  if (noRes.success) {
+    res.noUsers = noRes.users;
+  } else {
+    res.noMessage = noRes.message;
+    res.err.noErr = noRes.err;
+    res.success = false;
+  }
+  return res;
+}
+userConnect.getRsvpLikeUserPreviews = getRsvpLikeUserPreviews;
 
 // Specific functions -- update
 

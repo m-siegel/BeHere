@@ -203,6 +203,10 @@ router.post("/logout", (req, res) => {
 });
 
 // TODO -- "/DeleteEvent"
+router.post("/api/delete-event", async (req, res) => {
+  const dbResult = await eventsConnect.deleteEvent(req.body._id);
+  return res.json(dbResult);
+});
 
 /**
  * Responds with events for the dashboard page

@@ -14,6 +14,8 @@
   background-color: var(--timea-yellow);
   min-height: 10vh;
   width: 100vw;
+  margin-left: 0;
+  margin-right: 0;
   color: var(--timea-dark-brown);
 }
 
@@ -31,6 +33,8 @@
 .BasePage .Footer {
   min-height: 5vh;
   width: 100vw;
+  margin-left: 0;
+  margin-right: 0;
   text-align: center;
 }
 

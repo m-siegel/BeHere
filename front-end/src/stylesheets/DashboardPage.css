@@ -1,3 +1,15 @@
 .filter-buttons>button {
   margin: 0 10px;
 }
+
+.DashboardPage .EventPreview.color-0 .card {
+  background-color: var(--timea-orange);
+}
+
+.DashboardPage .EventPreview.color-1 .card {
+  background-color: var(--timea-blue);
+}
+
+.DashboardPage .EventPreview.color-2 .card {
+  background-color: var(--timea-purple);
+}

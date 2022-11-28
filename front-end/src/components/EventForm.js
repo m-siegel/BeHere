@@ -1,3 +1,4 @@
+// BY Tim Crawley
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -160,17 +161,17 @@ function EventForm({ setAlert, setDel }) {
             Confirm edits
           </button>
         </div>
-        <div className="centering-container">
-          <button
-            type="click"
-            id="delete-button"
-            className="btn btn-danger"
-            onClick={() => setDel(true)}
-          >
-            Delete event
-          </button>
-        </div>
       </form>
+      <div className="centering-container">
+        <button
+          type="click"
+          id="delete-button"
+          className="btn btn-danger"
+          onClick={() => setDel(true)}
+        >
+          Delete event
+        </button>
+      </div>
     </div>
   );
 }

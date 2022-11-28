@@ -1,3 +1,5 @@
+// Done by both
+
 import express from "express";
 import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
@@ -203,6 +205,10 @@ router.post("/logout", (req, res) => {
 });
 
 // TODO -- "/DeleteEvent"
+router.post("/api/delete-event", async (req, res) => {
+  const dbResult = await eventsConnect.deleteEvent(req.body._id);
+  return res.json(dbResult);
+});
 
 /**
  * Responds with events for the dashboard page

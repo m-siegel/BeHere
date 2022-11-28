@@ -1,7 +1,53 @@
+//By Tim Crawley
 import React from "react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
-function ConfirmDeleteComponent({ del }) {
+function ConfirmDeleteComponent({ del, setDel, setAlert }) {
+  const { eventId } = useParams();
+
+  async function finalizeDelete(eventId) {
+    setAlert({
+      type: "info",
+      heading: "",
+      message: <div>Attempting to delete...</div>,
+    });
+    try {
+      const res = await fetch("/api/delete-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: eventId,
+        }),
+      });
+      const responseJson = await res.json();
+      alertUser(responseJson);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function alertUser(info) {
+    if (info?.success) {
+      setAlert({
+        type: "success",
+        heading: "Update successful!",
+      });
+    } else {
+      setAlert({
+        type: "failure",
+        heading: "Whoops",
+        message: (
+          <div>
+            <p>Some issues have occured. Please try again later.</p>
+          </div>
+        ),
+      });
+    }
+  }
+
   if (del) {
     return (
       <div className="card">
@@ -11,10 +57,24 @@ function ConfirmDeleteComponent({ del }) {
             cannot be reversed.
           </p>
           <div className="centering-container">
-            <button className="btn btn-secondary mb-3">Cancel</button>
+            <button
+              type="click"
+              id="cancel"
+              className="btn btn-secondary mb-3"
+              onClick={() => setDel(false)}
+            >
+              Cancel
+            </button>
           </div>
           <div className="centering-container">
-            <button className="btn btn-danger">Yes, Delete event</button>
+            <button
+              type="click"
+              id="deleteFinal"
+              className="btn btn-danger"
+              onClick={() => finalizeDelete(eventId)}
+            >
+              Yes, Delete event
+            </button>
           </div>
         </div>
       </div>
@@ -25,6 +85,8 @@ function ConfirmDeleteComponent({ del }) {
 
 ConfirmDeleteComponent.propTypes = {
   del: PropTypes.bool.isRequired,
+  setDel: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
 };
 
 export default ConfirmDeleteComponent;

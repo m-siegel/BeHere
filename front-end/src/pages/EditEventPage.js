@@ -6,7 +6,6 @@ import BasePage from "../components/base-page-components/BasePage.js";
 import EventForm from "../components/EventForm.js";
 import useAlert from "../hooks/useAlert.js";
 import ConfirmDeleteComponent from "../components/ConfirmDeleteComponent.js";
-import "../stylesheets/EditEventPage.css";
 //import PropTypes from "prop-types";
 
 function EditEventPage() {

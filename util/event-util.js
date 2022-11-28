@@ -1,10 +1,10 @@
 const eventUtil = {};
-export function eventify(obj) {
+export function eventify(obj, creatorId, org) {
   const object = {
     name: obj.name,
     description: obj.description,
-    organization: obj.organization,
-    creator: obj.creator,
+    organization: org,
+    creator: creatorId,
     // String
     location: obj.location,
     // Google API to give us info about local time zone?

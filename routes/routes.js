@@ -1,3 +1,5 @@
+// Done by both
+
 import express from "express";
 import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";

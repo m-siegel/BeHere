@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+// By Tim Crawley
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
@@ -10,6 +11,7 @@ function CreateEventForm({ setAlert }) {
   const [location, setLocation] = useState("");
   const [start, setStart] = useState("");
   const [finish, setFinish] = useState("");
+  // TRY TO USE FOR V2
   // const [tagsMusic, setTagsMusic] = useState([]);
   // const [tags, setTags] = useState({
   //   music: false,
@@ -102,15 +104,6 @@ function CreateEventForm({ setAlert }) {
     }
   }
 
-  // const handleClick = (event, setFunction) => {
-  //   if (event.target.checked) {
-  //     setFunction(true);
-  //   } else {
-  //     setFunction(false);
-  //   }
-  //   console.log(event.target.value);
-  // };
-
   return (
     <div className="create-event-form">
       <form id="create-event-form" onSubmit={onSubmit}>
@@ -153,215 +146,6 @@ function CreateEventForm({ setAlert }) {
           value={finish}
           onChange={(evt) => setFinish(evt.target.value)}
         />
-        {/* <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="music"
-            value="music"
-            onChange={handleClick}
-          />
-          <label className="form-check-label" htmlFor="music">
-            Music
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="hangout"
-            value={tagsHangout}
-            onChange={(evt) => setTagsHangout(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="hangout">
-            Hangout
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="sports"
-            value={tagsSports}
-            onChange={(evt) => setTagsSports(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="sports">
-            Sports
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="movies"
-            value={tagsMovies}
-            onChange={(evt) => setTagsMovies(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="movies">
-            Movies
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="networking"
-            value={tagsNetworking}
-            onChange={(evt) => setTagsNetworking(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="networking">
-            Networking
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="party"
-            value={tagsParty}
-            onChange={(evt) => setTagsParty(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="party">
-            Party
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="food"
-            value={tagsFood}
-            onChange={(evt) => setTagsFood(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="food">
-            Food
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="dance"
-            value={tagsDance}
-            onChange={(evt) => setTagsDance(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="dance">
-            Dance
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="education"
-            value={tagsEducation}
-            onChange={(evt) => setTagsEducation(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="education">
-            Education
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="fitness"
-            value={tagsFitness}
-            onChange={(evt) => setTagsFitness(evt.target.value)}
-          />
-          <label className="form-check-label" htmlFor="fitness">
-            Fitness
-          </label>
-        </div> */}
-
-        {/* <input
-            key={i}
-            type="checkbox"
-            idAndName={t}
-            value={false}
-            onChange={() => setTags([...tags,])
-              value
-                ? setTags([...tags, t])
-                : setTags([...tags].filter((word) => !t));
-            }}
-          /> */}
-        {/* ))} */}
-
-        {/* <div className="row">
-          <label htmlFor="name" className="form-label">
-            Name:{" "}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            ref={nameRef}
-            // onChange={(evt) => {
-            //   setEvent((event.name = evt.target.value));
-            // }}
-            required
-          ></input>
-        </div>
-        <div className="row">
-          <label htmlFor="description" className="form-label">
-            Description:{" "}
-          </label>
-          <textarea
-            type="text"
-            className="form-control"
-            id="description"
-            // onChange={(evt) => {
-            //   setEvent((event.description = evt.target.value));
-            // }}
-            ref={descriptionRef}
-            required
-          ></textarea>
-        </div>
-        <div className="row">
-          <label htmlFor="location" className="form-label">
-            Location:{" "}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="location"
-            // onChange={(evt) => {
-            //   setEvent((event.location = evt.target.value));
-            // }}
-            ref={locationRef}
-            required
-          ></input>
-        </div>
-        <div className="row">
-          <label htmlFor="start" className="form-label">
-            Start:{" "}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="start"
-            // onChange={(evt) => {
-            //   setEvent((event.start = evt.target.value));
-            // }}
-            ref={startRef}
-            required
-          ></input>
-        </div>
-        <div className="row">
-          <label htmlFor="finish" className="form-label">
-            Finish:{" "}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="finish"
-            // onChange={(evt) => {
-            //   setEvent((event.finish = evt.target.value));
-            // }}
-            ref={finishRef}
-            required
-          ></input>
-        </div> */}
         <div className="row mt-3">
           <button type="submit" id="submit-button" className="btn btn-primary">
             Create Event

@@ -277,11 +277,11 @@ export async function updateOne(queryObj, updatesObj) {
     const res = await collection.updateOne(queryObj, updatesObj);
 
     if (res.acknowledged) {
+      console.log(res);
       return {
         success: true,
-        updatedCount: 1,
+        updatedCount: res.modifiedCount,
         message: "Successfully updated user.",
-        // TODO: include updated object?
         err: null,
       };
     }
@@ -839,7 +839,7 @@ export async function updateById(userIdString, updatesObj) {
     await client.close();
   }
 }
-userConnect.updateOne = updateOne;
+userConnect.updateById = updateById;
 
 /**
  * Pushes the given eventRSVP object to the specified user docement's "following" array.
@@ -1087,7 +1087,7 @@ function convertStringToObjectId(idString) {
     if (e instanceof TypeError) {
       // BSONTypeError extends TypeError
       throw new TypeError(
-        `idString is not a valid ObjectId parameter ${e.message}`
+        `idString ${idString} is not a valid ObjectId parameter ${e.message}`
       );
     } else {
       throw e;

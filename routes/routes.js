@@ -1,9 +1,9 @@
 import express from "express";
 import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
-import userConnect from "../db-connect/users-connect.js";
+import userConnect, { getUserById } from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
-import { registerUser } from "../util/user-util.js";
+import { registerUser, updateUserDocument } from "../util/user-util.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
@@ -227,10 +227,30 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
 // from the front end, so we can use this.
 // post request so it doesn't show in the url
 router.post("/getPassportUser", (req, res) => {
-  // TODO: fix wherever this was used
   const user = req.session?.passport?.user;
   if (user) {
     return res.json(req.session?.passport?.user);
+  }
+  return res.json({});
+});
+
+/**
+ * Sends the entire user document from the database in the response.
+ */
+router.post("/api/getCurrentUser", async (req, res) => {
+  const userId = req.session?.passport?.user?._id;
+  if (userId) {
+    try {
+      const dbRes = await getUserById(userId);
+      if (dbRes.user) {
+        return res.json(dbRes.user);
+      } else {
+        return res.json({});
+      }
+    } catch (e) {
+      console.error(e);
+      return res.json({});
+    }
   }
   return res.json({});
 });
@@ -436,6 +456,30 @@ router.post("/api/register", async (req, res) => {
       success: false,
       reason: "route",
       userIdString: "",
+    });
+  }
+});
+
+/**
+ * Sets the user matching the session.passport.user._id to have the
+ * value of the newUserDoc from the req body.
+ */
+router.post("/api/updateUserDocument", async (req, res) => {
+  try {
+    const { _id, ...newUserDoc } = req.body.updatedUserObj;
+    if (_id !== req.session?.passport?.user?._id) {
+      return res.json({
+        success: false,
+        message:
+          "Our system thinks you're trying to update a user other than yourself. Please clear your browser and try again later.",
+      });
+    }
+    return res.json(await updateUserDocument(_id, newUserDoc));
+  } catch (e) {
+    console.error(e);
+    return res.json({
+      success: false,
+      message: "An error occurred in our server route. Please try again later.",
     });
   }
 });

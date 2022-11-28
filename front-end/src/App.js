@@ -15,6 +15,7 @@ import IndexPage from "./pages/IndexPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import RegisterPage from "./pages/RegisterPage.js";
 import UserSettingsPage from "./pages/UserSettingsPage.js";
+import CreateEventPage from "./pages/CreateEventPage";
 
 // TODO: routing
 
@@ -50,7 +51,7 @@ function App() {
     // New route - differentiate edit-event from create-event
     {
       path: "/create-event", // TODO: url param, like /event
-      element: <EditEventPage></EditEventPage>,
+      element: <CreateEventPage></CreateEventPage>,
     },
     {
       path: "/edit/:eventId",

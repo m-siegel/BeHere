@@ -29,7 +29,10 @@
    /* sticky navbar */
    position: sticky;
    top: 0;
-   z-index: 1;
+}
+
+.BasePage .Navbar {
+  z-index: 1;
 }
 
 .BasePage .Navbar .col:hover {

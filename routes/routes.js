@@ -510,28 +510,28 @@ router.post("/api/getUsersByOrganizations", async (req, res) => {
 });
 
 router.post("/api/updateUserInfo", async (req, res) => {
-  const idString = req.passport.user._id;
+  const idString = req.session?.passport?.user?._id;
   const newValues = req.body.newValues;
   const resObject = await userConnect.updateById(idString, { $set: newValues });
   return res.json(resObject);
 });
 
 router.post("/api/deleteUserAccount", async (req, res) => {
-  const idString = req.passport.user._id;
+  const idString = req.session?.passport?.user?._id;
   const resObject = await userConnect.deleteByIdString(idString);
   // TODO: return or re-route to logout?
   return res.json(resObject);
 });
 
 router.post("/api/addEventToFollowing", async (req, res) => {
-  const idString = req.passport.user._id;
+  const idString = req.session?.passport?.user?._id;
   const rsvp = req.body.eventRSVP;
   const resObject = await userConnect.addEventToFollowing(idString, rsvp);
   return res.json(resObject);
 });
 
 router.post("/api/removeEventFromFollowing", async (req, res) => {
-  const userIdString = req.passport.user._id;
+  const userIdString = req.session?.passport?.user?._id;
   const eventIdString = req.body.eventId;
   const resObject = await userConnect.removeEventFromFollowing(
     userIdString,

@@ -134,9 +134,11 @@ function UserSettingsForm({ setAlert }) {
             setUserObj({ ...userObj, contactEmail: evt.target.value })
           }
         />
-        <button type="submit" className="btn btn-primary mb-5">
-          Save Changes
-        </button>
+        <div className="centering-container">
+          <button type="submit" className="btn btn-primary">
+            Save Changes
+          </button>
+        </div>
       </form>
     </div>
   );

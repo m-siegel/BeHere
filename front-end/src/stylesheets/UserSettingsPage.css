@@ -2,3 +2,13 @@
   text-align: center;
 }
 
+.UserSettingsPage .form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UserSettingsPage .UserSettingsForm input {
+  /* smallest phone setting on dev tools is 360 wide */
+  min-width: 340px;
+}

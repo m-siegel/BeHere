@@ -14,7 +14,9 @@ function UserSettingsPage() {
       <BasePage>
         <AlertComponent />
         <h1>Settings</h1>
-        <UserSettingsForm setAlert={setAlert} />
+        <div className="form-container">
+          <UserSettingsForm setAlert={setAlert} />
+        </div>
       </BasePage>
     </div>
   );

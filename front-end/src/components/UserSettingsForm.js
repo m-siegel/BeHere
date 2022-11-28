@@ -81,7 +81,7 @@ function UserSettingsForm({ setAlert }) {
 
   return (
     <div className="UserSettingsForm">
-      <form id="userSettingsForm" onSubmit={onSubmit}>
+      <form className="form" id="userSettingsForm" onSubmit={onSubmit}>
         <FormInput
           type="text"
           idAndName="firstName"

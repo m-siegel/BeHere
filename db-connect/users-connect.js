@@ -207,7 +207,7 @@ export async function getUserPreviews(queryObj) {
     const collection = database.collection(usersCollectionName);
     const res = await collection
       .find(queryObj, {
-        projection: { username: 1, first_name: 1, last_name: 1 },
+        projection: { username: 1, firstName: 1, lastName: 1 },
       })
       .sort({ username: 1 })
       .toArray();

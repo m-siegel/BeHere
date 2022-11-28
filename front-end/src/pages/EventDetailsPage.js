@@ -14,39 +14,35 @@ import "../stylesheets/EventDetailsPage.css";
 // giving it the event to be faster
 function EventDetailsPage({ event, className }) {
   const [eventInfo, setEventInfo] = useState(event ? event : {});
-  const [rsvpYes, setRsvpYes] = useState([]);
-  const [rsvpMaybe, setRsvpMaybe] = useState([]);
-  const [rsvpNo, setRsvpNo] = useState([]);
-  const [likeState, setLikeState] = useState([]);
 
   // TODO: should this be a state?
   const params = useParams();
 
-  async function getUsernamesFromIds(idArr) {
-    if (!idArr) {
-      return [];
-    }
+  // async function getUsernamesFromIds(idArr) {
+  //   if (!idArr) {
+  //     return [];
+  //   }
 
-    // TODO: problem is here
-    const usernameArr = [];
-    await idArr.forEach(async (id) => {
-      try {
-        let res = await (
-          await fetch("/api/getUsernameById", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: id }),
-          })
-        ).json();
-        if (res?.username) {
-          usernameArr.push(res.username);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    });
-    return usernameArr.slice();
-  }
+  //   // TODO: problem is here
+  //   const usernameArr = [];
+  //   await idArr.forEach(async (id) => {
+  //     try {
+  //       let res = await (
+  //         await fetch("/api/getUsernameById", {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({ userId: id }),
+  //         })
+  //       ).json();
+  //       if (res?.username) {
+  //         usernameArr.push(res.username);
+  //       }
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   });
+  //   return usernameArr.slice();
+  // }
 
   useEffect(() => {
     // Fetch the event from the back end and set it
@@ -68,24 +64,24 @@ function EventDetailsPage({ event, className }) {
       }
     }
     loadEvent();
-  }, [params]); // TODO: this might be wrong
+  }, [params]);
 
-  useEffect(() => {
-    async function loadRSVPs() {
-      setRsvpYes(await getUsernamesFromIds(eventInfo.rsvpYes));
-      setRsvpNo(await getUsernamesFromIds(eventInfo.rsvpNo));
-      setRsvpMaybe(await getUsernamesFromIds(eventInfo.rsvpMaybe));
-      const newLikes = await getUsernamesFromIds(eventInfo.likes);
-      setLikeState(newLikes);
+  // useEffect(() => {
+  //   async function loadRSVPs() {
+  //     setRsvpYes(await getUsernamesFromIds(eventInfo.rsvpYes));
+  //     setRsvpNo(await getUsernamesFromIds(eventInfo.rsvpNo));
+  //     setRsvpMaybe(await getUsernamesFromIds(eventInfo.rsvpMaybe));
+  //     const newLikes = await getUsernamesFromIds(eventInfo.likes);
+  //     setLikeState(newLikes);
 
-      // State is updating, but dom is not
-      console.log("state yes: ", rsvpYes);
-      console.log("state no: ", rsvpNo);
-      console.log("state maybe: ", rsvpMaybe);
-      console.log("state likes: ", likeState);
-    }
-    loadRSVPs();
-  }, [eventInfo]); // TODO: fix yellow underline
+  //     // State is updating, but dom is not
+  //     console.log("state yes: ", rsvpYes);
+  //     console.log("state no: ", rsvpNo);
+  //     console.log("state maybe: ", rsvpMaybe);
+  //     console.log("state likes: ", likeState);
+  //   }
+  //   loadRSVPs();
+  // }, [eventInfo]); // TODO: fix yellow underline
 
   return (
     <div className={`EventDetailsPage ${className}`}>
@@ -102,12 +98,7 @@ function EventDetailsPage({ event, className }) {
               />
             </div>
             <div className="row">
-              <EventDetailsLikesRsvps
-                likes={likeState}
-                rsvpYes={rsvpYes}
-                rsvpMaybe={rsvpMaybe}
-                rsvpNo={rsvpNo}
-              />
+              <EventDetailsLikesRsvps eventId={eventInfo._id} />
             </div>
           </div>
 

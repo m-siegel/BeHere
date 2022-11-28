@@ -1,7 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
+function EventDetailsLikesRsvps({ eventId }) {
+  const [likes, setLikes] = useState([]);
+  const [rsvpYes, setRsvpYes] = useState([]);
+  const [rsvpMaybe, setRsvpMaybe] = useState([]);
+  const [rsvpNo, setRsvpNo] = useState([]);
+
+  useEffect(() => {
+    async function loadRSVPs() {
+      try {
+        const res = await (
+          await fetch("/api/getRsvpLikeUserPreviews", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ eventId: eventId }),
+          })
+        ).json();
+
+        if (res.err?.likeErr) {
+          console.error("Like error: ", res.err.likeErr);
+        }
+        if (res.err?.yesErr) {
+          console.error("Yes error: ", res.err.yesErr);
+        }
+        if (res.err?.maybeErr) {
+          console.error("Maybe error: ", res.err.maybeErr);
+        }
+        if (res.err?.noErr) {
+          console.error("No error: ", res.err.noErr);
+        }
+        setLikes(res?.likeUsers ? res.likeUsers : []);
+        setRsvpYes(res?.yesUsers ? res.likeUsers : []);
+        setRsvpMaybe(res?.maybeUsers ? res.maybeUsers : []);
+        setRsvpNo(res?.noUsers ? res.noUsers : []);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    loadRSVPs();
+  }, [eventId]);
+
   return (
     <div className="EventDetailsLikesRsvps card">
       <div className="card-body">
@@ -18,7 +59,7 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tab"
             aria-controls="nav-rsvpYes"
           >
-            rsvpYes{rsvpYes?.length ? ` (${rsvpYes.length})` : ""}
+            Going{rsvpYes?.length ? ` (${rsvpYes.length})` : ""}
           </button>
           <button
             className="nav-link"
@@ -29,7 +70,7 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tab"
             aria-controls="nav-rsvpMaybe"
           >
-            rsvpMaybe{rsvpMaybe?.length ? ` (${rsvpMaybe.length})` : ""}
+            Maybe{rsvpMaybe?.length ? ` (${rsvpMaybe.length})` : ""}
           </button>
           <button
             className="nav-link"
@@ -40,7 +81,7 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tab"
             aria-controls="nav-rsvpNo"
           >
-            rsvpNo{rsvpNo?.length ? ` (${rsvpNo.length})` : ""}
+            Not Going{rsvpNo?.length ? ` (${rsvpNo.length})` : ""}
           </button>
           <button
             className="nav-link"
@@ -51,7 +92,7 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tab"
             aria-controls="nav-likes"
           >
-            likes{likes?.length ? ` (${likes.length})` : ""}
+            Likes{likes?.length ? ` (${likes.length})` : ""}
           </button>
         </nav>
 
@@ -62,15 +103,14 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tabpanel"
             aria-labelledby="nav-rsvpyes-tab"
           >
-            {rsvpYes?.length ? (
-              <ul className="tags-list">
-                {rsvpYes.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : (
-              "No users to show here"
-            )}
+            {rsvpYes?.length
+              ? rsvpYes.map((user) => (
+                  <p key={user._id}>
+                    <strong>{user.username}</strong>
+                    {` (${user.firstName} ${user.lastName})`}
+                  </p>
+                ))
+              : "No users to show here"}
           </div>
 
           <div
@@ -79,15 +119,14 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tabpanel"
             aria-labelledby="nav-rsvpMaybe-tab"
           >
-            {rsvpMaybe?.length ? (
-              <ul className="tags-list">
-                {rsvpMaybe.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : (
-              "No users to show here"
-            )}
+            {rsvpMaybe?.length
+              ? rsvpMaybe.map((user) => (
+                  <p key={user._id}>
+                    <strong>{user.username}</strong>
+                    {` (${user.firstName} ${user.lastName})`}
+                  </p>
+                ))
+              : "No users to show here"}
           </div>
 
           <div
@@ -96,15 +135,14 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tabpanel"
             aria-labelledby="nav-rsvpNo-tab"
           >
-            {rsvpNo?.length ? (
-              <ul className="tags-list">
-                {rsvpNo.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : (
-              "No users to show here"
-            )}
+            {rsvpNo?.length
+              ? rsvpNo.map((user) => (
+                  <p key={user._id}>
+                    <strong>{user.username}</strong>
+                    {` (${user.firstName} ${user.lastName})`}
+                  </p>
+                ))
+              : "No users to show here"}
           </div>
 
           <div
@@ -113,15 +151,14 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
             role="tabpanel"
             aria-labelledby="nav-likes-tab"
           >
-            {likes?.length ? (
-              <ul className="tags-list">
-                {likes.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            ) : (
-              "No users to show here"
-            )}
+            {likes?.length
+              ? likes.map((user) => (
+                  <p key={user._id}>
+                    <strong>{user.username}</strong>
+                    {` (${user.firstName} ${user.lastName})`}
+                  </p>
+                ))
+              : "No users to show here"}
           </div>
         </div>
       </div>
@@ -130,10 +167,7 @@ function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
 }
 
 EventDetailsLikesRsvps.propTypes = {
-  likes: PropTypes.arrayOf(PropTypes.string),
-  rsvpYes: PropTypes.arrayOf(PropTypes.string),
-  rsvpMaybe: PropTypes.arrayOf(PropTypes.string),
-  rsvpNo: PropTypes.arrayOf(PropTypes.string),
+  eventId: PropTypes.string,
 };
 
 export default EventDetailsLikesRsvps;

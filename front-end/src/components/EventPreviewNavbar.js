@@ -118,7 +118,7 @@ EventPreviewNavbar.propTypes = {
   handleClickLike: PropTypes.func.isRequired,
   handleClickRSVP: PropTypes.func.isRequired,
   likes: PropTypes.arrayOf(PropTypes.string),
-  rsvped: PropTypes.arrayOf(PropTypes.string),
+  rsvped: PropTypes.string,
 };
 
 export default EventPreviewNavbar;

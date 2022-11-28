@@ -6,7 +6,7 @@ const LocalStrategy = passportLocal.Strategy;
 
 export function initialize(passport, getUserByContactEmail, getUserById) {
   const authenticateUser = async (email, password, done) => {
-    const { user } = await getUserByContactEmail(email);
+    const { user } = await getUserByContactEmail(email?.toLowerCase());
     if (user === null) {
       return done(null, false, { message: "Incorrect credentials." });
     }

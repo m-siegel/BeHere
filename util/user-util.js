@@ -20,14 +20,20 @@ const userUtil = {};
  */
 export async function registerUser(registrationInfo) {
   // TODO: Validate parameters, esp email
-  if (!generalUtil.validEmailStructure(registrationInfo.orgEmail)) {
+  if (
+    !generalUtil.validEmailStructure(registrationInfo.orgEmail.toLowerCase())
+  ) {
     return {
       success: false,
       reason: `${registrationInfo.orgEmail} is an invalid email address.`,
       userIdString: "",
     };
   }
-  if (!generalUtil.validEmailStructure(registrationInfo.contactEmail)) {
+  if (
+    !generalUtil.validEmailStructure(
+      registrationInfo.contactEmail.toLowerCase()
+    )
+  ) {
     return {
       success: false,
       reason: `${registrationInfo.contactEmail} is an invalid email address.`,
@@ -41,14 +47,16 @@ export async function registerUser(registrationInfo) {
       userIdString: "",
     };
   }
-  if (await userConnect.emailInUse(registrationInfo.contactEmail)) {
+  if (
+    await userConnect.emailInUse(registrationInfo.contactEmail.toLowerCase())
+  ) {
     return {
       success: false,
       reason: `The email ${registrationInfo.contactEmail} has been claimed by another user.`,
       userIdString: "",
     };
   }
-  if (await userConnect.emailInUse(registrationInfo.orgEmail)) {
+  if (await userConnect.emailInUse(registrationInfo.orgEmail.toLowerCase())) {
     return {
       success: false,
       reason: `The email ${registrationInfo.orgEmail} has been claimed by another user.`,
@@ -66,8 +74,8 @@ export async function registerUser(registrationInfo) {
     registrationInfo.lastName,
     registrationInfo.username,
     hashedPassword,
-    registrationInfo.contactEmail,
-    registrationInfo.orgEmail
+    registrationInfo.contactEmail.toLowerCase(),
+    registrationInfo.orgEmail.toLowerCase()
   );
 
   // Add to database
@@ -116,8 +124,111 @@ function initializeUserObj(
     organizations: [generalUtil.getOrgFromEmail(orgEmail)],
     homeLocation: {},
     followingEvents: [],
+    likedEvents: [],
+    rsvpYesEvents: [],
+    rsvpMaybeEvents: [],
+    rsvpNoEvents: [],
   };
   return user;
 }
+
+/**
+ * Updates a user based on the attributes of the parameter object if the parameter object's username and email
+ * fields are valid.
+ * @param {string} userIdString String representation of the _id field of the user document to update.
+ * @param {Object} newUserDoc Object that the user document should be set to.
+ *     Should include firstName, lastName, username, password, contactEmail and orgEmail attributes.
+ * @returns {Object} Object indicating the success or failure of the registration. The return object
+ *     has the following attributes:
+ *     - success: boolean. Whether or not the registration was successful.
+ *     - message: string. Indicates where the failure was if the registration was not successful, or success message.
+ */
+export async function updateUserDocument(userIdString, newUserDoc) {
+  // TODO: Validate parameters, esp email
+  if (!generalUtil.validEmailStructure(newUserDoc.organizationEmails[0])) {
+    return {
+      success: false,
+      message: `${newUserDoc.organizationEmails[0]} is an invalid email address.`,
+    };
+  }
+  if (!generalUtil.validEmailStructure(newUserDoc.contactEmail)) {
+    return {
+      success: false,
+      message: `${newUserDoc.contactEmail} is an invalid email address.`,
+    };
+  }
+  let otherUserRes = await userConnect.getUserByUsername(newUserDoc.username);
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The username ${newUserDoc.username} has been claimed by another user.`,
+    };
+  }
+  // TODO: combine these two and the next two
+  otherUserRes = await userConnect.getUserByContactEmail(
+    newUserDoc.contactEmail
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.contactEmail} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByOrgEmail(newUserDoc.contactEmail);
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.contactEmail} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByContactEmail(
+    newUserDoc.organizationEmails[0]
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.organizationEmails[0]} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByOrgEmail(
+    newUserDoc.organizationEmails[0]
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.organizationEmails[0]} has been claimed by another user.`,
+    };
+  }
+
+  newUserDoc.organizations[0] = generalUtil.getOrgFromEmail(
+    newUserDoc.organizationEmails[0]
+  );
+
+  // Update in database
+  try {
+    const updated = await userConnect.updateById(userIdString, {
+      $set: newUserDoc,
+    });
+    if (updated.success) {
+      return {
+        success: true,
+        message: "Update successful!",
+      };
+    } else {
+      return {
+        success: false,
+        message: "There was a problem in the database. Try again later!",
+      };
+    }
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      message:
+        "There was a problem connecting to the database. Try again later!",
+    };
+  }
+}
+userUtil.updateUserDocument = updateUserDocument;
 
 export default userUtil;

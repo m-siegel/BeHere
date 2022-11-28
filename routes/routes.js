@@ -1,9 +1,9 @@
 import express from "express";
 import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
-import userConnect from "../db-connect/users-connect.js";
+import userConnect, { getUserById } from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
-import { registerUser } from "../util/user-util.js";
+import { registerUser, updateUserDocument } from "../util/user-util.js";
 import bcrypt from "bcrypt";
 
 const router = express.Router();
@@ -128,23 +128,68 @@ router.post("/api/edit-event", checkAuthenticated, async (req, res) => {
  * Responds indicating whether a user has sucessfully rsvp'd to an event
  */
 router.post("/rsvp", checkAuthenticated, async (req, res) => {
-  const dbRes = await eventsConnect.eventRsvp(
-    req.session.passport.user,
-    req.body.event,
-    req.body.rsvpStatus
-  );
-  if (dbRes.success) {
+  const user = req.session.passport.user;
+  const event = req.body.event;
+  const rsvpType = req.body.rsvpStatus;
+
+  console.log("in /rsvp route");
+  console.log("userId: ", user._id);
+  console.log("eventId: ", event._id);
+  console.log("rsvpType: ", rsvpType);
+
+  if (user && event && rsvpType) {
+    try {
+      const eventDbResponse = await eventsConnect.eventRsvp(
+        user,
+        event,
+        rsvpType
+      );
+      const userDbResponse = await userConnect.updateRSVP(
+        user._id,
+        event._id,
+        rsvpType
+      );
+
+      if (eventDbResponse.success && userDbResponse.success) {
+        return res.json({
+          success: true,
+          msg: "Successfully updated rsvp",
+          err: null,
+        });
+      } else if (userDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+          err: null,
+        });
+      } else if (eventDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update user. Message: ${userDbResponse.message}`,
+          err: null,
+        });
+      }
+      return res.json({
+        success: false,
+        msg: `Could not update event or user. 
+          User failure message: ${userDbResponse.message}.
+          Event failure message: ${eventDbResponse.message}`,
+        err: null,
+      });
+    } catch (e) {
+      return res.json({
+        success: false,
+        msg: "An error occurred when connecting to the database.",
+        err: e,
+      });
+    }
+  } else {
     return res.json({
-      success: dbRes.success,
-      msg: dbRes.msg,
-      err: dbRes.err,
+      success: false,
+      msg: `Could not update rsvp for user ${userId} and event ${eventId}.`,
+      err: null,
     });
   }
-  return res.json({
-    success: false,
-    msg: dbRes.msg,
-    err: dbRes.err,
-  });
 });
 
 // NOTE: Mea changed
@@ -199,10 +244,30 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
 // from the front end, so we can use this.
 // post request so it doesn't show in the url
 router.post("/getPassportUser", (req, res) => {
-  // TODO: fix wherever this was used
   const user = req.session?.passport?.user;
   if (user) {
     return res.json(req.session?.passport?.user);
+  }
+  return res.json({});
+});
+
+/**
+ * Sends the entire user document from the database in the response.
+ */
+router.post("/api/getCurrentUser", async (req, res) => {
+  const userId = req.session?.passport?.user?._id;
+  if (userId) {
+    try {
+      const dbRes = await getUserById(userId);
+      if (dbRes.user) {
+        return res.json(dbRes.user);
+      } else {
+        return res.json({});
+      }
+    } catch (e) {
+      console.error(e);
+      return res.json({});
+    }
   }
   return res.json({});
 });
@@ -248,14 +313,65 @@ router.post("/api/getUsernameById", async (req, res) => {
   }
 });
 
+router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
+  const eventId = req.body.eventId;
+  if (eventId) {
+    try {
+      const dbResult = await userConnect.getRsvpLikeUserPreviews(eventId);
+      return res.json(dbResult);
+    } catch (e) {
+      console.error(e);
+      return res.json({
+        success: false,
+        message:
+          "An error was encountered in the route for getting the user rsvp and like previews.",
+        username: "",
+        err: e,
+      });
+    }
+  } else {
+    return res.json({
+      success: false,
+      message: "No event id found.",
+      username: null,
+      err: null,
+    });
+  }
+});
+
 router.post("/toggleLike", async (req, res) => {
   const userId = req.session?.passport?.user?._id;
   const eventId = req.body.eventId;
   if (userId && eventId) {
     try {
-      const dbResponse = await toggleLike(eventId, userId);
-      console.log("dbResponse: ", dbResponse);
-      return res.json(dbResponse);
+      const eventDbResponse = await toggleLike(eventId, userId);
+      const userDbResponse = await userConnect.toggleLike(userId, eventId);
+      if (eventDbResponse.success && userDbResponse.success) {
+        return res.json({
+          success: true,
+          msg: "Successfully toggled like",
+          err: null,
+        });
+      } else if (userDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+          err: null,
+        });
+      } else if (eventDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update user. Message: ${userDbResponse.message}`,
+          err: null,
+        });
+      }
+      return res.json({
+        success: false,
+        msg: `Could not update event or user. 
+          User failure message: ${userDbResponse.message}.
+          Event failure message: ${eventDbResponse.message}`,
+        err: null,
+      });
     } catch (e) {
       return res.json({
         success: false,
@@ -359,6 +475,86 @@ router.post("/api/register", async (req, res) => {
       userIdString: "",
     });
   }
+});
+
+/**
+ * Sets the user matching the session.passport.user._id to have the
+ * value of the newUserDoc from the req body.
+ */
+router.post("/api/updateUserDocument", async (req, res) => {
+  try {
+    const { _id, ...newUserDoc } = req.body.updatedUserObj;
+    if (_id !== req.session?.passport?.user?._id) {
+      return res.json({
+        success: false,
+        message:
+          "Our system thinks you're trying to update a user other than yourself. Please clear your browser and try again later.",
+      });
+    }
+    return res.json(await updateUserDocument(_id, newUserDoc));
+  } catch (e) {
+    console.error(e);
+    return res.json({
+      success: false,
+      message: "An error occurred in our server route. Please try again later.",
+    });
+  }
+});
+
+router.post("/api/getUserById", async (req, res) => {
+  const resObject = await userConnect.getUserById(req.session.passport.user.id);
+  return res.json(resObject);
+});
+
+router.post("/api/getUserByUsername", async (req, res) => {
+  // TODO: validate not undefined? -- for all?
+  const resObject = await userConnect.getUserByUsername(req.body.username);
+  return res.json(resObject);
+});
+
+router.post("/api/getUserByEmail", async (req, res) => {
+  let resObject = await userConnect.getUserByContactEmail(req.body.email);
+  if (resObject.user) {
+    return res.json(resObject);
+  }
+  resObject = await userConnect.getUserByOrgEmail(req.body.email);
+  return res.json(resObject);
+});
+
+router.post("/api/getUsersByOrganizations", async (req, res) => {
+  const resObject = await userConnect.getUsersByOrganizations(req.body.orgList);
+  return res.json(resObject);
+});
+
+router.post("/api/updateUserInfo", async (req, res) => {
+  const idString = req.session?.passport?.user?._id;
+  const newValues = req.body.newValues;
+  const resObject = await userConnect.updateById(idString, { $set: newValues });
+  return res.json(resObject);
+});
+
+router.post("/api/deleteUserAccount", async (req, res) => {
+  const idString = req.session?.passport?.user?._id;
+  const resObject = await userConnect.deleteByIdString(idString);
+  // TODO: return or re-route to logout?
+  return res.json(resObject);
+});
+
+router.post("/api/addEventToFollowing", async (req, res) => {
+  const idString = req.session?.passport?.user?._id;
+  const rsvp = req.body.eventRSVP;
+  const resObject = await userConnect.addEventToFollowing(idString, rsvp);
+  return res.json(resObject);
+});
+
+router.post("/api/removeEventFromFollowing", async (req, res) => {
+  const userIdString = req.session?.passport?.user?._id;
+  const eventIdString = req.body.eventId;
+  const resObject = await userConnect.removeEventFromFollowing(
+    userIdString,
+    eventIdString
+  );
+  return res.json(resObject);
 });
 
 export default router;

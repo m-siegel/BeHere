@@ -1,0 +1,21 @@
+.UserSettingsPage h1 {
+  text-align: center;
+}
+
+.UserSettingsPage main{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.UserSettingsPage .UserSettingsForm input {
+  /* smallest phone setting on dev tools is 360 wide */
+  min-width: 340px;
+}
+
+.UserSettingsPage .UserSettingsForm button {
+  margin-bottom: 2em;
+}
+
+.UserSettingsPage .del-acct-btn {
+  margin-bottom: 2em;
+}

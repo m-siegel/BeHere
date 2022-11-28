@@ -28,7 +28,7 @@
 
 # GET http://localhost:3001/api/getEventPreviews
 
-POST http://localhost:3001/api/getOneEvent
+POST http://localhost:3001/api/getRsvpLikeUserPreviews
 content-type: application/json
 
 {

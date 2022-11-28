@@ -220,29 +220,13 @@ export async function updateOne(queryObj, updatesObj) {
     const res = await collection.updateOne(queryObj, updatesObj);
 
     if (res.acknowledged) {
-      if (res.updatedCount) {
-        return {
-          success: true,
-          updatedCount: 1,
-          message: "Successfully updated user.",
-          // TODO: include updated object?
-          err: null,
-        };
-      } else if (res.matchedCount) {
-        return {
-          success: true,
-          updatedCount: 0,
-          message: "User not updated.",
-          err: null,
-        };
-      } else {
-        return {
-          success: false,
-          updatedCount: 0,
-          message: "User not found.",
-          err: null,
-        };
-      }
+      return {
+        success: true,
+        updatedCount: 1,
+        message: "Successfully updated user.",
+        // TODO: include updated object?
+        err: null,
+      };
     }
     return {
       success: false,
@@ -325,6 +309,66 @@ export async function updateMany(queryObj, updatesObj) {
   }
 }
 userConnect.updateMany = updateMany;
+
+/**
+ * Pushes the given eventIdString to the specified user docement's `likedEvents`,
+ * `rsvpYesEvents`, `rsvpMaybeEvents`, `rsvpNoEvents`, array.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {Object} pushCommand Object indicating the array to push to and the item to push, eg {likedEvents: eventIdString}
+ * @returns {Object: {success: boolean, message: string, updatedCount: number, ?err: Error}} Object indicating
+ *     the success of the operation.
+ */
+export async function pushToArray(userIdString, pushCommand) {
+  let idObj;
+  try {
+    idObj = convertStringToObjectId(userIdString);
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      message: "Error creating ObjectId from parameter idString.",
+      userIdString: userIdString,
+      err: e,
+    };
+  }
+  const res = await updateOne({ _id: idObj }, { $push: pushCommand });
+  res.userIdString = userIdString;
+  return res;
+}
+userConnect.pushToArray = pushToArray;
+
+/**
+ * Removes the specified event from the specified user docement's "following" array.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {Object} pullCommand Object indicating the array to push to and the item to pull, eg {likedEvents: eventIdString}
+ * @returns {Object: {success: boolean, message: string, updatedCount: number, ?err: Error}} Object indicating
+ *     the success of the operation.
+ */
+export async function pullFromArray(userIdString, pullCommand) {
+  if (typeof userIdString !== "string") {
+    return {
+      success: false,
+      message: "userIdString must be a string.",
+      userIdString: userIdString,
+      err: null,
+    };
+  }
+  let idObj;
+  try {
+    idObj = convertStringToObjectId(userIdString);
+  } catch (e) {
+    return {
+      success: false,
+      message: "Error creating ObjectId from parameter idString.",
+      userIdString: userIdString,
+      err: e,
+    };
+  }
+  const res = await updateOne({ _id: idObj }, { $pull: pullCommand });
+  res.userIdString = userIdString;
+  return res;
+}
+userConnect.pullFromArray = pullFromArray;
 
 // Specific functions
 
@@ -700,7 +744,7 @@ export async function addEventToFollowing(userIdString, eventRSVP) {
       ),
     };
   }
-  const res = updateOne(
+  const res = await updateOne(
     { _id: idObj },
     { $push: { followingEvents: eventRSVP } }
   );
@@ -810,6 +854,91 @@ export async function emailInUse(email) {
   return false;
 }
 userConnect.emailInUse = emailInUse;
+
+/**
+ * Sets the specified user document's specified rsvp array to contain the specified eventIdString, while removing
+ * that eventIdString from the user's other rsvp arrays. For example, if the user had prevously RSVPed "Yes" and
+ * now RSVPs "Maybe", the result is that the eventIdString is removed from the rsvpYesEvents array and added to the
+ * rsvpMaybeEvents array.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {string} eventIdString String version of the _id of the event to add.
+ * @param {string} commandTypeString Rsvp type to add. One of "Yes", "Maybe", or "No".
+ * @returns {Object: {success: boolean, message: string, updatedCount: number, ?err: Error}} Object indicating
+ *     the success of the operation.
+ */
+export async function updateRSVP(
+  userIdString,
+  eventIdString,
+  commandTypeString
+) {
+  console.log("id string: ", userIdString);
+  // Remove old RSVPs
+  await pullFromArray(userIdString, { rsvpYesEvents: eventIdString });
+  await pullFromArray(userIdString, { rsvpMaybeEvents: eventIdString });
+  await pullFromArray(userIdString, { rsvpNoEvents: eventIdString });
+  // Add new one
+  let res = {
+    success: false,
+    message: "Could not update user.",
+    updatedCount: 0,
+    err: null,
+  };
+  switch (commandTypeString) {
+    case "Yes":
+      res = await pushToArray(userIdString, { rsvpYesEvents: eventIdString });
+      break;
+    case "Maybe":
+      res = await pushToArray(userIdString, { rsvpMaybeEvents: eventIdString });
+      break;
+    case "No":
+      res = await pushToArray(userIdString, { rsvpNoEvents: eventIdString });
+      break;
+    default:
+      res = {
+        success: false,
+        message: `Command parameter ${commandTypeString} is not valid.`,
+        updatedCount: 0,
+        err: null,
+      };
+  }
+  return res;
+}
+userConnect.updateRSVP = updateRSVP;
+
+/**
+ * Adds the specified eventIdString to the specified user document's likedEvents array if it is not already in there,
+ * otherwise removed the eventIdString from the likedEvents array.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {string} eventIdString String version of the _id of the event to add.
+ * @returns {Object: {success: boolean, message: string, updatedCount: number, ?err: Error}} Object indicating
+ *     the success of the operation.
+ */
+export async function toggleLike(userIdString, eventIdString) {
+  const userRes = await getUserById(userIdString);
+  if (userRes && userRes.user) {
+    let res = {
+      success: false,
+      message: "Problem trying to toggle user's like.",
+      updatedCount: 0,
+      err: null,
+    };
+    if (userRes.user.likedEvents?.includes(eventIdString)) {
+      res = await pullFromArray(userIdString, { likedEvents: eventIdString });
+      return res;
+    } else {
+      res = await pushToArray(userIdString, { likedEvents: eventIdString });
+      return res;
+    }
+  } else {
+    return {
+      success: false,
+      message: "Could not find user.",
+      updatedCount: 0,
+      err: null,
+    };
+  }
+}
+userConnect.toggleLike = toggleLike;
 
 // TODO: remove past events
 // TODO: updateOneMultipleAttributes?

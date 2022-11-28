@@ -111,23 +111,68 @@ router.post("/api/edit-event", checkAuthenticated, async (req, res) => {
  * Responds indicating whether a user has sucessfully rsvp'd to an event
  */
 router.post("/rsvp", checkAuthenticated, async (req, res) => {
-  const dbRes = await eventsConnect.eventRsvp(
-    req.session.passport.user,
-    req.body.event,
-    req.body.rsvpStatus
-  );
-  if (dbRes.success) {
+  const user = req.session.passport.user;
+  const event = req.body.event;
+  const rsvpType = req.body.rsvpStatus;
+
+  console.log("in /rsvp route");
+  console.log("userId: ", user._id);
+  console.log("eventId: ", event._id);
+  console.log("rsvpType: ", rsvpType);
+
+  if (user && event && rsvpType) {
+    try {
+      const eventDbResponse = await eventsConnect.eventRsvp(
+        user,
+        event,
+        rsvpType
+      );
+      const userDbResponse = await userConnect.updateRSVP(
+        user._id,
+        event._id,
+        rsvpType
+      );
+
+      if (eventDbResponse.success && userDbResponse.success) {
+        return res.json({
+          success: true,
+          msg: "Successfully updated rsvp",
+          err: null,
+        });
+      } else if (userDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+          err: null,
+        });
+      } else if (eventDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update user. Message: ${userDbResponse.message}`,
+          err: null,
+        });
+      }
+      return res.json({
+        success: false,
+        msg: `Could not update event or user. 
+          User failure message: ${userDbResponse.message}.
+          Event failure message: ${eventDbResponse.message}`,
+        err: null,
+      });
+    } catch (e) {
+      return res.json({
+        success: false,
+        msg: "An error occurred when connecting to the database.",
+        err: e,
+      });
+    }
+  } else {
     return res.json({
-      success: dbRes.success,
-      msg: dbRes.msg,
-      err: dbRes.err,
+      success: false,
+      msg: `Could not update rsvp for user ${userId} and event ${eventId}.`,
+      err: null,
     });
   }
-  return res.json({
-    success: false,
-    msg: dbRes.msg,
-    err: dbRes.err,
-  });
 });
 
 // NOTE: Mea changed
@@ -236,9 +281,34 @@ router.post("/toggleLike", async (req, res) => {
   const eventId = req.body.eventId;
   if (userId && eventId) {
     try {
-      const dbResponse = await toggleLike(eventId, userId);
-      console.log("dbResponse: ", dbResponse);
-      return res.json(dbResponse);
+      const eventDbResponse = await toggleLike(eventId, userId);
+      const userDbResponse = await userConnect.toggleLike(userId, eventId);
+      if (eventDbResponse.success && userDbResponse.success) {
+        return res.json({
+          success: true,
+          msg: "Successfully toggled like",
+          err: null,
+        });
+      } else if (userDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+          err: null,
+        });
+      } else if (eventDbResponse.success) {
+        return res.json({
+          success: false,
+          msg: `Could not update user. Message: ${userDbResponse.message}`,
+          err: null,
+        });
+      }
+      return res.json({
+        success: false,
+        msg: `Could not update event or user. 
+          User failure message: ${userDbResponse.message}.
+          Event failure message: ${eventDbResponse.message}`,
+        err: null,
+      });
     } catch (e) {
       return res.json({
         success: false,

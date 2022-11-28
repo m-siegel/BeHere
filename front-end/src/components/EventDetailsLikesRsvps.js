@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function EventDetailsLikesRsvps({ likes, rsvpYes, rsvpMaybe, rsvpNo }) {
+  console.log("in EventDetailsLikesRsvps likes: ", likes);
   return (
     <div className="EventDetailsLikesRsvps card">
       <div className="card-body">

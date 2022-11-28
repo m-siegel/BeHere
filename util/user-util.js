@@ -116,6 +116,10 @@ function initializeUserObj(
     organizations: [generalUtil.getOrgFromEmail(orgEmail)],
     homeLocation: {},
     followingEvents: [],
+    likedEvents: [],
+    rsvpYesEvents: [],
+    rsvpMaybeEvents: [],
+    rsvpNoEvents: [],
   };
   return user;
 }

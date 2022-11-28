@@ -758,7 +758,6 @@ userConnect.getRsvpLikeUserPreviews = getRsvpLikeUserPreviews;
 
 // Specific functions -- update
 
-// TODO: check
 /**
  * Updates the user document with the id that matches the parameter userIdString.
  * @param {string} userIdString String version of the _id of the document to update.

@@ -33,7 +33,7 @@ function EventDetailsLikesRsvps({ eventId }) {
           console.error("No error: ", res.err.noErr);
         }
         setLikes(res?.likeUsers ? res.likeUsers : []);
-        setRsvpYes(res?.yesUsers ? res.likeUsers : []);
+        setRsvpYes(res?.yesUsers ? res.yesUsers : []);
         setRsvpMaybe(res?.maybeUsers ? res.maybeUsers : []);
         setRsvpNo(res?.noUsers ? res.noUsers : []);
       } catch (e) {

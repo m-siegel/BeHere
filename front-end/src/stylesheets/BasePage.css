@@ -65,3 +65,9 @@
 .BasePage .card h2 {
   text-align: center;
 }
+
+.BasePage .centering-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

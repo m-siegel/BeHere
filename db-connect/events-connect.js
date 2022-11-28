@@ -184,18 +184,20 @@ export async function getEventPreviews(organization) {
           //start: { $gte: /* today's variable */}
         },
         {
-          _id: 1,
-          name: 1,
-          organization: 1,
-          creator: 1,
-          tags: 1,
-          location: 1,
-          start: 1,
-          followedBy: 1,
-          rsvpYes: 1,
-          rsvpMaybe: 1,
-          rsvpNo: 1,
-          likes: 1,
+          projection: {
+            _id: 1,
+            name: 1,
+            organization: 1,
+            creator: 1,
+            tags: 1,
+            location: 1,
+            start: 1,
+            followedBy: 1,
+            rsvpYes: 1,
+            rsvpMaybe: 1,
+            rsvpNo: 1,
+            likes: 1,
+          },
         }
       )
       .sort({

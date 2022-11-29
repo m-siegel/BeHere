@@ -43,6 +43,11 @@ router.get("/api/getOrganization", (req, res) => {
   });
 });
 
+router.get("/api/auth", (req, res) => {
+  console.log("is Authenticated", req.isAuthenticated().toString());
+  res.json({ auth: req.isAuthenticated() });
+});
+
 router.post(
   "/login",
   passport.authenticate("local", {

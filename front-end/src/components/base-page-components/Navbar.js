@@ -20,6 +20,17 @@ function Navbar() {
   const pathname = window.location.pathname;
   const navigate = useNavigate();
 
+  async function isAuth() {
+    try {
+      console.log("in isAuth");
+      const res = await (await fetch("/api/auth")).json();
+      return res.auth;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  }
+
   async function handleLogout() {
     const res = await (
       await fetch("/logout", {
@@ -47,7 +58,7 @@ function Navbar() {
           )
         }
         descriptionText="Home"
-        linkPath={"/home"}
+        linkPath={isAuth() ? "/home" : "/"}
       ></IconLinkButton>
 
       <IconLinkButton

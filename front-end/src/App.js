@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./App.css";
 
@@ -18,12 +14,7 @@ import RegisterPage from "./pages/RegisterPage.js";
 import UserSettingsPage from "./pages/UserSettingsPage.js";
 import CreateEventPage from "./pages/CreateEventPage";
 
-// TODO: routing
-
-// TODO: look at tutorial -- should this be in index not app?
 function App() {
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   async function isAuth() {
     try {
       console.log("in isAuth");
@@ -31,23 +22,13 @@ function App() {
       return res.auth;
     } catch (e) {
       console.error(e);
+      return false;
     }
   }
 
-  // function checkIfLoggedOut(isLoggedIn) {
-  //   if (!isLoggedIn) {
-  //     navigate("/login", { replace: true });
-  //   }
-  // }
-  // function checkIfLoggedIn(isLoggedIn) {
-  //   if (isLoggedIn) {
-  //     navigate("/home", { replace: true });
-  //   }
-  // }
-
   const router = createBrowserRouter([
     {
-      path: "/", // TODO: home if logged in?
+      path: "/",
       element: <IndexPage isAuth={isAuth}></IndexPage>,
       errorElement: <ErrorPage></ErrorPage>,
     },
@@ -68,11 +49,11 @@ function App() {
       element: <DashboardPage isAuth={isAuth}></DashboardPage>,
     },
     {
-      path: "/event/:id", // TODO: url param
+      path: "/event/:id",
       element: <EventDetailsPage isAuth={isAuth}></EventDetailsPage>,
     },
     {
-      path: "/create-event", // TODO: url param, like /event
+      path: "/create-event",
       element: <CreateEventPage isAuth={isAuth}></CreateEventPage>,
     },
     {

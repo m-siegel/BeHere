@@ -24,7 +24,7 @@ function EventForm({ setAlert, setDel }) {
       }
     }
     loadEvent();
-  }, [eventId]); // TODO: Mea changed, check okay
+  }, [eventId]);
 
   async function onSubmit(evt) {
     evt.preventDefault();

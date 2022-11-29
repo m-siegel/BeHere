@@ -45,13 +45,20 @@ router.get("/api/auth", (req, res) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/home",
-    failureRedirect: "/login",
+    successRedirect: "/getAuthentication",
+    failureRedirect: "/getAuthentication",
   })
 );
 
 router.get("/getPassportUser", checkAuthenticated, (req, res) => {
   res.json(req.passport.session.user);
+});
+
+/**
+ * Responds indicating whether or not the session is valid (express-session and passport)
+ */
+router.get("/getAuthentication", (req, res) => {
+  res.json({ authenticated: req.isAuthenticated() });
 });
 
 /**

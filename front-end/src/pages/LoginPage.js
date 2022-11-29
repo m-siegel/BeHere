@@ -1,10 +1,24 @@
 // By Tim
 
-import React from "react";
+import React, { useEffect } from "react";
 import LoginForm from "../components/LoginForm.js";
 import BasePage from "../components/base-page-components/BasePage.js";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function LoginPage({ isAuth }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function authOrRedirect() {
+      if (await isAuth()) {
+        console.log(isAuth);
+        navigate("/home", { replace: true });
+      }
+    }
+    authOrRedirect();
+  }, []);
+
   return (
     <BasePage>
       <div className="loginPage">
@@ -20,5 +34,9 @@ function LoginPage() {
     </BasePage>
   );
 }
+
+LoginPage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default LoginPage;

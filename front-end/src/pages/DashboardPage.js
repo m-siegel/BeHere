@@ -5,12 +5,15 @@ import { useState, useEffect, useCallback } from "react";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
 import "../stylesheets/DashboardPage.css";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-function DashboardPage() {
+function DashboardPage({ isAuth }) {
   const [previews, setPreviews] = useState([]);
   const [myEventDisplayed, setMyEventDisplayed] = useState(true);
   const [checkedEvents, setCheckedEvents] = useState(false);
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   const [AlertComponent, setAlert] = useAlert();
 
@@ -31,19 +34,26 @@ function DashboardPage() {
   }, [myEventDisplayed]);
 
   useEffect(() => {
-    const getUserPassportInfo = async () => {
-      try {
-        const res = await fetch("/getPassportUser", {
-          method: "POST",
-        });
-        setUser(await res.json());
-      } catch (e) {
-        console.error(e);
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/login", { replace: true });
       }
-    };
-
-    loadData();
-    getUserPassportInfo();
+      const getUserPassportInfo = async () => {
+        try {
+          const res = await fetch("/getPassportUser", {
+            method: "POST",
+          });
+          setUser(await res.json());
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      loadData();
+      getUserPassportInfo();
+      // Can return to clean up previous effect, eg stop fetch
+    }
+    authOrRedirect();
 
     return () => {};
   }, [myEventDisplayed, loadData]);
@@ -167,7 +177,7 @@ function DashboardPage() {
 }
 
 DashboardPage.propTypes = {
-  // Not using props
+  isAuth: PropTypes.func.isRequired,
 };
 
 export default DashboardPage;

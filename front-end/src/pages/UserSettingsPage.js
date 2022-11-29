@@ -1,6 +1,6 @@
 /* Ilana-Mahmea */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
@@ -8,7 +8,7 @@ import useAlert from "../hooks/useAlert.js";
 import UserSettingsForm from "../components/UserSettingsForm.js";
 import "../stylesheets/UserSettingsPage.css";
 
-function UserSettingsPage() {
+function UserSettingsPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
   const navigate = useNavigate();
 
@@ -50,6 +50,16 @@ function UserSettingsPage() {
       console.log("Error in handleDelete: ", e);
     }
   }
+
+  useEffect(() => {
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/login", { replace: true });
+      }
+    }
+    authOrRedirect();
+  }, []);
 
   return (
     <div className="UserSettingsPage">
@@ -118,6 +128,8 @@ function UserSettingsPage() {
   );
 }
 
-UserSettingsPage.propTypes = {};
+UserSettingsPage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default UserSettingsPage;

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventDetailsLikesRsvps from "../components/EventDetailsLikesRsvps.js";
 import EventDetailsLocationTime from "../components/EventDetailsLocationTime.js";
@@ -13,32 +13,40 @@ import "../stylesheets/EventDetailsPage.css";
 
 // event prop in case someone wants to use this component,
 // giving it the event to be faster
-function EventDetailsPage({ event, className }) {
+function EventDetailsPage({ event, className, isAuth }) {
   const [eventInfo, setEventInfo] = useState(event ? event : {});
+  const navigate = useNavigate();
 
   // TODO: should this be a state?
   const params = useParams();
 
   useEffect(() => {
     // Fetch the event from the back end and set it
-    async function loadEvent() {
-      try {
-        const res = await (
-          await fetch("/api/getOneEvent", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ eventId: params.id }),
-          })
-        ).json();
-        if (res && res.event) {
-          setEventInfo(res.event);
-        }
-      } catch (e) {
-        console.error(e);
-        setEventInfo({});
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/login", { replace: true });
       }
+      async function loadEvent() {
+        try {
+          const res = await (
+            await fetch("/api/getOneEvent", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ eventId: params.id }),
+            })
+          ).json();
+          if (res && res.event) {
+            setEventInfo(res.event);
+          }
+        } catch (e) {
+          console.error(e);
+          setEventInfo({});
+        }
+      }
+      loadEvent();
     }
-    loadEvent();
+    authOrRedirect();
   }, [params]);
 
   return (
@@ -78,6 +86,7 @@ function EventDetailsPage({ event, className }) {
 EventDetailsPage.propTypes = {
   event: PropTypes.object,
   className: PropTypes.string,
+  isAuth: PropTypes.func.isRequired,
 };
 
 export default EventDetailsPage;

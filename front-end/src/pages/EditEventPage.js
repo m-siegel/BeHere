@@ -1,15 +1,27 @@
 // By Tim
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventForm from "../components/EventForm.js";
 import useAlert from "../hooks/useAlert.js";
 import ConfirmDeleteComponent from "../components/ConfirmDeleteComponent.js";
+import PropTypes from "prop-types";
 
-function EditEventPage() {
+function EditEventPage({ isAuth }) {
   const { eventId } = useParams();
   const [del, setDel] = useState(false);
   const [AlertComponent, setAlert] = useAlert();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/login", { replace: true });
+      }
+    }
+    authOrRedirect();
+  }, []);
 
   return (
     <BasePage>
@@ -25,6 +37,8 @@ function EditEventPage() {
   );
 }
 
-EditEventPage.propTypes = {};
+EditEventPage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default EditEventPage;

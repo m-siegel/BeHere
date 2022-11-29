@@ -3,8 +3,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../stylesheets/LoginForm.css";
+import PropTypes from "prop-types";
 
-export default function LoginForm() {
+function LoginForm() {
   async function loginAttempt() {
     const form = document.querySelector("#login-form");
     let res;
@@ -66,3 +67,7 @@ export default function LoginForm() {
     </div>
   );
 }
+
+LoginForm.propTypes = {};
+
+export default LoginForm;

@@ -1,13 +1,25 @@
 /* Ilana-Mahmea */
 
 import "../stylesheets/RegisterPage.css";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import useAlert from "../hooks/useAlert";
+import PropTypes from "prop-types";
 
-function RegisterPage() {
+function RegisterPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function authOrRedirect() {
+      if (await isAuth()) {
+        console.log(isAuth);
+        navigate("/home", { replace: true });
+      }
+    }
+    authOrRedirect();
+  }, []);
 
   return (
     <div className="RegisterPage">
@@ -39,6 +51,8 @@ function RegisterPage() {
   );
 }
 
-RegisterPage.propTypes = {};
+RegisterPage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default RegisterPage;

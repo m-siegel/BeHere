@@ -62,7 +62,7 @@ For a look into our design process, you can check out the links below or head ov
 - [Pictures of each of the Figma design pages](https://github.com/m-siegel/BeHere/tree/main/design-docs/Figma-designs)
 - [User Stories](https://docs.google.com/document/d/1jSwcehOhz0aGGsGV_AzXpy_ga3QOUyMMBPYmO0Uwqso/edit?usp=sharing)
 - [Project Overview presentation slides](https://docs.google.com/presentation/d/1AIoXCkqrgKIH0WkupYCgs28NksLDtNRU-kLlBTQW-GM/edit?usp=sharing)
-- TODO -- presentation video
+- [Demonstration video] (https://youtu.be/UdZ8jQl9-rA)
 
 ## A Glimpse of our Site
 

@@ -41,9 +41,7 @@ We created this site as project for our [Northeastern University CS5610 Web Deve
 
 ## How to Use BeHere
 
-At the moment, this site can only be used locally. See instructions below for how to do so.
-
-### TODO -- Deployed Online
+You can visit our deployed site at [be-here.onrender.com](https://be-here.onrender.com/) or run it locally on your own computer.
 
 ### Run Locally with Git
 

@@ -8,24 +8,6 @@ import "../stylesheets/LoginForm.css";
  * Form to log into the website.
  */
 function LoginForm() {
-  // TODO: Keep or delete?
-  async function loginAttempt() {
-    const form = document.querySelector("#login-form");
-    let res;
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      try {
-        res = await fetch("/login", {
-          method: "POST",
-          body: new URLSearchParams(FormData(form)),
-        });
-        const resUser = await res.json();
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  }
-
   return (
     <div className="card">
       <div className="card-body">

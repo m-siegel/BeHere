@@ -580,9 +580,8 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
       console.log("case No remove status: ", removeStatus);
       break;
     default:
-      console.log("no status to remove");
+      console.log("Invalid value.");
   }
-  // TODO: what do you want to do instead of console.log? Return removeStatus, or something?
   return;
 }
 

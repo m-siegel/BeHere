@@ -10,6 +10,8 @@
 
 - **Proof of 80% progress as of Nov 22: [release version 0.0.1, tag v0.0.1-TA-nov22_80%](https://github.com/m-siegel/BeHere/releases/tag/nov22_80)**.
 
+- **Project 3 release: [tag version 1.0.0](https://github.com/m-siegel/BeHere/releases/tag/1.0.0)***
+
 ## Other notes for TAs:
 
 - The styling for some components is done in other components' stylesheets. This is because components may be reused across different other components/pages, which may require different styling. For example, while the general shape of EventPreview components does not change, some styling, like the colors, may differ depending upon the parent component, so that styling is done in the stylesheet for whichever component is controling that particular EventPreview.

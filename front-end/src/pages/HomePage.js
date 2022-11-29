@@ -1,20 +1,29 @@
 // Mea
 import { useState, useEffect } from "react";
-import { propTypes } from "prop-types";
+import PropTypes from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
 import "../stylesheets/HomePage.css";
+import { useNavigate } from "react-router-dom";
 
 // TODO: takes time to load events before rendering -- make prettier
 
-function HomePage(props) {
+function HomePage({ isAuth }) {
   // TODO: props should have a user attribute
   const [checkedEvents, setCheckedEvents] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   const [AlertComponent, setAlert] = useAlert();
+
+  // function checkIfLoggedOut(isLoggedIn) {
+  //   if (!isLoggedIn) {
+  //     navigate("/login", { replace: true });
+  //     navigate(0);
+  //   }
+  // }
 
   async function loadPreviews() {
     const res = await (await fetch("/api/getEventPreviews")).json();
@@ -37,9 +46,16 @@ function HomePage(props) {
   }
 
   useEffect(() => {
-    loadPreviews();
-    getUserPassportInfo();
-    // Can return to clean up previous effect, eg stop fetch
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/", { replace: true });
+      }
+      loadPreviews();
+      getUserPassportInfo();
+      // Can return to clean up previous effect, eg stop fetch
+    }
+    authOrRedirect();
   }, []);
 
   // TODO: can we just do eventId not whole event?
@@ -141,6 +157,8 @@ function HomePage(props) {
   );
 }
 
-HomePage.propTypes = {};
+HomePage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default HomePage;

@@ -1,11 +1,24 @@
 // By Tim
-import React from "react";
+import React, { useEffect } from "react";
 import BasePage from "../components/base-page-components/BasePage.js";
 import useAlert from "../hooks/useAlert.js";
 import CreateEventForm from "../components/CreateEventForm.js";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function CreateEventPage() {
+function CreateEventPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function authOrRedirect() {
+      if (!(await isAuth())) {
+        console.log(isAuth);
+        navigate("/login", { replace: true });
+      }
+    }
+    authOrRedirect();
+  }, []);
 
   return (
     <BasePage>
@@ -19,5 +32,9 @@ function CreateEventPage() {
     </BasePage>
   );
 }
+
+CreateEventPage.propTypes = {
+  isAuth: PropTypes.func.isRequired,
+};
 
 export default CreateEventPage;

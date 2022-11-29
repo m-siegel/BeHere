@@ -10,6 +10,8 @@ import bcrypt from "bcrypt";
 
 const router = express.Router();
 
+/* Tim */
+
 router.get("/api/getEvent/:id", async (req, res) => {
   const eventId = req.params.id;
   console.log(`The event id is: ${eventId}`);
@@ -243,8 +245,7 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
   }
 });
 
-// Moved
-// Mea
+/* Ilana-Mahmea */
 
 // I don't think we can get the user's session passport info
 // from the front end, so we can use this.

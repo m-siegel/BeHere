@@ -1,3 +1,5 @@
+/* Tim */
+
 const eventUtil = {};
 export function eventify(obj, creatorId, org) {
   const object = {

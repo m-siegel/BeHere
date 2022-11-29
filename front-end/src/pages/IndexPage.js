@@ -1,4 +1,5 @@
-// By Mea
+/* Ilana-Mahmea */
+
 import "../stylesheets/IndexPage.css";
 import React from "react";
 import { Link } from "react-router-dom";

@@ -1,4 +1,5 @@
-// By Mea
+/* Ilana-Mahmea */
+
 import "../stylesheets/EventPreview.css";
 import React from "react";
 import PropTypes from "prop-types";

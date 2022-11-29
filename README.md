@@ -25,7 +25,19 @@ We created this site as project for our [Northeastern University CS5610 Web Deve
 - To become familiar with React and improve our skills with Node, Express, MongoDB, and HTTP requests.
 - To create a working fullstack site that we and others could use to share events within our organizations.
 
-## TODO -- Technologies Used
+## Technologies
+
+- _Figma_ – for planning and page mock-ups.
+- _React_ and _JSX_ - for everything in the front end, including front-end routing.
+- _CSS_ – for page styling.
+- _Bootstrap_ – for more page styling.
+- _JavaScript_ – For all the back end code.
+- _Express_ - for app structure and routing.
+- _Node_ - for the back end environment.
+- _Passport_ and _Passport-Local_ - for user authentication.
+- _Express-Session_ - for storing persistent data.
+- _Bcrypt_ - for hashing and comparing passwords.
+- _MongoDB_ - for a database to store user and flashcard data.
 
 ## TODO -- How to Use BeHere
 
@@ -33,6 +45,52 @@ We created this site as project for our [Northeastern University CS5610 Web Deve
 
 ### TODO -- Locally with Git
 
-## TODO -- A Peek at our Design Process
+## A Peek at our Design Process
 
-## TODO -- A Glimpse of our Site
+For a look into our design process, you can check out the links below or head over to the [design-docs folder](https://github.com/m-siegel/BeHere/tree/main/design-docs).
+
+- [Front-end design on Figma](https://www.figma.com/file/QOl1RSMSOqAbVQlL2AyFZ0/Project-3?node-id=0%3A1&t=83R8VOtuitiSVERk-0)
+- [Pictures of each of the Figma design pages](https://github.com/m-siegel/BeHere/tree/main/design-docs/Figma-designs)
+- [User Stories](https://docs.google.com/document/d/1jSwcehOhz0aGGsGV_AzXpy_ga3QOUyMMBPYmO0Uwqso/edit?usp=sharing)
+- [Project Overview presentation slides](https://docs.google.com/presentation/d/1AIoXCkqrgKIH0WkupYCgs28NksLDtNRU-kLlBTQW-GM/edit?usp=sharing)
+- TODO -- presentation video
+
+## A Glimpse of our Site
+
+We encourage you to explore our site yourself, but here are a some screenshots of it.
+
+#### Landing Page
+
+![Landing Page](./website-screenshots/index-page.png)
+
+#### Register Page
+
+![Register Page](./website-screenshots/registration-page.png)
+
+#### Login Page
+
+![Login Page](./website-screenshots/login-page.png)
+
+#### Home Page
+
+![Home Page wide window](./website-screenshots/home-page-wide.png)
+
+#### Event Details Page
+
+![Event Details Page](./website-screenshots/details-page.png)
+
+#### Edit Event Page
+
+![Edit Event Page](./website-screenshots/edit-page-wide.png)
+
+#### Dashboard Page
+
+![Dashboard Page](./website-screenshots/dashboard-page-wide.png)
+
+#### User Settings Page
+
+![User Settings Page](./website-screenshots/delete-confirm-user.png)
+
+#### Narrow views of some pages
+
+![Home Page wide window](./website-screenshots/home-page-narrow.png) ![Edit Event Page](./website-screenshots/edit-page-narrow.png) ![Dashboard Page](./website-screenshots/dashboard-page-narrow.png)

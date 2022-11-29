@@ -50,8 +50,8 @@ These instructions use yarn commands. You can use the npm equivalents if you'd p
 1. Clone this repository.
 2. Cd to the 'BeHere' directory and run 'yarn install'. This will install the depencies for both the back-end and front-end, and will create a static build of the front-end.
 3. To create a database, install mongodb locally and run the local server in the background. It should be set up to run on localhost:27017. Then, from the 'BeHere' directory, run 'yarn run initMockDb'. This will create a be-here database on your local MongoDB connection with user and event collections, each pre-populated with 1k+ documents.
-4. Open a second terminal window and 'cd' to 'front-end'. Run 'yarn start' from the 'BeHere' directory and again from the 'front-end' directory, in separate terminal windows.
-5. In the web browser of your choice, go to [http://localhost:3000/](http://localhost:3000/)
+4. Run 'yarn start'.
+5. In the web browser of your choice, go to [http://localhost:3001/](http://localhost:3001/)
 6. Enjoy!
 
 ## A Peek at our Design Process

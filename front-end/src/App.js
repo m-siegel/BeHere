@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 
 import "./App.css";
 
@@ -17,43 +22,66 @@ import CreateEventPage from "./pages/CreateEventPage";
 
 // TODO: look at tutorial -- should this be in index not app?
 function App() {
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  async function isAuth() {
+    try {
+      console.log("in isAuth");
+      const res = await (await fetch("/api/auth")).json();
+      return res.auth;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // function checkIfLoggedOut(isLoggedIn) {
+  //   if (!isLoggedIn) {
+  //     navigate("/login", { replace: true });
+  //   }
+  // }
+  // function checkIfLoggedIn(isLoggedIn) {
+  //   if (isLoggedIn) {
+  //     navigate("/home", { replace: true });
+  //   }
+  // }
+
   const router = createBrowserRouter([
     {
       path: "/", // TODO: home if logged in?
-      element: <IndexPage></IndexPage>,
+      element: <IndexPage isAuth={isAuth}></IndexPage>,
       errorElement: <ErrorPage></ErrorPage>,
     },
     {
       path: "/login",
-      element: <LoginPage></LoginPage>,
+      element: <LoginPage isAuth={isAuth}></LoginPage>,
     },
     {
       path: "/register",
-      element: <RegisterPage></RegisterPage>,
+      element: <RegisterPage isAuth={isAuth}></RegisterPage>,
     },
     {
       path: "/home",
-      element: <HomePage></HomePage>,
+      element: <HomePage isAuth={isAuth}></HomePage>,
     },
     {
       path: "/dashboard",
-      element: <DashboardPage></DashboardPage>,
+      element: <DashboardPage isAuth={isAuth}></DashboardPage>,
     },
     {
       path: "/event/:id", // TODO: url param
-      element: <EventDetailsPage></EventDetailsPage>,
+      element: <EventDetailsPage isAuth={isAuth}></EventDetailsPage>,
     },
     {
       path: "/create-event", // TODO: url param, like /event
-      element: <CreateEventPage></CreateEventPage>,
+      element: <CreateEventPage isAuth={isAuth}></CreateEventPage>,
     },
     {
       path: "/edit/:eventId",
-      element: <EditEventPage></EditEventPage>,
+      element: <EditEventPage isAuth={isAuth}></EditEventPage>,
     },
     {
       path: "/settings",
-      element: <UserSettingsPage></UserSettingsPage>,
+      element: <UserSettingsPage isAuth={isAuth}></UserSettingsPage>,
     },
   ]);
 

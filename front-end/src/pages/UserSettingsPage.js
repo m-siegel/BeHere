@@ -63,11 +63,53 @@ function UserSettingsPage() {
           </div>
           <div className="centering-container">
             <button
-              className="btn btn-danger del-acct-btn"
-              onClick={handleDelete}
+              type="button"
+              class="btn btn-danger del-acct-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteConfirmation"
             >
               Delete Account
             </button>
+          </div>
+
+          <div
+            class="modal fade"
+            id="deleteConfirmation"
+            tabindex="-1"
+            aria-labelledby="deleteConfirmationLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to delete your account?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    data-bs-dismiss="modal"
+                    className="btn btn-danger"
+                    onClick={handleDelete}
+                  >
+                    Delete Account
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </BasePage>

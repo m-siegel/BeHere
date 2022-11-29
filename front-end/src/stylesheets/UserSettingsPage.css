@@ -1,3 +1,5 @@
+@import "./timeaColors.css";
+
 .UserSettingsPage .Alert {
   z-index: 1;
   position: sticky;
@@ -24,4 +26,8 @@
 
 .UserSettingsPage .del-acct-btn {
   margin-bottom: 2em;
+}
+
+.UserSettingsPage .modal {
+color: var(--timea-dark-brown)
 }

@@ -2,7 +2,6 @@
 import "../stylesheets/IndexPage.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import RegisterForm from "../components/RegisterForm";
 
 function IndexPage() {
   return (

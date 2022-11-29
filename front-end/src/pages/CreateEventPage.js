@@ -5,6 +5,7 @@ import useAlert from "../hooks/useAlert.js";
 import CreateEventForm from "../components/CreateEventForm.js";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import "../stylesheets/CreateEventPage.css";
 
 function CreateEventPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
@@ -20,15 +21,17 @@ function CreateEventPage({ isAuth }) {
   }, [isAuth, navigate]);
 
   return (
-    <BasePage>
-      <AlertComponent />
-      <div className="card">
-        <div className="card-body">
-          <h1>Create an event</h1>
-          <CreateEventForm setAlert={setAlert} />
+    <div className="CreateEventPage">
+      <BasePage>
+        <AlertComponent />
+        <div className="card">
+          <div className="card-body">
+            <h1>Create an event</h1>
+            <CreateEventForm setAlert={setAlert} />
+          </div>
         </div>
-      </div>
-    </BasePage>
+      </BasePage>
+    </div>
   );
 }
 

@@ -1,10 +1,11 @@
 //By Tim Crawley
 import React from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function ConfirmDeleteComponent({ del, setDel, setAlert }) {
   const { eventId } = useParams();
+  const navigate = useNavigate();
 
   async function finalizeDelete(eventId) {
     setAlert({
@@ -24,6 +25,7 @@ function ConfirmDeleteComponent({ del, setDel, setAlert }) {
       });
       const responseJson = await res.json();
       alertUser(responseJson);
+      navigate("/dashboard", { replace: true });
     } catch (e) {
       console.error(e);
     }

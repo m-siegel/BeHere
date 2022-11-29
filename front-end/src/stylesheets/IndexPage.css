@@ -10,6 +10,13 @@
   padding-left: 0;
 }
 
+.IndexPage .col {
+  display: flex;
+  justify-content: center;
+}
+
+/* Login link */
+
 .IndexPage .login-link {
   position: absolute;
   top: 10px;
@@ -21,10 +28,7 @@
   color: var(--timea-orange)
 }
 
-.IndexPage .col {
-  display: flex;
-  justify-content: center;
-}
+/* Image and image column */
 
 .IndexPage .img-col {
   justify-items: left;
@@ -34,6 +38,8 @@
 .IndexPage img {
   max-height: 100vh;
 }
+
+/* Text and text column */
 
 .IndexPage .text-col {
   align-items: center;
@@ -54,14 +60,6 @@
   background-color: var(--timea-dark-brown);
 }
 
-.IndexPage .button-row {
-  display: block;
-  position: sticky;
-  bottom: 0px;
-  background-color: var(--timea-dark-brown);
-  padding: 10px;
-}
-
 .IndexPage .text-col h2 {
   padding: 5px;
   vertical-align: middle;
@@ -74,6 +72,14 @@
   padding-bottom: 10px;
   max-height: 75vh;
   overflow: scroll;
+}
+
+.IndexPage .button-row {
+  display: block;
+  position: sticky;
+  bottom: 0px;
+  background-color: var(--timea-dark-brown);
+  padding: 10px;
 }
 
 .IndexPage .text-col .btn {
@@ -89,5 +95,4 @@
   background-color: var(--timea-blue);
   font-weight: bold;
 }
-
 

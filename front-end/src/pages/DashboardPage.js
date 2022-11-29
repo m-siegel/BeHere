@@ -25,7 +25,7 @@ function DashboardPage({ isAuth }) {
         : await fetch("/api/getEventPreviews/dash/followed");
       data = await res.json();
     } catch (e) {
-      console.log("Error: ", e);
+      console.error("Error: ", e);
     }
     if (data) {
       setPreviews(data.events);
@@ -36,7 +36,6 @@ function DashboardPage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (!(await isAuth())) {
-        console.log(isAuth);
         navigate("/login", { replace: true });
       }
       const getUserPassportInfo = async () => {
@@ -56,15 +55,13 @@ function DashboardPage({ isAuth }) {
     authOrRedirect();
 
     return () => {};
-  }, [myEventDisplayed, loadData]);
+  }, [myEventDisplayed, loadData, isAuth, navigate]);
 
   const displayMyEvents = () => {
-    console.log("myEvents button clicked");
     setMyEventDisplayed(true);
   };
 
   const displayFollowingEvents = () => {
-    console.log("myFollowed button clicked");
     setMyEventDisplayed(false);
   };
 

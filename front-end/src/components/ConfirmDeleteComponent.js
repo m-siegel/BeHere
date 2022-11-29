@@ -3,6 +3,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useParams, useNavigate } from "react-router-dom";
 
+/**
+ * Prompts the user to confirm whether they want to delete the event and responds accordingly.
+ */
 function ConfirmDeleteComponent({ del, setDel, setAlert }) {
   const { eventId } = useParams();
   const navigate = useNavigate();

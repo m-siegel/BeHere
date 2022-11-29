@@ -15,8 +15,7 @@ function UserSettingsPage({ isAuth }) {
   async function handleDelete(evt) {
     evt.preventDefault();
     try {
-      const deleteRes = await // TODO: change to delete
-      (
+      const deleteRes = await (
         await fetch("/api/deleteUserAccount", {
           method: "POST",
           headers: {
@@ -47,19 +46,18 @@ function UserSettingsPage({ isAuth }) {
         });
       }
     } catch (e) {
-      console.log("Error in handleDelete: ", e);
+      console.error("Error in handleDelete: ", e);
     }
   }
 
   useEffect(() => {
     async function authOrRedirect() {
       if (!(await isAuth())) {
-        console.log(isAuth);
         navigate("/login", { replace: true });
       }
     }
     authOrRedirect();
-  }, []);
+  }, [isAuth, navigate]);
 
   return (
     <div className="UserSettingsPage">

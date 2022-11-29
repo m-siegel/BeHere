@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Displays the time and place information for an event on the detailedEvents page.
+ */
 function EventDetailsLocationTime({ location, start, end }) {
   return (
     <div className="EventDetailsLocationTime card">

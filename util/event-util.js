@@ -7,10 +7,9 @@ export function eventify(obj, creatorId, org) {
     description: obj.description,
     organization: org,
     creator: creatorId,
-    // String
+    // String for version 1
     location: obj.location,
-    // Google API to give us info about local time zone?
-    // Saving start & finish as a string
+    // Saving start & finish as a string for version 1
     start: obj.start,
     finish: obj.finish,
     tags: [],

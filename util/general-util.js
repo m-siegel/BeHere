@@ -26,7 +26,6 @@ generalUtil.validEmailStructure = validEmailStructure;
  * @returns {string} The domain section of the email (everything after the @ sign) or an empty string.
  */
 export function getOrgFromEmail(email) {
-  // TODO: validate that it is a string?
   const re = /@((?:[A-Z0-9-]+\.)+[A-Z]{2,6}$)/i;
   const matches = email.match(re); // Will throw TypeError if not a string
   if (matches) {

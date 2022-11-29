@@ -1,7 +1,5 @@
 @import "./timeaColors.css";
 
-/* TODO: I don't think this is necessary if it's inline */
-/* TODO: standardize tags into a component with this style sice used in multiple places*/
 .EventPreview .preview-tags li:first-child {
   list-style-type: none;
 }

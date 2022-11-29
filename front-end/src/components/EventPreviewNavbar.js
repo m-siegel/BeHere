@@ -13,6 +13,10 @@ import IconStarOutline from "./icon-components/IconStarOutline.js";
 import IconThreeDots from "./icon-components/IconThreeDots.js";
 import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 
+/**
+ * Enables rsvp and like actions and can link to edit and details pages for an event.
+ * Changes teh available options based on whether the userId given matches the event creator.
+ */
 function EventPreviewNavbar({
   eventId,
   userId,
@@ -72,7 +76,6 @@ function EventPreviewNavbar({
             }
             descriptionText="RSVP"
             dropdownMenu={[
-              // TODO: these should be RSVPs that update the event following info for the userId and maybe event
               <button
                 className={rsvped === "Yes" ? "btn active" : "btn"}
                 onClick={() => {

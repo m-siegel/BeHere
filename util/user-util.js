@@ -19,7 +19,6 @@ const userUtil = {};
  *     if insertion was successful.
  */
 export async function registerUser(registrationInfo) {
-  // TODO: Validate parameters, esp email
   if (
     !generalUtil.validEmailStructure(registrationInfo.orgEmail.toLowerCase())
   ) {
@@ -144,7 +143,6 @@ function initializeUserObj(
  *     - message: string. Indicates where the failure was if the registration was not successful, or success message.
  */
 export async function updateUserDocument(userIdString, newUserDoc) {
-  // TODO: Validate parameters, esp email
   if (!generalUtil.validEmailStructure(newUserDoc.organizationEmails[0])) {
     return {
       success: false,
@@ -164,7 +162,6 @@ export async function updateUserDocument(userIdString, newUserDoc) {
       message: `The username ${newUserDoc.username} has been claimed by another user.`,
     };
   }
-  // TODO: combine these two and the next two
   otherUserRes = await userConnect.getUserByContactEmail(
     newUserDoc.contactEmail
   );

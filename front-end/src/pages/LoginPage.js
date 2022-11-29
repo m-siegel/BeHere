@@ -12,12 +12,11 @@ function LoginPage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (await isAuth()) {
-        console.log(isAuth);
         navigate("/home", { replace: true });
       }
     }
     authOrRedirect();
-  }, []);
+  }, [isAuth, navigate]);
 
   return (
     <BasePage>

@@ -2,6 +2,9 @@
 
 import React from "react";
 
+/**
+ * Footer to appear on most pages.
+ */
 function Footer() {
   return (
     <div className="Footer row">

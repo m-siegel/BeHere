@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Displays the main event information for an event preview.
+ */
 function EventPreviewText({ start, location, tags }) {
   return (
     <dl>

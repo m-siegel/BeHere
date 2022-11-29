@@ -1,5 +1,4 @@
 // By Tim
-// import passport from "passport";
 import passportLocal from "passport-local";
 import bcrypt from "bcrypt";
 const LocalStrategy = passportLocal.Strategy;
@@ -27,7 +26,6 @@ export function initialize(passport, getUserByContactEmail, getUserById) {
   );
   passport.serializeUser((user, done) =>
     done(null, {
-      // TODO: we've been using _id. do we want to keep doing that?
       _id: user._id,
       username: user.username,
       organizations: user.organizations,

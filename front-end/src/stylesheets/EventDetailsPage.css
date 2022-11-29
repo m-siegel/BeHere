@@ -35,9 +35,7 @@
 /* Description and tags styling */
 
 .EventDetailsPage .EventDetailsDescription {
-  /* z-index: -1; */
   background-color: var(--timea-purple);
-  /* margin-top: 0; */
   margin-bottom: 5px;
 }
 
@@ -60,19 +58,16 @@
 /* RSVPs and likes styling */
 
 .EventDetailsPage .EventDetailsLikesRsvps {
-  /* z-index: -1; */
    background-color: var(--timea-blue);
    margin-bottom: 5px;
 }
 
 .EventDetailsPage .EventDetailsLikesRsvps .card {
-  /* z-index: -1; */
    background-color: var(--timea-blue);
 }
 
 /* Location and time styling */
 
 .EventDetailsPage .EventDetailsLocationTime {
-  /* z-index: -1; */
   background-color: var(--timea-orange);
 }

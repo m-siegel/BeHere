@@ -17,14 +17,12 @@ function EventDetailsPage({ event, className, isAuth }) {
   const [eventInfo, setEventInfo] = useState(event ? event : {});
   const navigate = useNavigate();
 
-  // TODO: should this be a state?
   const params = useParams();
 
   useEffect(() => {
     // Fetch the event from the back end and set it
     async function authOrRedirect() {
       if (!(await isAuth())) {
-        console.log(isAuth);
         navigate("/login", { replace: true });
       }
       async function loadEvent() {
@@ -47,7 +45,7 @@ function EventDetailsPage({ event, className, isAuth }) {
       loadEvent();
     }
     authOrRedirect();
-  }, [params]);
+  }, [params, isAuth, navigate]);
 
   return (
     <div className={`EventDetailsPage ${className}`}>

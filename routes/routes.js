@@ -6,7 +6,6 @@ import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
 import userConnect, { getUserById } from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
 import { registerUser, updateUserDocument } from "../util/user-util.js";
-import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -14,13 +13,10 @@ const router = express.Router();
 
 router.get("/api/getEvent/:id", async (req, res) => {
   const eventId = req.params.id;
-  console.log(`The event id is: ${eventId}`);
   const dbRes = await eventsConnect.getOneEvent(eventId);
-  console.log(dbRes);
   if (dbRes.success) {
     res.json(dbRes.event);
   } else {
-    // TODO: change this
     res.json({
       name: "Test event",
       description: "a test event",
@@ -37,16 +33,12 @@ router.get("/api/getEvent/:id", async (req, res) => {
  * retrieving the user's organization (event route)
  */
 router.get("/api/getOrganization", (req, res) => {
-  // const data = req.session.passport.user.organizations[0];
-  // console.log(data);
-  console.log(req.session.passport.user.organizations[0]);
   res.json({
     organization: req.session.passport.user.organizations[0],
   });
 });
 
 router.get("/api/auth", (req, res) => {
-  console.log("is Authenticated", req.isAuthenticated().toString());
   res.json({ auth: req.isAuthenticated() });
 });
 
@@ -59,7 +51,6 @@ router.post(
 );
 
 router.get("/getPassportUser", checkAuthenticated, (req, res) => {
-  console.log(req.passport.session);
   res.json(req.passport.session.user);
 });
 
@@ -73,13 +64,6 @@ function checkAuthenticated(req, res, next) {
   res.redirect("/login");
 }
 
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect("/home");
-  }
-  next();
-}
-
 /**
  * Responds indicating whether or not the session is valid (express-session and passport)
  */
@@ -91,7 +75,6 @@ router.post("/getAuthentication", (req, res) => {
  * Responds indicating whether or not an event is created or not
  */
 router.post("/api/create-event", checkAuthenticated, async (req, res) => {
-  console.log("passport is", req.session.passport.user.organizations[0]);
   const event = eventify(
     req.body,
     req.session.passport.user._id,
@@ -140,11 +123,6 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
   const user = req.session.passport.user;
   const event = req.body.event;
   const rsvpType = req.body.rsvpStatus;
-
-  console.log("in /rsvp route");
-  console.log("userId: ", user._id);
-  console.log("eventId: ", event._id);
-  console.log("rsvpType: ", rsvpType);
 
   if (user && event && rsvpType) {
     try {
@@ -195,13 +173,12 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
   } else {
     return res.json({
       success: false,
-      msg: `Could not update rsvp for user ${userId} and event ${eventId}.`,
+      msg: "Could not update rsvp for given user and event",
       err: null,
     });
   }
 });
 
-// NOTE: Mea changed
 router.post("/logout", (req, res) => {
   req.logOut((err) => {
     if (err) {
@@ -211,7 +188,6 @@ router.post("/logout", (req, res) => {
   });
 });
 
-// TODO -- "/DeleteEvent"
 router.post("/api/delete-event", async (req, res) => {
   const dbResult = await eventsConnect.deleteEvent(req.body._id);
   return res.json(dbResult);
@@ -226,13 +202,11 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
   try {
     if (req.params.type === "created") {
       // retrieve all events that the user created
-      console.log("within created events");
       const response = await eventsConnect.getUserCreatedEventPreviews(
         req.session.passport.user._id
       );
       return res.json(response);
     } else {
-      console.log("within followed events");
       // retreive all events that the user follows
       const response = await eventsConnect.getUserFollowedEventPreviews(
         req.session.passport.user._id
@@ -240,7 +214,6 @@ router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
       return res.json(response);
     }
   } catch (e) {
-    console.log("Error: ", e);
     return res.json({
       success: false,
       message: "Encountered error in /api/getEventPreviews/dash",
@@ -289,8 +262,6 @@ router.post("/api/getUsernameById", async (req, res) => {
   if (userId) {
     try {
       const dbResult = await userConnect.getUserById(userId);
-      // console.log("dbResult: ", dbResult);
-      // return res.send();
       if (dbResult.user?.username) {
         return res.json({
           success: true,
@@ -519,7 +490,6 @@ router.post("/api/getUserById", async (req, res) => {
 });
 
 router.post("/api/getUserByUsername", async (req, res) => {
-  // TODO: validate not undefined? -- for all?
   const resObject = await userConnect.getUserByUsername(req.body.username);
   return res.json(resObject);
 });
@@ -548,24 +518,6 @@ router.post("/api/updateUserInfo", async (req, res) => {
 router.post("/api/deleteUserAccount", async (req, res) => {
   const idString = req.session?.passport?.user?._id;
   const resObject = await userConnect.deleteByIdString(idString);
-  // TODO: return or re-route to logout?
-  return res.json(resObject);
-});
-
-router.post("/api/addEventToFollowing", async (req, res) => {
-  const idString = req.session?.passport?.user?._id;
-  const rsvp = req.body.eventRSVP;
-  const resObject = await userConnect.addEventToFollowing(idString, rsvp);
-  return res.json(resObject);
-});
-
-router.post("/api/removeEventFromFollowing", async (req, res) => {
-  const userIdString = req.session?.passport?.user?._id;
-  const eventIdString = req.body.eventId;
-  const resObject = await userConnect.removeEventFromFollowing(
-    userIdString,
-    eventIdString
-  );
   return res.json(resObject);
 });
 

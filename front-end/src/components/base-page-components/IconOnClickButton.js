@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Returns a button with the specified icon and text, and with the given onClick callback.
+ */
 function IconOnClickButton({
   icon,
   descriptionText,

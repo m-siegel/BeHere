@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Displays the name of an event on the detailedEvents page.
+ */
 function EventDetailsTitle({ title }) {
   return (
     <div className="EventDetailsTitle card">

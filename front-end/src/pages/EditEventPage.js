@@ -1,6 +1,6 @@
 // By Tim
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventForm from "../components/EventForm.js";
 import useAlert from "../hooks/useAlert.js";
@@ -8,7 +8,6 @@ import ConfirmDeleteComponent from "../components/ConfirmDeleteComponent.js";
 import PropTypes from "prop-types";
 
 function EditEventPage({ isAuth }) {
-  const { eventId } = useParams();
   const [del, setDel] = useState(false);
   const [AlertComponent, setAlert] = useAlert();
   const navigate = useNavigate();
@@ -16,12 +15,11 @@ function EditEventPage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (!(await isAuth())) {
-        console.log(isAuth);
         navigate("/login", { replace: true });
       }
     }
     authOrRedirect();
-  }, []);
+  }, [isAuth, navigate]);
 
   return (
     <BasePage>

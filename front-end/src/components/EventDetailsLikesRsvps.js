@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Fetches and displays the rsvp and like information for an event on the detailedEvents page.
+ */
 function EventDetailsLikesRsvps({ eventId }) {
   const [likes, setLikes] = useState([]);
   const [rsvpYes, setRsvpYes] = useState([]);

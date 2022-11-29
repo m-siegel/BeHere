@@ -16,15 +16,12 @@ import IconGear from "../icon-components/IconGear.js";
 import IconLogoutArrow from "../icon-components/IconLogoutArrow.js";
 import IconOnClickButton from "./IconOnClickButton.js";
 
-// TODO: refactor icon buttons and figure out where active state/prop for style should go
-
 function Navbar() {
   const pathname = window.location.pathname;
   const navigate = useNavigate();
 
   async function isAuth() {
     try {
-      console.log("in isAuth");
       const res = await (await fetch("/api/auth")).json();
       return res.auth;
     } catch (e) {
@@ -44,14 +41,11 @@ function Navbar() {
     }
   }
 
-  // TODO: change whole column to be clickable?
-
-  // TODO: change active based on props
   return (
     <nav className="row text-center Navbar">
       <IconLinkButton
         className={pathname === "/home" ? "nav-a col active" : "nav-a col"}
-        aria-current="page" // TODO: keep this?
+        aria-current="page"
         icon={
           pathname === "/home" ? (
             <IconHouseFilled color="blue" />

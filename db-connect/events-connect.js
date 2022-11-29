@@ -9,7 +9,7 @@ const eventsCol = "events";
 const eventsConnect = {};
 eventsConnect.dbName = dbName;
 eventsConnect.eventsCol = "events";
-eventsConnect.uri = uri; // TODO: I'm not sure we should do this
+eventsConnect.uri = uri;
 
 export function initializeURI() {
   uri = process.env.MONGO_URI || "mongodb://localhost:27017";
@@ -120,8 +120,6 @@ export async function updateEvent(eventObj) {
       { _id: id },
       {
         $set: {
-          // TODO -- discuss what will be passed into eventObj -- what about time?
-          // name, description, tags, (date/time/place)?
           name: eventObj.name,
           description: eventObj.description,
           tags: eventObj.tags,
@@ -130,27 +128,21 @@ export async function updateEvent(eventObj) {
     );
     if (res.acknowledged && res.matchedCount) {
       return {
-        // TODO -- discuss what will be passed back
         success: true,
         msg: "Event updated successfully.",
-        // anything else?
         err: null,
       };
     }
     return {
-      // TODO -- discuss what will be passed back
       success: false,
       msg: "Unable to update event.",
-      // anything else?
       err: null,
     };
   } catch (e) {
     console.error(e);
     return {
-      // TODO -- discuss what will be passed back
       success: false,
       msg: "An error has occured. Please try again later.",
-      // anything else?
       err: e,
     };
   } finally {
@@ -171,7 +163,6 @@ eventsConnect.updateEvent = updateEvent;
 // Event previews -- need eventId, name, organization, creator, tags, location/time
 export async function getEventPreviews(organization) {
   // create date/time variable to use within db call query
-  // const timeNow = new Date().get
   const client = new MongoClient(uri);
   try {
     await client.connect();
@@ -243,7 +234,6 @@ eventsConnect.getEventPreviews = getEventPreviews;
 // Event previews -- need eventId, name, organization, creator, tags, location/time
 export async function getUserCreatedEventPreviews(id) {
   // create date/time variable to use within db call query
-  // const timeNow = new Date().get
   const client = new MongoClient(uri);
   //const userId = new ObjectId(id);
   try {
@@ -253,9 +243,7 @@ export async function getUserCreatedEventPreviews(id) {
     const res = await collection
       .find(
         {
-          // how will we query? by userId or email?
           creator: id,
-          //start: { $gte: /* today's variable */}
         },
         {
           _id: 1,
@@ -271,7 +259,6 @@ export async function getUserCreatedEventPreviews(id) {
         start: 1,
       })
       .toArray();
-    console.log(res);
     if (res) {
       return {
         success: true,
@@ -311,7 +298,6 @@ eventsConnect.getUserCreatedEventPreviews = getUserCreatedEventPreviews;
  */
 export async function getUserFollowedEventPreviews(id) {
   const client = new MongoClient(uri);
-  //const userId = new ObjectId(id);
   try {
     await client.connect();
     const db = client.db(dbName);
@@ -320,7 +306,6 @@ export async function getUserFollowedEventPreviews(id) {
       .find(
         {
           $or: [{ rsvpYes: id }, { rsvpMaybe: id }],
-          //start: { $gte: /* today's variable */}
         },
         {
           _id: 1,
@@ -336,7 +321,6 @@ export async function getUserFollowedEventPreviews(id) {
         start: 1,
       })
       .toArray();
-    console.log("followed events: ", res);
     if (res) {
       return {
         success: true,
@@ -420,8 +404,6 @@ eventsConnect.getOneEvent = getOneEvent;
  *                           err: null, or the error that was caught
  *                           }
  */
-// TODO: Can this just be the event Id and the user Id to be faster?
-// TODO: Can this also do the following list?
 export async function eventRsvp(user, event, rsvpStatus) {
   const client = new MongoClient(uri);
   const eventId = new ObjectId(event._id);
@@ -430,33 +412,25 @@ export async function eventRsvp(user, event, rsvpStatus) {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
-    console.log("calling getRsvp");
     const existingRsvp = await getRsvp(eventId, userId, collection);
-    console.log("checking if there is an existing RSVP");
     if (existingRsvp.exists) {
-      console.log("existingRsvp exists!: ", existingRsvp);
       if (existingRsvp.value === rsvpStatus) {
-        console.log("the rsvp has already been set");
         return {
           success: false,
           msg: `The RSVP has already been set to ${existingRsvp.value}`,
           err: null,
         };
       } else {
-        console.log("attempting to remove existing rsvp");
         await removeRsvpFromEvent(
           eventId,
           userId,
           collection,
           existingRsvp.value
         );
-        console.log("removed existing rsvp");
       }
     }
-    console.log("existingRsvp: ", existingRsvp);
     let res;
     if (rsvpStatus === "Yes") {
-      console.log("setting rsvp to 'yes'");
       res = await collection.updateOne(
         { _id: eventId },
         {
@@ -466,7 +440,6 @@ export async function eventRsvp(user, event, rsvpStatus) {
         }
       );
     } else if (rsvpStatus === "Maybe") {
-      console.log("setting rsvp to 'maybe'");
       res = await collection.updateOne(
         { _id: eventId },
         {
@@ -476,7 +449,6 @@ export async function eventRsvp(user, event, rsvpStatus) {
         }
       );
     } else if (rsvpStatus === "No") {
-      console.log("setting rsvp to 'no'");
       res = await collection.updateOne(
         { _id: eventId },
         {
@@ -492,7 +464,6 @@ export async function eventRsvp(user, event, rsvpStatus) {
         err: null,
       };
     }
-    console.log("res: ", res);
     if (res.acknowledged && res.modifiedCount) {
       return {
         success: true,
@@ -528,7 +499,6 @@ eventsConnect.eventRsvp = eventRsvp;
  */
 async function getRsvp(eventId, userId, collection) {
   // storing userIds as strings in arrays
-  console.log("in getRsvp");
   const rsvpYes = await collection.findOne({
     _id: eventId,
     rsvpYes: userId.toString(),
@@ -543,7 +513,6 @@ async function getRsvp(eventId, userId, collection) {
   });
 
   if (!rsvpYes && !rsvpMaybe && !rsvpNo) {
-    console.log("There isn't an existing rsvp");
     return {
       exists: false,
       value: null,
@@ -613,13 +582,9 @@ async function removeRsvpFromEvent(eventId, userId, collection, value) {
     default:
       console.log("no status to remove");
   }
+  // TODO: what do you want to do instead of console.log? Return removeStatus, or something?
   return;
 }
-
-// Event previews -- need eventId, name, eventOrgName, creator, tags, location/time
-// TODO -- get all events where user is in following list
-// TODO -- all events where user is creator
-// TODO -- all events for an organization
 
 export async function toggleLike(eventIdString, userIdString) {
   const eventId = new ObjectId(eventIdString);
@@ -640,37 +605,28 @@ export async function toggleLike(eventIdString, userIdString) {
       const updateRes = await collection.updateOne(query, removeLikeInfo);
       if (updateRes.acknowledged && updateRes.matchedCount) {
         return {
-          // TODO -- discuss what will be passed back
           success: true,
           msg: "You've removed this like successfully.",
-          // anything else?
           err: null,
         };
       }
       return {
-        // TODO -- discuss what will be passed back
         success: false,
         msg: "An error has prevented you from unliking this event.",
-        // anything else?
         err: null,
       };
     }
     const updateRes = await collection.updateOne(query, addLikeInfo);
-    console.log("updateRes: ", updateRes);
     if (updateRes.acknowledged && updateRes.matchedCount) {
       return {
-        // TODO -- discuss what will be passed back
         success: true,
         msg: "You've added this like successfully.",
-        // anything else?
         err: null,
       };
     }
     return {
-      // TODO -- discuss what will be passed back
       success: false,
       msg: "An error has prevented you from liking this event.",
-      // anything else?
       err: null,
     };
   } catch (e) {

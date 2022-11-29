@@ -8,10 +8,7 @@ import useAlert from "../hooks/useAlert.js";
 import "../stylesheets/HomePage.css";
 import { useNavigate } from "react-router-dom";
 
-// TODO: takes time to load events before rendering -- make prettier
-
 function HomePage({ isAuth }) {
-  // TODO: props should have a user attribute
   const [checkedEvents, setCheckedEvents] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
@@ -19,17 +16,9 @@ function HomePage({ isAuth }) {
 
   const [AlertComponent, setAlert] = useAlert();
 
-  // function checkIfLoggedOut(isLoggedIn) {
-  //   if (!isLoggedIn) {
-  //     navigate("/login", { replace: true });
-  //     navigate(0);
-  //   }
-  // }
-
   async function loadPreviews() {
     const res = await (await fetch("/api/getEventPreviews")).json();
     if (res && res.events) {
-      // TODO: check res.success?
       setPreviews(res.events);
     }
     setCheckedEvents(true);
@@ -49,7 +38,6 @@ function HomePage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (!(await isAuth())) {
-        console.log(isAuth);
         navigate("/", { replace: true });
       }
       loadPreviews();
@@ -57,10 +45,8 @@ function HomePage({ isAuth }) {
       // Can return to clean up previous effect, eg stop fetch
     }
     authOrRedirect();
-  }, []);
+  }, [isAuth, navigate]);
 
-  // TODO: can we just do eventId not whole event?
-  // TODO: should they be able to un-rsvp
   async function handleRSVP(event, rsvp) {
     setAlert({
       type: "success",

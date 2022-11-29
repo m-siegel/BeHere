@@ -3,14 +3,11 @@
 .RegisterPage {
   background-color: var(--timea-dark-brown);
   color: #FFF;
-  /* width: 100vw; */
   min-height: 100vh;
 }
 
 .RegisterPage>.container-fluid {
   padding-left: 0;
-  /* weird scrolling thing with extra room if include padding-right: 0*/
-  /* padding-right: 0; */
 }
 
 .RegisterPage .col {

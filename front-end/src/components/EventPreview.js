@@ -6,8 +6,9 @@ import PropTypes from "prop-types";
 import EventPreviewText from "./EventPreviewText.js";
 import EventPreviewNavbar from "./EventPreviewNavbar.js";
 
-// Make component based on previews object
-
+/**
+ * Displays a preview of information for an event. Enables interaction with the event.
+ */
 function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
   const info = previewObject;
   let rsvped = "";
@@ -16,7 +17,6 @@ function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
   rsvped = info.rsvpNo?.includes(userId) ? "No" : rsvped;
 
   function handleClickRSVP(rsvpStatus) {
-    // TODO: un-rsvp if they click their current state?
     onRSVP(info, rsvpStatus);
   }
 

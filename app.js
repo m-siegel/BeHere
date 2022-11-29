@@ -5,7 +5,6 @@ import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import router from "./routes/routes.js";
-import authRouter from "./routes/authentication-routes.js";
 import passport from "passport";
 import initializePassport from "./util/passport-config.js";
 import session from "express-session";
@@ -46,15 +45,8 @@ app.use(passport.session());
 
 app.use(cookieParser());
 
-// TODO: Import routers here
-
-// Set up path for express.static in a way that fits ES6
-
-// Generated with express-generator. Updated to match ES6.
-
 app.use(express.static(pathToFrontendStaticFiles));
 
-// TODO: set up routers
 app.use("/", router);
 
 export default app;

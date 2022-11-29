@@ -6,6 +6,9 @@ import Navbar from "./Navbar.js";
 import Footer from "./Footer.js";
 import "../../stylesheets/BasePage.css";
 
+/**
+ * Provides the structure for most website pages.
+ */
 function BasePage(props) {
   return (
     <div className="BasePage">

@@ -2,6 +2,9 @@
 
 import React, { useState } from "react";
 
+/**
+ * Hook allows for easy creation and updating of an alert component with different contents and appearance.
+ */
 function useAlert() {
   const [type, setType] = useState("info");
   const [heading, setHeading] = useState("");

@@ -1,9 +1,12 @@
 // BY Tim Crawley
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../stylesheets/EventForm.css";
 
+/**
+ * Form component for editing an event.
+ */
 function EventForm({ setAlert, setDel }) {
   const [event, setEvent] = useState({});
   const { eventId } = useParams();
@@ -21,7 +24,7 @@ function EventForm({ setAlert, setDel }) {
       }
     }
     loadEvent();
-  }, []);
+  }, [eventId]); // TODO: Mea changed, check okay
 
   async function onSubmit(evt) {
     evt.preventDefault();
@@ -48,7 +51,7 @@ function EventForm({ setAlert, setDel }) {
       const responseJson = await res.json();
       alertUser(responseJson);
     } catch (e) {
-      console.log("Error while trying to submit", e);
+      console.error("Error while trying to submit", e);
     }
   }
 

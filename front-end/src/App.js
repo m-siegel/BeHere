@@ -1,7 +1,7 @@
+/* Both */
+
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import "./App.css";
 
 import DashboardPage from "./pages/DashboardPage.js";
 import EditEventPage from "./pages/EditEventPage.js";
@@ -17,7 +17,6 @@ import CreateEventPage from "./pages/CreateEventPage";
 function App() {
   async function isAuth() {
     try {
-      console.log("in isAuth");
       const res = await (await fetch("/api/auth")).json();
       return res.auth;
     } catch (e) {

@@ -1,5 +1,13 @@
 @import "./timeaColors.css";
 
+/* For general use */
+.centering-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BasePage styling */
 .BasePage {
   background-color: var(--timea-dark-brown);
   color: #FFF;
@@ -8,12 +16,6 @@
 
 .BasePage main {
   min-height: 85vh;
-}
-
-.centering-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .BasePage .Navbar {

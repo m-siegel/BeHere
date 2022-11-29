@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Contains the desription details for an event on the detailedEvents page.
+ */
 function EventDetailsDescription({ description, tags }) {
   return (
     <div className="EventDetailsDescription card">

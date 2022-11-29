@@ -5,12 +5,9 @@ import PropTypes from "prop-types";
 import FormInput from "./FormInput";
 import { Link } from "react-router-dom";
 
-// TODO: validation of password and password confirmation? validation of email?
-
-// TODO: onChange -- track what's in each (and validate?)
-// on update state variables on every change, then they're there
-// when submit is clicked
-
+/**
+ * Form for registering for an account.
+ */
 function RegisterForm({ setAlert }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

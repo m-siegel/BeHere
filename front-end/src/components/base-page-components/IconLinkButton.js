@@ -4,9 +4,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
+/**
+ * Returns a link button with the specified icon and text.
+ */
 function IconLinkButton({ icon, descriptionText, linkPath, className }) {
   return (
-    // TODO: option for without link if link is null?
     <Link to={linkPath} className={`IconButton IconLinkButton ${className}`}>
       <button type="button" className="btn">
         {icon}

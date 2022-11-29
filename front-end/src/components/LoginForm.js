@@ -3,15 +3,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../stylesheets/LoginForm.css";
-import PropTypes from "prop-types";
 
+/**
+ * Form to log into the website.
+ */
 function LoginForm() {
+  // TODO: Keep or delete?
   async function loginAttempt() {
     const form = document.querySelector("#login-form");
     let res;
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      console.log("Authenticating...");
       try {
         res = await fetch("/login", {
           method: "POST",
@@ -19,7 +21,7 @@ function LoginForm() {
         });
         const resUser = await res.json();
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     });
   }

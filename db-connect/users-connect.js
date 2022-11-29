@@ -1,5 +1,10 @@
 /** By Ilana-Mahmea */
 
+/*
+ * Note for TAs: This file contains some functions not currently used by the app.
+ * Those functions are included because I anticipate the need for them in future versions of the app.
+ */
+
 import * as mongodb from "mongodb";
 // Since this is imported before .env is configured, can't do .env uri || local uri here
 let uri = "mongodb://localhost:27017";
@@ -70,7 +75,6 @@ export async function addToCollection(objToAdd) {
 }
 userConnect.addToCollection = addToCollection;
 
-// TODO: handle MongoServerSelectionError: connect ECONNREFUSED in each function
 /**
  * Finds the first user document that matches the parameter query object.
  * @param {!Object} query Valid MongDB query.
@@ -95,7 +99,6 @@ export async function findOne(queryObj) {
     const collection = database.collection(usersCollectionName);
     // Eslint thinks this is a deprecated call with callback,
     // but it's a call with a query object.
-    // TODO: Check with John that this is okay
     const res = await collection.findOne(queryObj);
     if (res) {
       res._id = res._id.toString();
@@ -135,8 +138,6 @@ userConnect.findOne = findOne;
  *     the retrieved object.
  */
 export async function findMany(queryObj) {
-  // TODO: add pagination?
-  // TODO: add projection parameter?
   const client = new mongodb.MongoClient(uri);
   if (!(queryObj instanceof Object)) {
     return {
@@ -152,7 +153,6 @@ export async function findMany(queryObj) {
     const collection = database.collection(usersCollectionName);
     // Eslint thinks this is a deprecated call with callback,
     // but it's a call with a query object.
-    // TODO: Check with John that this is okay
     const res = await collection.find(queryObj).toArray();
     if (res) {
       res.forEach((user) => {
@@ -190,8 +190,6 @@ userConnect.findMany = findMany;
  * @param {Object} queryObj Query object to match users to (e.g. {rsvpYesEvents: eventIdString})
  */
 export async function getUserPreviews(queryObj) {
-  // TODO: add pagination?
-  // TODO: add projection parameter?
   const client = new mongodb.MongoClient(uri);
   if (!(queryObj instanceof Object)) {
     return {
@@ -277,7 +275,6 @@ export async function updateOne(queryObj, updatesObj) {
     const res = await collection.updateOne(queryObj, updatesObj);
 
     if (res.acknowledged) {
-      console.log(res);
       return {
         success: true,
         updatedCount: res.modifiedCount,
@@ -346,7 +343,6 @@ export async function updateMany(queryObj, updatesObj) {
         err: null,
       };
     }
-    // TODO: distinguish between failure to update because no matches and failure for other reason
     return {
       success: false,
       message: "Could not update users.",
@@ -640,7 +636,6 @@ userConnect.getUserByContactEmail = getUserByContactEmail;
  *     Object indicating the success of the operation and containing the retrieved object.
  */
 export async function getUserByOrgEmail(orgEmail) {
-  // TODO: factor out of these functions?
   if (typeof orgEmail !== "string") {
     return {
       success: false,
@@ -801,7 +796,6 @@ export async function updateById(userIdString, updatesObj) {
           success: true,
           updatedCount: 1,
           message: "Successfully updated user.",
-          // TODO: include updated object?
           err: null,
         };
       } else if (res.matchedCount) {
@@ -930,26 +924,6 @@ export async function removeEventFromFollowing(userIdString, eventIdString) {
 }
 userConnect.removeEventFromFollowing = removeEventFromFollowing;
 
-// BUG: deleting, but not inserting. Something with updated count, likely. not counting setting array as an update????
-/**
- * Updates the specified event in the specified user docement's "following" array.
- * @param {string} userIdString String version of the _id of the document to update.
- * @param {Object} eventRSVP The eventRSVP object to update in the following array.
- * @returns {Object: {success: boolean, message: string, userIdString: string, ?err: Error}} Object indicating
- *     the success of the operation.
- */
-export async function updateEventInFollowing(userIdString, eventRSVP) {
-  const deleted = await removeEventFromFollowing(
-    userIdString,
-    eventRSVP.eventId
-  );
-  if (deleted.success && deleted.updatedCount) {
-    return await addEventToFollowing(userIdString, eventRSVP);
-  }
-  return deleted;
-}
-userConnect.updateEventInFollowing = updateEventInFollowing;
-
 /**
  * Returns whether or not the parameter username can be found in the users database.
  * @param {boolean} username Username to search for.
@@ -996,7 +970,6 @@ export async function updateRSVP(
   eventIdString,
   commandTypeString
 ) {
-  console.log("id string: ", userIdString);
   // Remove old RSVPs
   await pullFromArray(userIdString, { rsvpYesEvents: eventIdString });
   await pullFromArray(userIdString, { rsvpMaybeEvents: eventIdString });
@@ -1064,9 +1037,6 @@ export async function toggleLike(userIdString, eventIdString) {
   }
 }
 userConnect.toggleLike = toggleLike;
-
-// TODO: remove past events
-// TODO: updateOneMultipleAttributes?
 
 // Helpers
 

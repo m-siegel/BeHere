@@ -3,8 +3,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../../stylesheets/IconButtonDropdown.css";
-// TODO: propTypes
 
+/**
+ * Returns a dropdown button with the specified icon and text that controls a dropdown menu of the given items.
+ */
 function IconButtonDropdown(props) {
   return (
     <div
@@ -20,7 +22,6 @@ function IconButtonDropdown(props) {
 
         <ul className="dropdown-menu">
           {props.dropdownMenu.map((d, i) => (
-            // TODO: figure out a better key
             <li key={i}>{d}</li>
           ))}
         </ul>

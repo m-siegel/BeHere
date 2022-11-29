@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import FormInput from "./FormInput";
 
+/**
+ * Form for updating user settings.
+ */
 function UserSettingsForm({ setAlert }) {
   const [userObj, setUserObj] = useState({});
 
@@ -48,7 +51,7 @@ function UserSettingsForm({ setAlert }) {
       ).json();
       alertUser(res);
     } catch (e) {
-      console.log("Error in onSubmit: ", e);
+      console.error("Error in onSubmit: ", e);
     }
   }
 

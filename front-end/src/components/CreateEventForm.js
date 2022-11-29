@@ -5,48 +5,15 @@ import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
 import "../stylesheets/CreateEventForm.css";
 
+/**
+ * Form component for creating a new event.
+ */
 function CreateEventForm({ setAlert }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [start, setStart] = useState("");
   const [finish, setFinish] = useState("");
-  // TRY TO USE FOR V2
-  // const [tagsMusic, setTagsMusic] = useState([]);
-  // const [tags, setTags] = useState({
-  //   music: false,
-  //   sports: false,
-  //   movies: false,
-  //   networking: false,
-  //   party: false,
-  //   food: false,
-  //   dance: false,
-  //   education: false,
-  //   fitness: false,
-  //   hangout: false,
-  // });
-  // const [tagsSports, setTagsSports] = useState(false);
-  // const [tagsMovies, setTagsMovies] = useState(false);
-  // const [tagsNetworking, setTagsNetworking] = useState(false);
-  // const [tagsParty, setTagsParty] = useState(false);
-  // const [tagsFood, setTagsFood] = useState(false);
-  // const [tagsDance, setTagsDance] = useState(false);
-  // const [tagsEducation, setTagsEducation] = useState(false);
-  // const [tagsFitness, setTagsFitness] = useState(false);
-  // const [tagsHangout, setTagsHangout] = useState(false);
-
-  // const tagList = [
-  //   "music",
-  //   "sports",
-  //   "movies",
-  //   "networking",
-  //   "party",
-  //   "food",
-  //   "dance",
-  //   "education",
-  //   "fitness",
-  //   "hangout",
-  // ];
 
   async function onSubmit(evt) {
     evt.preventDefault();
@@ -73,7 +40,7 @@ function CreateEventForm({ setAlert }) {
       const responseJson = await res.json();
       alertUser(responseJson);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 

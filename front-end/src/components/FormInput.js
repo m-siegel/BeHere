@@ -3,6 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Returns a form input component with input of the given type, the givent id and name, and the given onChange callback.
+ */
 function FormInput({ type, idAndName, labelContent, value, onChange }) {
   return (
     <div className="FromInput">

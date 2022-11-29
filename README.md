@@ -39,13 +39,13 @@ We created this site as project for our [Northeastern University CS5610 Web Deve
 - _Bcrypt_ - for hashing and comparing passwords.
 - _MongoDB_ - for a database to store user and flashcard data.
 
-## TODO -- How to Use BeHere
+## How to Use BeHere
 
 At the moment, this site can only be used locally. See instructions below for how to do so.
 
 ### TODO -- Deployed Online
 
-### TODO -- Locally with Git
+### Run Locally with Git
 
 These instructions use yarn commands. You can use the npm equivalents if you'd prefer.
 

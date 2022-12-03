@@ -10,7 +10,7 @@ const eventsConnect = {};
 eventsConnect.dbName = dbName;
 eventsConnect.eventsCol = "events";
 eventsConnect.uri = uri;
-
+//Good application of event listener, an alternative way is to const variables to call the functions
 export function initializeURI() {
   uri = process.env.MONGO_URI || "mongodb://localhost:27017";
 }

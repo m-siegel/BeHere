@@ -10,7 +10,7 @@ import { registerUser, updateUserDocument } from "../util/user-util.js";
 const router = express.Router();
 
 /* Tim */
-
+//you can add image upload components by using libraries such as react-dropzone to support drag and drop to improve user experience
 router.get("/api/getEvent/:id", async (req, res) => {
   const eventId = req.params.id;
   const dbRes = await eventsConnect.getOneEvent(eventId);

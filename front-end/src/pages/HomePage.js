@@ -13,7 +13,8 @@ function HomePage({ isAuth }) {
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-
+//I really admire your idea about this project, and I believe this would really help organizations to share their events.
+//One recommendatin from me is to create a list, and put event name, detals, time etc to this list, showed this on your main page.
   const [AlertComponent, setAlert] = useAlert();
 
   async function loadPreviews() {

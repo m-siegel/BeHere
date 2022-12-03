@@ -8,7 +8,7 @@
 import * as mongodb from "mongodb";
 // Since this is imported before .env is configured, can't do .env uri || local uri here
 let uri = "mongodb://localhost:27017";
-
+//I think it would be great if you can merge two MongoDB files together and try to combine similar functions
 const userConnect = {}; // To export default
 
 const databaseName = "be-here-db";

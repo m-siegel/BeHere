@@ -1,15 +1,17 @@
+@import "./timeaVariables.css";
+
 .Alert .alert-warning {
-  background-color: rgb(255, 232, 103);
+  background-color: var(--timea-alert-yellow);
 }
 
 .Alert .alert-danger {
-  background-color: rgb(251, 95, 95);
+  background-color: var(--timea-alert-red);
 }
 
 .Alert .alert-success {
-  background-color:rgb(76, 255, 130)
+  background-color:var(--timea-alert-green);
 }
 
 .Alert .alert-info {
-  background-color: rgb(72, 255, 255)
+  background-color: var(--timea-alert-turquoise);
 }

@@ -2,11 +2,24 @@
 
 :root {
   /* Colors */
-  --timea-dark-brown: #282323;
+
+  /* Old colors, get rid of? */
+  /* --timea-dark-brown: #282323;
   --timea-orange: #ffa280;
   --timea-yellow: #FBE583;
   --timea-blue: #a0f4ff;
-  --timea-purple: #cea3ff;
+  --timea-purple: #cea3ff; */
+
+  /* New color variables */
+  --timea-background-white: #FAFAFA;
+  --timea-background-purple: #E8E3ED;
+  --tiema-text-darkbrown: #282323;
+  --timea-action-purple: #6A00D3;
+  --timea-button-grey: #5C5757;
+  --timea-alert-yellow: #ffe867;
+  --timea-alert-red: #FF8F94;
+  --timea-alert-green: #4cff82;
+  --timea-alert-turquoise: #48ffff;
 
   /* Fonts */
   --timea-heading-font: "Playfair Display", serif;

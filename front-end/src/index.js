@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./stylesheets/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+// Importing in html instead
 // So they're available for all pages
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/js/bootstrap.bundle.min";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 root.render(

@@ -1,4 +1,4 @@
-@import "../stylesheets/timeaColors.css";
+@import "../stylesheets/timeaVariables.css";
 
 .IndexPage {
   background-color: var(--timea-dark-brown);

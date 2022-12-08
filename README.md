@@ -10,7 +10,7 @@
 
 - **Proof of 80% progress as of Nov 22: [release version 0.0.1, tag v0.0.1-TA-nov22_80%](https://github.com/m-siegel/BeHere/releases/tag/nov22_80)**.
 
-- **Project 3 release: [tag version 1.0.0](https://github.com/m-siegel/BeHere/releases/tag/1.0.0)***
+- **Project 3 release: [tag version 1.0.0](https://github.com/m-siegel/BeHere/releases/tag/1.0.0)\***
 
 ## Other notes for TAs:
 
@@ -55,6 +55,12 @@ These instructions use yarn commands. You can use the npm equivalents if you'd p
 4. Run 'yarn start'.
 5. In the web browser of your choice, go to [http://localhost:3001/](http://localhost:3001/)
 6. Enjoy!
+
+## Credits
+
+### Fonts
+
+Our primary front-end fonts are Lato and Playfair Display, both of which are licensed under the [Open Font License (OFL)](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL)
 
 ## A Peek at our Design Process
 

@@ -1,4 +1,4 @@
-@import "./timeaColors.css";
+@import "./timeaVariables.css";
 
 .UserSettingsPage .Alert {
   z-index: 1;

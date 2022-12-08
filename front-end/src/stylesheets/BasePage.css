@@ -9,8 +9,8 @@
 
 /* BasePage styling */
 .BasePage {
-  background-color: var(--timea-dark-brown);
-  color: #FFF;
+  background-color: var(--timea-background-purple);
+  color: var(--timea-text-darkbrown);
   width: 100vw;
 }
 
@@ -19,12 +19,12 @@
 }
 
 .BasePage .Navbar {
-  background-color: var(--timea-yellow);
+  background-color: var(--timea-background-white);
   min-height: 10vh;
   width: 100vw;
   margin-left: 0;
   margin-right: 0;
-  color: var(--timea-dark-brown);
+  color: var(--timea-text-darkbrown);
 }
 
 .BasePage header {

@@ -29,7 +29,7 @@ function LoginForm() {
     const resJSON = await res.json();
 
     if (resJSON.authenticated) {
-      navigate("/home", { replace: true });
+      navigate("/event-feed", { replace: true });
     } else {
       setContactEmail("");
       setPassword("");

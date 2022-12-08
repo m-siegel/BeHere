@@ -44,17 +44,19 @@ function Navbar() {
   return (
     <nav className="row text-center Navbar">
       <IconLinkButton
-        className={pathname === "/home" ? "nav-a col active" : "nav-a col"}
+        className={
+          pathname === "/event-feed" ? "nav-a col active" : "nav-a col"
+        }
         aria-current="page"
         icon={
-          pathname === "/home" ? (
+          pathname === "/event-feed" ? (
             <IconHouseFilled color="blue" />
           ) : (
             <IconHouseOutline />
           )
         }
-        descriptionText="Home"
-        linkPath={isAuth() ? "/home" : "/"}
+        descriptionText="Event Feed"
+        linkPath={isAuth() ? "/event-feed" : "/"}
       ></IconLinkButton>
 
       <IconLinkButton
@@ -73,22 +75,22 @@ function Navbar() {
       ></IconLinkButton>
 
       <IconLinkButton
-        className={pathname === "/dashboard" ? "nav-a col active" : "nav-a col"}
+        className={pathname === "/my-events" ? "nav-a col active" : "nav-a col"}
         icon={
-          pathname === "/dashboard" ? (
+          pathname === "/my-events" ? (
             <IconCalendarWeekFilled color="blue" />
           ) : (
             <IconCalendarWeekOutline />
           )
         }
-        descriptionText="Dashboard"
-        linkPath={"/dashboard"}
+        descriptionText="My Events"
+        linkPath={"/my-events"}
       ></IconLinkButton>
 
       <IconButtonDropdown
-        className={pathname === "/settings" ? "col active" : "col"}
+        className={pathname === "/account-settings" ? "col active" : "col"}
         icon={
-          pathname === "/settings" ? (
+          pathname === "/account-settings" ? (
             <IconPersonFilled color="blue" />
           ) : (
             <IconPersonOutline />
@@ -99,15 +101,15 @@ function Navbar() {
           <IconOnClickButton
             className="dropdown-item"
             // https://atomizedobjects.com/blog/react/how-to-redirect-in-reactjs/
-            onClick={() => navigate("/settings", { replace: true })}
+            onClick={() => navigate("/account-settings", { replace: true })}
             icon={
-              pathname === "/settings" ? (
+              pathname === "/account-settings" ? (
                 <IconGear color="blue" />
               ) : (
                 <IconGear />
               )
             }
-            descriptionText={" Settings"}
+            descriptionText={" Account Settings"}
             inline={true}
           ></IconOnClickButton>,
           <IconOnClickButton

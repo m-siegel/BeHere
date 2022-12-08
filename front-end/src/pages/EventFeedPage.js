@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
-import "../stylesheets/HomePage.css";
+import "../stylesheets/EventFeedPage.css";
 import { useNavigate } from "react-router-dom";
 
-function HomePage({ isAuth }) {
+function EventFeedPage({ isAuth }) {
   const [checkedEvents, setCheckedEvents] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
@@ -113,9 +113,9 @@ function HomePage({ isAuth }) {
   }
 
   return (
-    <div className="HomePage">
+    <div className="EventFeedPage">
       <BasePage>
-        <h1>Home Page</h1>
+        <h1>Upcoming Events</h1>
         <AlertComponent />
         <div className="row">
           {previews.length ? (
@@ -144,8 +144,8 @@ function HomePage({ isAuth }) {
   );
 }
 
-HomePage.propTypes = {
+EventFeedPage.propTypes = {
   isAuth: PropTypes.func.isRequired,
 };
 
-export default HomePage;
+export default EventFeedPage;

@@ -4,11 +4,11 @@ import BasePage from "../components/base-page-components/BasePage.js";
 import { useState, useEffect, useCallback } from "react";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
-import "../stylesheets/DashboardPage.css";
+import "../stylesheets/MyEventsPage.css";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-function DashboardPage({ isAuth }) {
+function MyEventsPage({ isAuth }) {
   const [previews, setPreviews] = useState([]);
   const [myEventDisplayed, setMyEventDisplayed] = useState(true);
   const [checkedEvents, setCheckedEvents] = useState(false);
@@ -122,9 +122,9 @@ function DashboardPage({ isAuth }) {
   }
 
   return (
-    <div className="DashboardPage">
+    <div className="MyEventsPage">
       <BasePage>
-        <h1>My Dashboard</h1>
+        <h1>My Events</h1>
         <AlertComponent />
         <div className="filter-buttons">
           <button
@@ -143,7 +143,7 @@ function DashboardPage({ isAuth }) {
             }
             onClick={displayFollowingEvents}
           >
-            Events I'm following
+            Events I'm (Maybe) Going To
           </button>
         </div>
         <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4">
@@ -173,8 +173,8 @@ function DashboardPage({ isAuth }) {
   );
 }
 
-DashboardPage.propTypes = {
+MyEventsPage.propTypes = {
   isAuth: PropTypes.func.isRequired,
 };
 
-export default DashboardPage;
+export default MyEventsPage;

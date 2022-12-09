@@ -6,7 +6,14 @@ import PropTypes from "prop-types";
 /**
  * Returns a form input component with input of the given type, the givent id and name, and the given onChange callback.
  */
-function FormInput({ type, idAndName, labelContent, value, onChange }) {
+function FormInput({
+  type,
+  idAndName,
+  labelContent,
+  value,
+  onChange,
+  minValue,
+}) {
   return (
     <div className="FromInput">
       <div className="mb-3">
@@ -19,6 +26,7 @@ function FormInput({ type, idAndName, labelContent, value, onChange }) {
             name={idAndName}
             value={value}
             onChange={onChange}
+            min={minValue ? minValue : ""}
             required
           />
         </label>

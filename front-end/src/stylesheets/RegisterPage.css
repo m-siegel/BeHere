@@ -2,6 +2,9 @@
 
 .RegisterPage .card {
   min-width: max(260px, 40vw);
+  max-height: 80vh;
+  margin-bottom: 20px;
+  margin-top: 3em;
 }
 
 .RegisterForm input {
@@ -18,10 +21,12 @@
 }
 
 .RegisterPage .text-col .form-row {
-  margin-top: 10px;
-  padding-top: 10px;
-  max-height: 85vh;
+  margin-top: 5px;
+  padding-top: 15px;
+  max-height: 75vh;
   overflow: scroll;
+  border-top: 1px solid var(--timea-background-purple);
+  /* border-bottom: 1px solid var(--timea-background-purple); */
 }
 
 .RegisterPage .text-col .btn-landing:focus,
@@ -36,3 +41,7 @@
   z-index: 1;
   color: var(--timea-text-darkbrown);
 }
+
+/* .RegisterPage .bottom-link {
+  padding-top: 10px;
+} */

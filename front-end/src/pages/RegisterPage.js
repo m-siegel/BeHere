@@ -41,13 +41,12 @@ function RegisterPage({ isAuth }) {
           <h1>Register</h1>
           <div className="row form-row">
             <RegisterForm setAlert={setAlert} />
-          </div>
-
-          <div className="bottom-link">
-            Already have an account?{" "}
-            <Link to="/login" className="link">
-              Go to login.
-            </Link>
+            <div className="bottom-link">
+              Already have an account?{" "}
+              <Link to="/login" className="link">
+                Go to login.
+              </Link>
+            </div>
           </div>
         </div>
       </NotAuthBasePage>

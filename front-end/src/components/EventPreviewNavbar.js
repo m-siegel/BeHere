@@ -13,6 +13,8 @@ import IconStarOutline from "./icon-components/IconStarOutline.js";
 import IconThreeDots from "./icon-components/IconThreeDots.js";
 import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 
+import timeaColors from "./timeaColors.js";
+
 /**
  * Enables rsvp and like actions and can link to edit and details pages for an event.
  * Changes teh available options based on whether the userId given matches the event creator.
@@ -26,6 +28,18 @@ function EventPreviewNavbar({
   handleClickLike,
   handleClickRSVP,
 }) {
+  function getRSVPText(rsvpStatus) {
+    switch (rsvpStatus) {
+      case "Yes":
+        return "Going";
+      case "No":
+        return "Not Going";
+      case "Maybe":
+        return "Maybe";
+      default:
+        return "RSVP";
+    }
+  }
   return (
     <nav className="row">
       {
@@ -46,11 +60,13 @@ function EventPreviewNavbar({
         <IconOnClickButton
           icon={
             likes?.includes(userId) ? (
-              <IconStarFilled color="blue" />
+              <IconStarFilled color={timeaColors.action} />
             ) : (
               <IconStarOutline />
             )
           }
+          // TODO: this and rsvp have current value like
+          // TODO: aria that is always "like", same for rsvp
           descriptionText={
             likes?.length
               ? likes.length === 1
@@ -69,12 +85,12 @@ function EventPreviewNavbar({
             className="rsvp-dropdown col"
             icon={
               rsvped ? (
-                <IconCalendarHeartFilled color="blue" />
+                <IconCalendarHeartFilled color={timeaColors.action} />
               ) : (
                 <IconCalendarHeartOutline />
               )
             }
-            descriptionText="RSVP"
+            descriptionText={getRSVPText(rsvped)}
             dropdownMenu={[
               <button
                 className={rsvped === "Yes" ? "btn active" : "btn"}

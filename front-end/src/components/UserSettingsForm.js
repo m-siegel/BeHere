@@ -140,7 +140,7 @@ function UserSettingsForm({ setAlert }) {
           }
         />
         <div className="centering-container">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-action">
             Save Changes
           </button>
         </div>

@@ -80,7 +80,7 @@ function EventFeedPage({ isAuth }) {
   async function handleLike(eventId) {
     setAlert({
       type: "success",
-      message: "👍 Updating like...",
+      message: "Updating like...",
     });
     setTimeout(() => {
       setAlert({

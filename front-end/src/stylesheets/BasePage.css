@@ -25,6 +25,7 @@
   margin-left: 0;
   margin-right: 0;
   color: var(--timea-text-darkbrown);
+  border-bottom: 2px solid var(--timea-background-purple);
 }
 
 .BasePage header {
@@ -46,6 +47,7 @@
   bottom: 0;
   text-align: center;
   background-color: var(--timea-background-white);
+  border-top: 2px solid var(--timea-background-purple);
 }
 
 .BasePage .Navbar .IconButton {

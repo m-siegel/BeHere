@@ -1,8 +1,44 @@
-.create-event-form textarea {
-  min-width: 30vw;
-  margin-bottom: 15px;
+@media (max-width:499px) {
+  .create-event-form textarea {
+    width: 280px;
+    margin-bottom: 15px;
+  }
+  
+  .create-event-form input[type="text"] {
+    width: 280px;
+  }
+
+  .create-event-form input[type="datetime-local"] {
+    width: 280px;
+  }
 }
 
-.create-event-form input[type="text"] {
-  min-width: 30vw;
+@media (max-width:390px) {
+  .create-event-form textarea {
+    width: 220px;
+    margin-bottom: 15px;
+  }
+  
+  .create-event-form input[type="text"] {
+    width: 220px;
+  }
+
+  .create-event-form input[type="datetime-local"] {
+    width: 220px;
+  }
+}
+
+@media (min-width:500px) {
+  .create-event-form textarea {
+    width: 340px;
+    margin-bottom: 15px;
+  }
+  
+  .create-event-form input[type="text"] {
+    width: 340px;
+  }
+
+  .create-event-form input[type="datetime-local"] {
+    width: 340px;
+  }
 }

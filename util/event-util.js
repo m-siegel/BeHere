@@ -10,13 +10,11 @@ export function eventify(obj, creatorId, org) {
     // String for version 1
     location: obj.location,
     // Saving start & finish as a string for version 1
-    start: obj.start,
-    finish: obj.finish,
+    start: new Date(obj.start).toISOString(),
+    finish: new Date(obj.finish).toISOString(),
     tags: [],
     followedBy: [],
-    rsvpYes: [],
-    rsvpMaybe: [],
-    rsvpNo: [],
+    rsvps: [],
     likes: [],
   };
   return object;

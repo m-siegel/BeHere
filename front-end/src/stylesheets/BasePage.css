@@ -14,13 +14,8 @@
   width: 100vw;
 }
 
-.BasePage main {
-  min-height: 85vh;
-}
-
 .BasePage .Navbar {
   background-color: var(--timea-background-white);
-  min-height: 10vh;
   width: 100vw;
   margin-left: 0;
   margin-right: 0;
@@ -35,15 +30,17 @@
 }
 
 .BasePage .Navbar .col:hover {
-  background-color: #FFF;
+  background-color: var(--timea-background-purple);
 }
 
 .BasePage .Footer {
-  min-height: 5vh;
   width: 100vw;
   margin-left: 0;
   margin-right: 0;
+  position: fixed;
+  bottom: 0;
   text-align: center;
+  background-color: var(--timea-background-white);
 }
 
 .BasePage .Footer>div {

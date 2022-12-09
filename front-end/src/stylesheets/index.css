@@ -2,6 +2,7 @@
 
 body {
   font-family: var(--timea-body-font);
+  background-color: var(--timea-background-purple);
 }
 
 h1 {

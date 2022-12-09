@@ -16,7 +16,7 @@ function IndexPage() {
         <div className="row">
           <div className="col d-none d-md-flex img-col">
             <img
-              src="/media/example-images/pexels-do-castle-2158963.jpeg"
+              src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
               alt="Three people riding mountain bikes through bright green grass and trees."
             ></img>
           </div>

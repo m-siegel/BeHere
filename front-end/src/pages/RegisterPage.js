@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import useAlert from "../hooks/useAlert";
 import PropTypes from "prop-types";
+import NotAuthBasePage from "../components/base-page-components/NotAuthBasePage.js";
 
 function RegisterPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
@@ -22,30 +23,32 @@ function RegisterPage({ isAuth }) {
 
   return (
     <div className="RegisterPage">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col d-none d-sm-flex img-col">
-            <img
-              src="/media/example-images/pexels-do-castle-2158963.jpeg"
-              className="img-fluid"
-              alt="Three people riding mountain bikes through bright green grass and trees."
-            ></img>
-          </div>
-          <div className="col form-col">
-            <div>
-              <AlertComponent />
-              <h1>Register</h1>
-              <RegisterForm setAlert={setAlert} />
-              <div className="bottom-link">
-                Already have an account?{" "}
-                <Link to="/login" className="link">
-                  Go to login.
-                </Link>
-              </div>
-            </div>
-          </div>
+      <NotAuthBasePage
+        image={
+          <img
+            src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
+            alt="Three people riding mountain bikes through bright green grass and trees."
+          ></img>
+        }
+      >
+        <AlertComponent />
+        <Link to="/">
+          <button className="btn btn-sm btn-landing">
+            Back to Landing Page
+          </button>
+        </Link>
+        <h1>Register</h1>
+        <div className="row form-row">
+          <RegisterForm setAlert={setAlert} />
         </div>
-      </div>
+
+        <div className="bottom-link">
+          Already have an account?{" "}
+          <Link to="/login" className="link">
+            Go to login.
+          </Link>
+        </div>
+      </NotAuthBasePage>
     </div>
   );
 }

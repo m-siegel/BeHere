@@ -1,39 +1,6 @@
 @import "../stylesheets/timeaVariables.css";
 
-.IndexPage {
-  background-color: var(--timea-background-purple);
-  min-height: 100vh;
-}
-
-.IndexPage>.container-fluid {
-  padding-left: 0;
-}
-
-.IndexPage .col {
-  display: flex;
-  justify-content: center;
-}
-
-/* Image and image column */
-
-.IndexPage .img-col {
-  justify-items: left;
-  justify-content: left;
-  overflow: hidden;
-}
-
-.IndexPage img {
-  max-height: 100vh;
-}
-
 /* Text and text column */
-
-.IndexPage .text-col {
-  align-items: center;
-  margin-top: 0;
-  padding-left: 50px;
-  padding-right: 50px;
-}
 
 .IndexPage h1 {
   color: var(--timea-blue);

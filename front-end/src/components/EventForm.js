@@ -79,7 +79,7 @@ function EventForm({ setAlert, setDel }) {
       <form id="event-form" onSubmit={onSubmit}>
         <div className="row">
           <label htmlFor="name" className="form-label">
-            Name:{" "}
+            Name of event:{" "}
           </label>
           <input
             type="text"
@@ -125,7 +125,7 @@ function EventForm({ setAlert, setDel }) {
         </div>
         <div className="row">
           <label htmlFor="start" className="form-label">
-            Start:{" "}
+            Start time:{" "}
           </label>
           <input
             type="text"
@@ -141,7 +141,7 @@ function EventForm({ setAlert, setDel }) {
         </div>
         <div className="row">
           <label htmlFor="finish" className="form-label">
-            Finish:{" "}
+            End time:{" "}
           </label>
           <input
             type="text"

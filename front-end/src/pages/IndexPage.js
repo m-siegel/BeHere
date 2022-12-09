@@ -2,16 +2,19 @@
 
 import "../stylesheets/IndexPage.css";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NotAuthBasePage from "../components/base-page-components/NotAuthBasePage.js";
 
 function IndexPage() {
+  const navigate = useNavigate();
+
   return (
     <main className="IndexPage">
       <NotAuthBasePage
         image={
           <img
             src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
+            // TODO: change alt
             alt="Three people riding mountain bikes through bright green grass and trees."
           ></img>
         }
@@ -65,12 +68,26 @@ function IndexPage() {
           </p>
         </div>
         <div className="row button-row">
-          <Link to="/register">
-            <button className="btn btn-signup">Sign Up</button>
-          </Link>
-          <Link to="/login">
-            <button className="btn btn-login">Log In</button>
-          </Link>
+          <span>
+            <button
+              className="btn btn-signup"
+              onClick={() => {
+                navigate("/register", { replace: true });
+              }}
+            >
+              Sign Up
+            </button>
+          </span>
+          <span>
+            <button
+              className="btn btn-login"
+              onClick={() => {
+                navigate("/login", { replace: true });
+              }}
+            >
+              Log In
+            </button>
+          </span>
         </div>
       </NotAuthBasePage>
     </main>

@@ -27,6 +27,7 @@ function RegisterPage({ isAuth }) {
         image={
           <img
             src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
+            // TODO: change alt
             alt="Three people riding mountain bikes through bright green grass and trees."
           ></img>
         }
@@ -39,16 +40,31 @@ function RegisterPage({ isAuth }) {
             <RegisterForm setAlert={setAlert} />
             <div className="bottom-link">
               Already have an account?{" "}
-              <Link to="/login" className="link">
-                <button className="btn btn-link">Go to login.</button>
-              </Link>
+              {/* <Link to="/login" className="link"> */}
+              <button
+                className="btn btn-link"
+                onClick={() => {
+                  navigate("/login", { replace: true });
+                }}
+              >
+                Go to login.
+              </button>
+              {/* </Link> */}
             </div>
             <div className="row">
-              <Link to="/" className="link">
-                <button className="btn btn-link btn-landing">
-                  Back to Landing Page
-                </button>
-              </Link>
+              <p>
+                Or go{" "}
+                <Link to="/" className="link">
+                  {/* <button
+                  className="btn btn-link btn-landing"
+                  onClick={() => {
+                    navigate("/", { replace: true });
+                  }}
+                > */}
+                  back to the Landing Page
+                  {/* </button> */}
+                </Link>
+              </p>
             </div>
           </div>
         </div>

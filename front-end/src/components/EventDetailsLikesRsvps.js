@@ -49,124 +49,124 @@ function EventDetailsLikesRsvps({ eventId }) {
   }, [eventId]);
 
   return (
-    <div className="EventDetailsLikesRsvps card">
-      <div className="card-body">
-        <nav className="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-          {
-            // Tried splitting into a different component, but it didn't work.
-          }
-          <button
-            className="nav-link"
-            id="nav-rsvpyes-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-rsvpYes"
-            type="button"
-            role="tab"
-            aria-controls="nav-rsvpYes"
-          >
-            Going{rsvpYes?.length ? ` (${rsvpYes.length})` : ""}
-          </button>
-          <button
-            className="nav-link"
-            id="nav-rsvpMaybe-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-rsvpMaybe"
-            type="button"
-            role="tab"
-            aria-controls="nav-rsvpMaybe"
-          >
-            Maybe{rsvpMaybe?.length ? ` (${rsvpMaybe.length})` : ""}
-          </button>
-          <button
-            className="nav-link"
-            id="nav-rsvpNo-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-rsvpNo"
-            type="button"
-            role="tab"
-            aria-controls="nav-rsvpNo"
-          >
-            Not Going{rsvpNo?.length ? ` (${rsvpNo.length})` : ""}
-          </button>
-          <button
-            className="nav-link"
-            id="nav-likes-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#nav-likes"
-            type="button"
-            role="tab"
-            aria-controls="nav-likes"
-          >
-            Likes{likes?.length ? ` (${likes.length})` : ""}
-          </button>
-        </nav>
+    <div className="EventDetailsLikesRsvps">
+      {/* <div className="card-body"> */}
+      <nav className="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+        {
+          // Tried splitting into a different component, but it didn't work.
+        }
+        <button
+          className="nav-link"
+          id="nav-rsvpyes-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-rsvpYes"
+          type="button"
+          role="tab"
+          aria-controls="nav-rsvpYes"
+        >
+          Going{rsvpYes?.length ? ` (${rsvpYes.length})` : ""}
+        </button>
+        <button
+          className="nav-link"
+          id="nav-rsvpMaybe-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-rsvpMaybe"
+          type="button"
+          role="tab"
+          aria-controls="nav-rsvpMaybe"
+        >
+          Maybe{rsvpMaybe?.length ? ` (${rsvpMaybe.length})` : ""}
+        </button>
+        <button
+          className="nav-link"
+          id="nav-rsvpNo-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-rsvpNo"
+          type="button"
+          role="tab"
+          aria-controls="nav-rsvpNo"
+        >
+          Not Going{rsvpNo?.length ? ` (${rsvpNo.length})` : ""}
+        </button>
+        <button
+          className="nav-link"
+          id="nav-likes-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-likes"
+          type="button"
+          role="tab"
+          aria-controls="nav-likes"
+        >
+          Likes{likes?.length ? ` (${likes.length})` : ""}
+        </button>
+      </nav>
 
-        <div className="tab-content" id="nav-tabContent">
-          <div
-            className="tab-pane fade p-3"
-            id="nav-rsvpYes"
-            role="tabpanel"
-            aria-labelledby="nav-rsvpyes-tab"
-          >
-            {rsvpYes?.length
-              ? rsvpYes.map((user) => (
-                  <p key={user._id}>
-                    <strong>{user.username}</strong>
-                    {` (${user.firstName} ${user.lastName})`}
-                  </p>
-                ))
-              : "No users to show here"}
-          </div>
+      <div className="tab-content" id="nav-tabContent">
+        <div
+          className="tab-pane fade p-3"
+          id="nav-rsvpYes"
+          role="tabpanel"
+          aria-labelledby="nav-rsvpyes-tab"
+        >
+          {rsvpYes?.length
+            ? rsvpYes.map((user) => (
+                <p key={user._id}>
+                  <strong>{user.username}</strong>
+                  {` (${user.firstName} ${user.lastName})`}
+                </p>
+              ))
+            : "No users to show here"}
+        </div>
 
-          <div
-            className="tab-pane fade p-3"
-            id="nav-rsvpMaybe"
-            role="tabpanel"
-            aria-labelledby="nav-rsvpMaybe-tab"
-          >
-            {rsvpMaybe?.length
-              ? rsvpMaybe.map((user) => (
-                  <p key={user._id}>
-                    <strong>{user.username}</strong>
-                    {` (${user.firstName} ${user.lastName})`}
-                  </p>
-                ))
-              : "No users to show here"}
-          </div>
+        <div
+          className="tab-pane fade p-3"
+          id="nav-rsvpMaybe"
+          role="tabpanel"
+          aria-labelledby="nav-rsvpMaybe-tab"
+        >
+          {rsvpMaybe?.length
+            ? rsvpMaybe.map((user) => (
+                <p key={user._id}>
+                  <strong>{user.username}</strong>
+                  {` (${user.firstName} ${user.lastName})`}
+                </p>
+              ))
+            : "No users to show here"}
+        </div>
 
-          <div
-            className="tab-pane fade p-3"
-            id="nav-rsvpNo"
-            role="tabpanel"
-            aria-labelledby="nav-rsvpNo-tab"
-          >
-            {rsvpNo?.length
-              ? rsvpNo.map((user) => (
-                  <p key={user._id}>
-                    <strong>{user.username}</strong>
-                    {` (${user.firstName} ${user.lastName})`}
-                  </p>
-                ))
-              : "No users to show here"}
-          </div>
+        <div
+          className="tab-pane fade p-3"
+          id="nav-rsvpNo"
+          role="tabpanel"
+          aria-labelledby="nav-rsvpNo-tab"
+        >
+          {rsvpNo?.length
+            ? rsvpNo.map((user) => (
+                <p key={user._id}>
+                  <strong>{user.username}</strong>
+                  {` (${user.firstName} ${user.lastName})`}
+                </p>
+              ))
+            : "No users to show here"}
+        </div>
 
-          <div
-            className="tab-pane fade p-3"
-            id="nav-likes"
-            role="tabpanel"
-            aria-labelledby="nav-likes-tab"
-          >
-            {likes?.length
-              ? likes.map((user) => (
-                  <p key={user._id}>
-                    <strong>{user.username}</strong>
-                    {` (${user.firstName} ${user.lastName})`}
-                  </p>
-                ))
-              : "No users to show here"}
-          </div>
+        <div
+          className="tab-pane fade p-3"
+          id="nav-likes"
+          role="tabpanel"
+          aria-labelledby="nav-likes-tab"
+        >
+          {likes?.length
+            ? likes.map((user) => (
+                <p key={user._id}>
+                  <strong>{user.username}</strong>
+                  {` (${user.firstName} ${user.lastName})`}
+                </p>
+              ))
+            : "No users to show here"}
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }

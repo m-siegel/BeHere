@@ -1,12 +1,20 @@
 @import "../stylesheets/timeaVariables.css";
 
+.RegisterPage .card {
+  min-width: max(260px, 40vw);
+}
 
 .RegisterForm input {
-  min-width: max(240px, 40vw);
+  min-width: max(240px, 30vw);
 }
 
 .RegisterPage .text-col {
   margin-top: 10px;
+  text-align: center;
+}
+
+.RegisterPage .text-col label {
+  text-align: left;
 }
 
 .RegisterPage .text-col .form-row {

@@ -32,11 +32,7 @@ function RegisterPage({ isAuth }) {
         }
       >
         <AlertComponent />
-        <Link to="/">
-          <button className="btn btn-sm btn-landing">
-            Back to Landing Page
-          </button>
-        </Link>
+
         <div className="card card-body">
           <h1>Register</h1>
           <div className="row form-row">
@@ -44,7 +40,14 @@ function RegisterPage({ isAuth }) {
             <div className="bottom-link">
               Already have an account?{" "}
               <Link to="/login" className="link">
-                Go to login.
+                <button className="btn btn-link">Go to login.</button>
+              </Link>
+            </div>
+            <div className="row">
+              <Link to="/" className="link">
+                <button className="btn btn-link btn-landing">
+                  Back to Landing Page
+                </button>
               </Link>
             </div>
           </div>

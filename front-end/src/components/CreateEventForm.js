@@ -8,7 +8,7 @@ import "../stylesheets/CreateEventForm.css";
 /**
  * Form component for creating a new event.
  */
-function CreateEventForm({ setAlert }) {
+function CreateEventForm({ setAlert, navigate }) {
   //const dateTime = new Date();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -147,6 +147,15 @@ function CreateEventForm({ setAlert }) {
             className="btn btn-primary"
           >
             Create Event
+          </button>
+        </div>
+        <div className="row mt-3">
+          <button
+            id="cancel-button"
+            className="btn btn-secondary"
+            onClick={() => navigate("/dashboard")}
+          >
+            Cancel
           </button>
         </div>
       </form>

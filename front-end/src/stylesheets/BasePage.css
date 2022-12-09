@@ -14,6 +14,11 @@
   width: 100vw;
 }
 
+.BasePage :focus {
+  border: 1px solid var(--timea-background-white);
+  outline: 4px solid var(--timea-action-purple);
+}
+
 .BasePage .Navbar {
   background-color: var(--timea-background-white);
   width: 100vw;
@@ -61,13 +66,15 @@
   height: 1em;
 }
 
-.BasePage .card {
-  color: var(--timea-dark-brown);
+.BasePage .card,
+.BasePage .card input {
+  background-color: var(--timea-background-white);
 }
 
-.BasePage .card h2 {
+
+/* .BasePage .card h2 {
   text-align: center;
-}
+} */
 
 .BasePage .centering-container {
   display: flex;

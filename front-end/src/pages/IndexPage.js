@@ -6,26 +6,21 @@ import { Link } from "react-router-dom";
 
 function IndexPage() {
   return (
-    <div className="IndexPage">
+    <main className="IndexPage">
       <div className="container-fluid">
-        <div className="login-link">
-          <Link className="link" to="/login">
-            Login
-          </Link>
-        </div>
         <div className="row">
-          <div className="col d-none d-md-flex img-col">
+          <div className="col col-md-4 d-none d-md-flex img-col">
             <img
               src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
               alt="Three people riding mountain bikes through bright green grass and trees."
             ></img>
           </div>
-          <div className="col text-col">
+          <div className="col col-md-8 text-col">
             <div className="row">
               <div className="row title-row">
                 <h1>B🐝 Here!</h1>
               </div>
-              <div className="row description-div">
+              <div className="row description-div" tabIndex={0}>
                 <h2>Your organization's event hub</h2>
                 <h3>
                   What's <i>Be Here</i> for?
@@ -73,16 +68,19 @@ function IndexPage() {
                   yours.
                 </p>
               </div>
-              <div className="button-row">
+              <div className="row button-row">
                 <Link to="/register">
                   <button className="btn btn-signup">Sign Up</button>
+                </Link>
+                <Link to="/login">
+                  <button className="btn btn-login">Log In</button>
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

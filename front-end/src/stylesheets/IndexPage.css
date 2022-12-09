@@ -1,8 +1,7 @@
 @import "../stylesheets/timeaVariables.css";
 
 .IndexPage {
-  background-color: var(--timea-dark-brown);
-  color: var(--timea-yellow);
+  background-color: var(--timea-background-purple);
   min-height: 100vh;
 }
 
@@ -15,24 +14,12 @@
   justify-content: center;
 }
 
-/* Login link */
-
-.IndexPage .login-link {
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  z-index: 1;
-  
-}
-.IndexPage .link {
-  color: var(--timea-orange)
-}
-
 /* Image and image column */
 
 .IndexPage .img-col {
   justify-items: left;
   justify-content: left;
+  overflow: hidden;
 }
 
 .IndexPage img {
@@ -57,7 +44,6 @@
   display: block;
   position: sticky;
   top: 0px;
-  background-color: var(--timea-dark-brown);
 }
 
 .IndexPage .text-col h2 {
@@ -72,27 +58,41 @@
   padding-bottom: 10px;
   max-height: 75vh;
   overflow: scroll;
+  background-color: var(--timea-background-white);
 }
 
 .IndexPage .button-row {
   display: block;
   position: sticky;
   bottom: 0px;
-  background-color: var(--timea-dark-brown);
   padding: 10px;
+  background-color: var(--timea-background-purple);
 }
 
 .IndexPage .text-col .btn {
   margin: 10px;
   margin-top: 0px;
+  color: var(--timea-background-white);
+  font-weight: bold;
 }
 
-.IndexPage .text-col .btn:hover {
-  color: white;
+.IndexPage .text-col .btn-login:focus,
+.IndexPage .text-col .btn-login:hover {
+  background-color: var(--timea-button-grey-darker);
+  border: 3px solid var(--timea-button-grey);
+}
+
+.IndexPage .text-col .btn-signup:focus,
+.IndexPage .text-col .btn-signup:hover {
+  background-color: var(--timea-action-purple-darker);
+  border: 3px solid var(--timea-action-purple);
+}
+
+.IndexPage .text-col .btn-login {
+  background-color: var(--timea-button-grey);
 }
 
 .IndexPage .text-col .btn-signup {
-  background-color: var(--timea-blue);
-  font-weight: bold;
+  background-color: var(--timea-action-purple);
 }
 

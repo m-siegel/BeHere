@@ -13,9 +13,11 @@
   /* New color variables */
   --timea-background-white: #FAFAFA;
   --timea-background-purple: #E8E3ED;
-  --tiema-text-darkbrown: #282323;
+  --timea-text-darkbrown: #282323;
   --timea-action-purple: #6A00D3;
+  --timea-action-purple-darker: #5700AD;
   --timea-button-grey: #5C5757;
+  --timea-button-grey-darker: #4A4545;
   --timea-alert-yellow: #ffe867;
   --timea-alert-red: #FF8F94;
   --timea-alert-green: #4cff82;

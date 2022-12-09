@@ -1,5 +1,5 @@
 // By Tim Crawley
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
@@ -9,11 +9,36 @@ import "../stylesheets/CreateEventForm.css";
  * Form component for creating a new event.
  */
 function CreateEventForm({ setAlert }) {
+  //const dateTime = new Date();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [start, setStart] = useState("");
   const [finish, setFinish] = useState("");
+  const [validForm, setValidForm] = useState(false);
+
+  // function checkDateValidity(start, finish) {
+  //   if (!start || !finish) {
+  //     return true;
+  //   }
+  //   if (start < finish) {
+
+  //   }
+  // }
+
+  useEffect(() => {
+    const checkFormValidity = () => {
+      if (name && description && location && start && finish) {
+        return true;
+      }
+      return false;
+    };
+    if (checkFormValidity()) {
+      setValidForm(true);
+    } else {
+      setValidForm(false);
+    }
+  }, [description, finish, location, name, start]);
 
   async function onSubmit(evt) {
     evt.preventDefault();
@@ -77,7 +102,7 @@ function CreateEventForm({ setAlert }) {
         <FormInput
           type="text"
           idAndName="name"
-          labelContent="Name"
+          labelContent="Name of event"
           value={name}
           onChange={(evt) => setName(evt.target.value)}
         />
@@ -100,21 +125,27 @@ function CreateEventForm({ setAlert }) {
           onChange={(evt) => setLocation(evt.target.value)}
         />
         <FormInput
-          type="text"
+          type="datetime-local"
           idAndName="start"
-          labelContent="Start"
+          labelContent="Start time"
           value={start}
+          min={new Date()}
           onChange={(evt) => setStart(evt.target.value)}
         />
         <FormInput
-          type="text"
+          type="datetime-local"
           idAndName="finish"
-          labelContent="Finish"
+          labelContent="End time"
           value={finish}
           onChange={(evt) => setFinish(evt.target.value)}
         />
         <div className="row mt-3">
-          <button type="submit" id="submit-button" className="btn btn-primary">
+          <button
+            disabled={validForm ? false : true}
+            type="submit"
+            id="submit-button"
+            className="btn btn-primary"
+          >
             Create Event
           </button>
         </div>

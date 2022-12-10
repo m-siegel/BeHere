@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
+import SearchFilterBar from "../components/SearchFilterBar.js";
 import "../stylesheets/EventFeedPage.css";
 import { useNavigate } from "react-router-dom";
 
@@ -116,6 +117,7 @@ function EventFeedPage({ isAuth }) {
     <div className="EventFeedPage">
       <BasePage>
         <h1>Upcoming Events</h1>
+        <SearchFilterBar />
         <AlertComponent />
         <div className="row">
           {previews.length ? (

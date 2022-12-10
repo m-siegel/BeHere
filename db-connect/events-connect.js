@@ -404,83 +404,145 @@ eventsConnect.getOneEvent = getOneEvent;
  *                           err: null, or the error that was caught
  *                           }
  */
+
 export async function eventRsvp(user, event, rsvpStatus) {
   const client = new MongoClient(uri);
   const eventId = new ObjectId(event._id);
-  const userId = new ObjectId(user._id);
+  const userId = user._id;
   try {
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
-    const existingRsvp = await getRsvp(eventId, userId, collection);
-    if (existingRsvp.exists) {
-      if (existingRsvp.value === rsvpStatus) {
-        return {
-          success: false,
-          msg: `The RSVP has already been set to ${existingRsvp.value}`,
-          err: null,
-        };
-      } else {
-        await removeRsvpFromEvent(
-          eventId,
-          userId,
-          collection,
-          existingRsvp.value
-        );
+    const removeRsvp = await collection.updateOne(
+      { _id: eventId },
+      {
+        $pull: {
+          rsvps: {
+            userId: userId,
+          },
+        },
       }
-    }
-    let res;
-    if (rsvpStatus === "Yes") {
-      res = await collection.updateOne(
+    );
+    let addRsvp;
+    if (removeRsvp.matchedCount === 1 && rsvpStatus) {
+      addRsvp = await collection.updateOne(
         { _id: eventId },
         {
           $addToSet: {
-            rsvpYes: userId.toString(),
+            rsvps: {
+              userId: userId,
+              status: rsvpStatus,
+            },
           },
         }
       );
-    } else if (rsvpStatus === "Maybe") {
-      res = await collection.updateOne(
-        { _id: eventId },
-        {
-          $addToSet: {
-            rsvpMaybe: userId.toString(),
-          },
-        }
-      );
-    } else if (rsvpStatus === "No") {
-      res = await collection.updateOne(
-        { _id: eventId },
-        {
-          $addToSet: {
-            rsvpNo: userId.toString(),
-          },
-        }
-      );
+    } else if (removeRsvp.matchedCount === 1) {
+      return {
+        success: true,
+        msg: "RSVP removed successfully.",
+        err: null,
+      };
     } else {
+      console.log(removeRsvp);
       return {
         success: false,
-        msg: "Unable to update - an invalid RSVP value was entered.",
+        msg: "Cannot find event... please try later.",
         err: null,
       };
     }
-    if (res.acknowledged && res.modifiedCount) {
+
+    if (addRsvp && addRsvp.modifiedCount === 1) {
       return {
         success: true,
         msg: "RSVP updated successfully.",
         err: null,
       };
+    } else {
+      return {
+        success: false,
+        msg: "RSVP wasn't able to update... please try later.",
+        err: null,
+      };
     }
-    return {
-      success: false,
-      msg: "RSVP was unable to update.",
-      err: null,
-    };
+    //     const existingRsvp = await getRsvp(eventId, userId, collection);
+    //     if (existingRsvp.exists) {
+    //       if (existingRsvp.status === rsvpStatus) {
+    //         return {
+    //           success: false,
+    //           msg: `The RSVP has already been set to ${existingRsvp.value}`,
+    //           err: null,
+    //         };
+    //       } else {
+    //         await removeRsvpFromEvent(
+    //           eventId,
+    //           userId,
+    //           collection,
+    //           existingRsvp.value
+    //         );
+    //       }
+    //     }
+    //     let res;
+    //     if (rsvpStatus === "Yes") {
+    //       res = await collection.updateOne(
+    //         { _id: eventId },
+    //         {
+    //           $addToSet: {
+    //             rsvpYes: userId.toString(),
+    //           },
+    //         }
+    //       );
+    //     } else if (rsvpStatus === "Maybe") {
+    //       res = await collection.updateOne(
+    //         { _id: eventId },
+    //         {
+    //           $addToSet: {
+    //             rsvpMaybe: userId.toString(),
+    //           },
+    //         }
+    //       );
+    //     } else if (rsvpStatus === "No") {
+    //       res = await collection.updateOne(
+    //         { _id: eventId },
+    //         {
+    //           $addToSet: {
+    //             rsvpNo: userId.toString(),
+    //           },
+    //         }
+    //       );
+    //     } else {
+    //       return {
+    //         success: false,
+    //         msg: "Unable to update - an invalid RSVP value was entered.",
+    //         err: null,
+    //       };
+    //     }
+    //     if (res.acknowledged && res.modifiedCount) {
+    //       return {
+    //         success: true,
+    //         msg: "RSVP updated successfully.",
+    //         err: null,
+    //       };
+    //     }
+    //     return {
+    //       success: false,
+    //       msg: "RSVP was unable to update.",
+    //       err: null,
+    //     };
+    //   } catch (e) {
+    //     console.error(e);
+    //     return {
+    //       success: false,
+    //       msg: "An error has occurred. Please try again later.",
+    //       err: e,
+    //     };
+    //   } finally {
+    //     client.close();
+    //   }
   } catch (e) {
     console.error(e);
     return {
       success: false,
-      msg: "An error has occurred. Please try again later.",
+      msg: "An error has occured. Please try again later.",
       err: e,
     };
   } finally {
@@ -499,38 +561,28 @@ eventsConnect.eventRsvp = eventRsvp;
  */
 async function getRsvp(eventId, userId, collection) {
   // storing userIds as strings in arrays
-  const rsvpYes = await collection.findOne({
+  const event = await collection.findOne({
     _id: eventId,
-    rsvpYes: userId.toString(),
+    "rsvp.userId": userId.toString(),
   });
-  const rsvpMaybe = await collection.findOne({
-    _id: eventId,
-    rsvpMaybe: userId.toString(),
-  });
-  const rsvpNo = await collection.findOne({
-    _id: eventId,
-    rsvpNo: userId.toString(),
-  });
+  // const rsvpMaybe = await collection.findOne({
+  //   _id: eventId,
+  //   rsvpMaybe: userId.toString(),
+  // });
+  // const rsvpNo = await collection.findOne({
+  //   _id: eventId,
+  //   rsvpNo: userId.toString(),
+  // });
 
-  if (!rsvpYes && !rsvpMaybe && !rsvpNo) {
+  if (!event) {
     return {
       exists: false,
       value: null,
     };
-  } else if (rsvpYes) {
-    return {
-      exists: true,
-      value: "Yes",
-    };
-  } else if (rsvpMaybe) {
-    return {
-      exists: true,
-      value: "Maybe",
-    };
   } else {
     return {
       exists: true,
-      value: "No",
+      value: event.rsvp.status,
     };
   }
 }

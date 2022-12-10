@@ -12,7 +12,7 @@ export function eventify(obj, creatorId, org) {
     // Saving start & finish as a string for version 1
     start: new Date(obj.start).toISOString(),
     finish: new Date(obj.finish).toISOString(),
-    tags: [],
+    tags: obj.tags,
     followedBy: [],
     rsvps: [],
     likes: [],

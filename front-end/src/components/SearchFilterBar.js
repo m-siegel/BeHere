@@ -7,7 +7,6 @@ import FilterComponent from "./FilterComponent.js";
 import "../stylesheets/SearchFilterBar.css";
 
 /**
- * Displays a preview of information for an event. Enables interaction with the event.
  */
 function SearchFilterBar() {
   // States
@@ -24,21 +23,31 @@ function SearchFilterBar() {
   const [currentCategory, setCategory] = useState("Anywhere"); // TODO: faster as a number (index)
 
   // For filter
+  const checkboxOptions = [
+    "Active",
+    "Games",
+    "Food",
+    "Drink",
+    "Music/Entertainment",
+    "Outdoor",
+    "Art/Craft",
+    "Learning",
+    "Tours/Exploration",
+    "Networking",
+    "Hangout",
+    "Party",
+  ];
+
+  function objFromOptions() {
+    const obj = {};
+    checkboxOptions.forEach((opt) => {
+      obj[opt] = false;
+    });
+    return obj;
+  }
+
   const [currentSelections, setSelections] = useState({
-    tags: {
-      Active: false,
-      Games: false,
-      Food: false,
-      Drink: false,
-      "Music/Entertainment": false,
-      Outdoor: false,
-      "Art/Craft": false,
-      Learning: false,
-      "Tours/Exploration": false,
-      Networking: false,
-      Hangout: false,
-      Party: false,
-    },
+    tags: objFromOptions(),
     // TODO: include this?
     // dateTimeRange: {
     //   start: "",
@@ -57,20 +66,33 @@ function SearchFilterBar() {
     });
   }
 
+  function handleFilter() {
+    console.log({
+      filters: currentSelections,
+    });
+  }
+
   return (
     <div className="SearchFilterBar row">
-      <SearchComponent
-        categoriesArray={categoriesArray}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        currentCategory={"currentCategory"}
-        setCategory={setCategory}
-        search={handleSearch}
-      />
+      <div className="col-auto">
+        <SearchComponent
+          categoriesArray={categoriesArray}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          currentCategory={"currentCategory"}
+          setCategory={setCategory}
+          search={handleSearch}
+        />
+      </div>
 
-      {/* <div className="row">
-        <FilterComponent />
-      </div> */}
+      <div className="col-auto">
+        <FilterComponent
+          checkboxOptions={checkboxOptions}
+          currentSelections={currentSelections}
+          setSelections={setSelections}
+          filter={handleFilter}
+        />
+      </div>
     </div>
   );
 }

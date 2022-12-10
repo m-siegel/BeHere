@@ -20,9 +20,24 @@
   border-bottom: 1px solid var(--timea-background-purple);
 }
 
+.EventFeedPage .SearchFilterBar .btn {
+  color: var(--timea-background-white);
+}
+
 .EventFeedPage .SearchFilterBar .btn-action {
   background-color: var(--timea-action-purple);
-  color: var(--timea-background-white);
+}
+
+.EventFeedPage .SearchFilterBar .btn-action:hover {
+  background-color: var(--timea-action-purple-darker);
+}
+
+.EventFeedPage .SearchFilterBar .btn-grey {
+  background-color: var(--timea-button-grey);
+}
+
+.EventFeedPage .SearchFilterBar .btn-grey:hover {
+  background-color: var(--timea-button-grey-darker);
 }
 
 /* .EventFeedPage .EventPreview.color-0 .card {

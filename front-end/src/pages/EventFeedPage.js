@@ -6,10 +6,13 @@ import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
 import SearchFilterBar from "../components/SearchFilterBar.js";
+import PaginationComponent from "../components/PaginationComponent.js";
 import "../stylesheets/EventFeedPage.css";
 import { useNavigate } from "react-router-dom";
 
 function EventFeedPage({ isAuth }) {
+  // For loading previews
+
   const [checkedEvents, setCheckedEvents] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
@@ -17,7 +20,75 @@ function EventFeedPage({ isAuth }) {
 
   const [AlertComponent, setAlert] = useAlert();
 
+  // Like and RSVP handlers (used by event previews)
+
+  async function handleRSVP(event, rsvp) {
+    setAlert({
+      type: "success",
+      message: "💌 RSVPing...",
+    });
+    setTimeout(() => {
+      setAlert({
+        message: "",
+      });
+    }, 2000);
+    try {
+      const res = await fetch("/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: event, rsvpStatus: rsvp }),
+      });
+      if (res.err) {
+        setAlert({
+          type: "warning",
+          message: "Error RSVPing. Please try again later.",
+        });
+      } else {
+        // Load with new rsvps
+        await loadPreviewsPagination();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function handleLike(eventId) {
+    setAlert({
+      type: "success",
+      message: "Updating like...",
+    });
+    setTimeout(() => {
+      setAlert({
+        message: "",
+      });
+    }, 2000);
+    try {
+      const res = await fetch("/toggleLike", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId: eventId }),
+      });
+      if (res.err) {
+        setAlert({
+          type: "warning",
+          message: "Error toggling 'like'. Please try again later.",
+        });
+        return;
+      } else {
+        await loadPreviewsPagination();
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+      setAlert({
+        type: "warning",
+        message: "Error toggling 'like'. Please try again later.",
+      });
+    }
+  }
+
   // For search/filter
+
   const [findQuery, setFindQuery] = useState({
     searchBy: {
       searchTerm: "",
@@ -71,12 +142,15 @@ function EventFeedPage({ isAuth }) {
     tags: objFromOptions(),
   });
 
+  // For pagination
+
+  const [currPage, setPage] = useState(0);
+  const [totalResults, setTotalResults] = useState(0);
+  const resultsPerPage = 12;
+
+  // Loading
+
   function find() {
-    // console.log({
-    //   searchTerm: searchTerm,
-    //   category: currentCategory,
-    //   filters: currentSelections,
-    // });
     setFindQuery({
       searchBy: {
         searchTerm: searchTerm,
@@ -89,24 +163,45 @@ function EventFeedPage({ isAuth }) {
         tags: checkboxOptions.filter((x) => currentSelections.tags[x]),
       },
     });
+    setPage(0);
   }
 
-  // Loading
-
-  // TODO: delete?
-  async function loadPreviews(query) {
+  // TODO: wrap in try
+  async function loadPreviewsNewSearchFilter(query) {
     setCheckedEvents(false);
+    setPage(0);
+    loadPreviewsPagination(query);
     const res = await (
-      await fetch("/api/feed/getEventPreviews", {
+      await fetch("/api/feed/getEventCount", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: query }),
       })
     ).json();
+    if (res && res.count) {
+      setTotalResults(res.count);
+    }
+    setCheckedEvents(true);
+  }
+
+  // TODO: wrap in try
+  async function loadPreviewsPagination(query) {
+    const res = await (
+      await fetch("/api/feed/getEventPreviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: query,
+          pagination: {
+            skip: currPage * resultsPerPage,
+            limit: resultsPerPage,
+          },
+        }),
+      })
+    ).json();
     if (res && res.events) {
       setPreviews(res.events);
     }
-    setCheckedEvents(true);
   }
 
   async function getUserPassportInfo() {
@@ -125,7 +220,7 @@ function EventFeedPage({ isAuth }) {
       if (!(await isAuth())) {
         navigate("/", { replace: true });
       }
-      loadPreviews();
+      loadPreviewsNewSearchFilter();
       getUserPassportInfo();
       // Can return to clean up previous effect, eg stop fetch
     }
@@ -133,75 +228,12 @@ function EventFeedPage({ isAuth }) {
   }, [isAuth, navigate]);
 
   useEffect(() => {
-    loadPreviews(findQuery);
+    loadPreviewsNewSearchFilter(findQuery);
   }, [findQuery]);
 
-  // Like and RSVP handlers (used by event previews)
-
-  async function handleRSVP(event, rsvp) {
-    setAlert({
-      type: "success",
-      message: "💌 RSVPing...",
-    });
-    setTimeout(() => {
-      setAlert({
-        message: "",
-      });
-    }, 2000);
-    try {
-      const res = await fetch("/rsvp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: event, rsvpStatus: rsvp }),
-      });
-      if (res.err) {
-        setAlert({
-          type: "warning",
-          message: "Error RSVPing. Please try again later.",
-        });
-      } else {
-        // Load with new rsvps
-        await loadPreviews();
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async function handleLike(eventId) {
-    setAlert({
-      type: "success",
-      message: "Updating like...",
-    });
-    setTimeout(() => {
-      setAlert({
-        message: "",
-      });
-    }, 2000);
-    try {
-      const res = await fetch("/toggleLike", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId: eventId }),
-      });
-      if (res.err) {
-        setAlert({
-          type: "warning",
-          message: "Error toggling 'like'. Please try again later.",
-        });
-        return;
-      } else {
-        await loadPreviews();
-        return;
-      }
-    } catch (e) {
-      console.error(e);
-      setAlert({
-        type: "warning",
-        message: "Error toggling 'like'. Please try again later.",
-      });
-    }
-  }
+  useEffect(() => {
+    loadPreviewsPagination(findQuery);
+  }, [currPage]);
 
   return (
     <div className="EventFeedPage">
@@ -217,6 +249,12 @@ function EventFeedPage({ isAuth }) {
           currentSelections={currentSelections}
           setSelections={setSelections}
           find={find}
+        />
+        <PaginationComponent
+          currPage={currPage}
+          setPage={setPage}
+          resultsPerPage={resultsPerPage}
+          totalResults={totalResults}
         />
         <AlertComponent />
         <div className="row">

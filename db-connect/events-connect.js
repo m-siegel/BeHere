@@ -222,8 +222,10 @@ eventsConnect.updateEvent = updateEvent;
 // }
 // eventsConnect.getEventPreviews = getEventPreviews;
 
-export async function getEventPreviews(queryObj) {
-  console.log(JSON.stringify(queryObj));
+export async function getEventPreviews(queryObj, skip, limit) {
+  // TODO: validate params
+  skip = skip ? Math.max(skip, 0) : 0;
+  limit = limit ? Math.max(limit, 0) : 0;
   // create date/time variable to use within db call query
   const client = new MongoClient(uri);
   try {
@@ -231,6 +233,7 @@ export async function getEventPreviews(queryObj) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection
+      // TODO: only allow ending after current date
       .find(queryObj, {
         projection: {
           _id: 1,
@@ -249,7 +252,10 @@ export async function getEventPreviews(queryObj) {
       })
       .sort({
         start: 1,
-      });
+        creator: 1,
+      })
+      .skip(skip)
+      .limit(limit);
     if (res) {
       return {
         success: true,
@@ -277,6 +283,38 @@ export async function getEventPreviews(queryObj) {
   }
 }
 eventsConnect.getEventPreviews = getEventPreviews;
+
+// Ilana-Mahmea
+export async function getEventCount(queryObj) {
+  // TODO: validate params
+  // create date/time variable to use within db call query
+  const client = new MongoClient(uri);
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(eventsCol);
+    const res = await collection
+      // TODO: only allow ending after current date
+      .countDocuments(queryObj);
+    return {
+      success: true,
+      msg: "Successful query.",
+      count: res,
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      msg: "An error occurred in the database. Please try again later.",
+      count: 0,
+      err: e,
+    };
+  } finally {
+    client.close();
+  }
+}
+eventsConnect.getEventCount = getEventCount;
 
 /**
  * Returns all of the events that the user created.

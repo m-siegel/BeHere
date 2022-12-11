@@ -481,6 +481,9 @@ router.post("/api/feed/getEventPreviews", async (req, res) => {
           });
         }
 
+        const skip = req.body.pagination?.skip;
+        const limit = req.body.pagination?.limit;
+
         // TODO: delete, just for testing
         // console.log("queryObj: ", queryObj);
         // console.log("1: ", queryObj.$and[1]);
@@ -492,7 +495,111 @@ router.post("/api/feed/getEventPreviews", async (req, res) => {
         //   err: null,
         // });
 
-        const eventsResponse = await eventsConnect.getEventPreviews(queryObj);
+        const eventsResponse = await eventsConnect.getEventPreviews(
+          queryObj,
+          skip,
+          limit
+        );
+        return res.json(eventsResponse);
+      } catch (e) {
+        console.error(e);
+        return res.json({
+          success: false,
+          message: "Encountered error in /getEventPreviews",
+          events: null,
+          err: e,
+        });
+      }
+    } else {
+      return res.json({
+        success: false,
+        message: "User has no organizations.",
+        events: null,
+        err: null,
+      });
+    }
+  } catch (e) {
+    return res.json({
+      success: false,
+      message:
+        "Error encountered with getting user organizations from session.",
+      events: null,
+      err: e,
+    });
+  }
+});
+
+router.post("/api/feed/getEventCount", async (req, res) => {
+  try {
+    if (req.session.passport?.user?.organizations?.length) {
+      try {
+        // Create query object
+        /*
+         * Query object structure:
+         * {
+         *   // Basic requirements AND search AND filters must be met
+         *   $and: [
+         *     // Basic requirement -- must be event for given organization
+         *     { organization: "rohan.gov" },
+         *     // Search terms. Can appear in any of the specified categories
+         *     {
+         *       $or: [
+         *         { <category1>: { $regex: <searchTerm>, $options: "i" } },
+         *         { <category2>: { $regex: <searchTerm>, $options: "i" } },
+         *         ...
+         *       ],
+         *     },
+         *     // Filters. TODO: Different categories of filter should be ANDed (ie tags and time)
+         *
+         *     {
+         *       // Find events with any of the specified tags in their tags arrays
+         *       tags: {$in: [<tag1>, <tag2>, ...]}
+         *     },
+         *   ];
+         * }
+         *
+         */
+
+        // V2: get events for any of the user's orgs
+        const orgName = req.session.passport?.user?.organizations[0];
+        const searchTerm = req.body.query?.searchBy?.searchTerm;
+        const searchCategories = req.body.query?.searchBy?.searchCategories;
+        const tags = req.body.query?.filterBy?.tags;
+
+        // Search for match with orgName AND searchTerm AND filters
+        const queryObj = {
+          $and: [{ organization: orgName }],
+        };
+        // Find searchTerm anywhere in the specified places ("or" search)
+        if (searchTerm && searchCategories?.length) {
+          const searchObj = { $or: [] };
+          searchCategories.forEach((cat) => {
+            const o = {};
+            o[cat.toLowerCase()] = { $regex: searchTerm, $options: "i" };
+            searchObj.$or.push(o);
+          });
+          queryObj.$and.push(searchObj);
+        }
+        // Find any of the given tags ("or" search)
+        if (tags?.length) {
+          // TODO: standardize lower vs title case
+          queryObj.$and.push({
+            tags: { $in: tags.map((t) => t.toLowerCase()) },
+          });
+        }
+
+        // TODO: delete, just for testing
+        // console.log("queryObj: ", queryObj);
+        // console.log("1: ", queryObj.$and[1]);
+        // console.log("2: ", queryObj.$and[2]);
+        // return res.json({
+        //   success: false,
+        //   message: "Just testing",
+        //   events: null,
+        //   err: null,
+        // });
+
+        const eventsResponse = await eventsConnect.getEventCount(queryObj);
         return res.json(eventsResponse);
       } catch (e) {
         console.error(e);

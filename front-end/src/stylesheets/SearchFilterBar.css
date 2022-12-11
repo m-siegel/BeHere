@@ -7,3 +7,9 @@
 .SearchFilterBar .connector-text {
   font-size: 1.2em;
 }
+
+.SearchFilterBar .col-auto,
+.SearchFilterBar .FilterComponent {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

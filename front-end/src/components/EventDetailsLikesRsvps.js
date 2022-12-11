@@ -23,7 +23,7 @@ function EventDetailsLikesRsvps({ eventInfo }) {
             },
             body: JSON.stringify({
               userIds: eventInfo.likes?.concat(
-                eventInfo.rsvps?.map((rsvp) => rsvp._userId)
+                eventInfo.rsvps?.map((rsvp) => rsvp.userId)
               ),
               // likeIds: eventInfo.likes,
               // yesIds: eventInfo.rsvps.filter((obj) => obj.status === "Yes"),
@@ -42,8 +42,6 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           )
         );
         // TODO: make more efficient
-        console.log(res?.users);
-        console.log(eventInfo.rsvps);
         setRsvpYes(
           res?.users?.filter(
             (user) =>

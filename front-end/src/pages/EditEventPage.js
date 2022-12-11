@@ -25,7 +25,9 @@ function EditEventPage({ isAuth }) {
   return (
     <div className="EditEventPage">
       <BasePage>
-        <AlertComponent />
+        <div className="centering-container">
+          <AlertComponent />
+        </div>
         <div className="card">
           <div className="card-body">
             <h1>Edit your event</h1>

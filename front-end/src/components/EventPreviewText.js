@@ -17,18 +17,22 @@ function EventPreviewText({ start, location, tags }) {
         <dt>Where</dt>
         <dd>{location}</dd>
       </div>
-      <div>
-        <dt>What</dt>
-        <dd>
-          {
-            <ul className="preview-tags">
-              {tags?.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-          }
-        </dd>
-      </div>
+      {tags?.length ? (
+        <div>
+          <dt>What</dt>
+          <dd>
+            {
+              <ul className="preview-tags">
+                {tags?.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            }
+          </dd>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </dl>
   );
 }

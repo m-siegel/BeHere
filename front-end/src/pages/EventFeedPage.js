@@ -44,7 +44,9 @@ function EventFeedPage({ isAuth }) {
         });
       } else {
         // Load with new rsvps
-        await loadEventPreviews();
+        // TODO: something about this is whacky with the time filtering
+        // TODO: maybe just change the like instead of reloading everything (return something from here for update preview)
+        await loadEventPreviews(findQuery);
       }
     } catch (e) {
       console.error(e);
@@ -74,7 +76,7 @@ function EventFeedPage({ isAuth }) {
         });
         return;
       } else {
-        await loadEventPreviews();
+        await loadEventPreviews(findQuery);
         return;
       }
     } catch (e) {
@@ -184,9 +186,10 @@ function EventFeedPage({ isAuth }) {
           }),
         })
       ).json();
-      if (res && res.events) {
+      if (res?.events) {
         setPreviews(res.events);
-      } else {
+      }
+      if (!res?.events || res.events.length === 0) {
         setTotalResults(0);
       }
       setDoneSearch(true);

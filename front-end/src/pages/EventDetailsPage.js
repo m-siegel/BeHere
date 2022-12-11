@@ -60,7 +60,7 @@ function EventDetailsPage({ event, className, isAuth }) {
               />
             </div>
             <div className="row">
-              <EventDetailsLikesRsvps eventId={eventInfo._id} />
+              <EventDetailsLikesRsvps eventInfo={eventInfo} />
             </div>
           </div>
 

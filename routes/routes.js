@@ -138,36 +138,40 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
         event,
         rsvpType
       );
-      const userDbResponse = await userConnect.updateRSVP(
-        user._id,
-        event._id,
-        rsvpType
-      );
-
-      if (eventDbResponse.success && userDbResponse.success) {
+      // const userDbResponse = await userConnect.updateRSVP(
+      //   user._id,
+      //   event._id,
+      //   rsvpType
+      // );
+      if (eventDbResponse.success) {
         return res.json({
           success: true,
           msg: "Successfully updated rsvp",
           err: null,
         });
-      } else if (userDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
-          err: null,
-        });
-      } else if (eventDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update user. Message: ${userDbResponse.message}`,
-          err: null,
-        });
+
+        // if (eventDbResponse.success && userDbResponse.success) {
+        //   return res.json({
+        //     success: true,
+        //     msg: "Successfully updated rsvp",
+        //     err: null,
+        //   });
+        // } else if (userDbResponse.success) {
+        //   return res.json({
+        //     success: false,
+        //     msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+        //     err: null,
+        //   });
+        // } else if (eventDbResponse.success) {
+        //   return res.json({
+        //     success: false,
+        //     msg: `Could not update user. Message: ${userDbResponse.message}`,
+        //     err: null,
+        //   });
       }
       return res.json({
         success: false,
-        msg: `Could not update event or user. 
-          User failure message: ${userDbResponse.message}.
-          Event failure message: ${eventDbResponse.message}`,
+        msg: `Could not update event. ${eventDbResponse.message}`,
         err: null,
       });
     } catch (e) {
@@ -304,10 +308,10 @@ router.post("/api/getUsernameById", async (req, res) => {
 });
 
 router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
-  const eventId = req.body.eventId;
-  if (eventId) {
+  const userIds = req.body.userIds;
+  if (userIds?.length) {
     try {
-      const dbResult = await userConnect.getRsvpLikeUserPreviews(eventId);
+      const dbResult = await userConnect.getRsvpLikeUserPreviews(userIds);
       return res.json(dbResult);
     } catch (e) {
       console.error(e);
@@ -315,15 +319,15 @@ router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
         success: false,
         message:
           "An error was encountered in the route for getting the user rsvp and like previews.",
-        username: "",
+        users: [],
         err: e,
       });
     }
   } else {
     return res.json({
       success: false,
-      message: "No event id found.",
-      username: null,
+      message: "No users found.",
+      users: [],
       err: null,
     });
   }

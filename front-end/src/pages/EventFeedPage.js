@@ -186,9 +186,10 @@ function EventFeedPage({ isAuth }) {
           }),
         })
       ).json();
-      if (res && res.events) {
+      if (res?.events) {
         setPreviews(res.events);
-      } else {
+      }
+      if (!res?.events || res.events.length === 0) {
         setTotalResults(0);
       }
       setDoneSearch(true);

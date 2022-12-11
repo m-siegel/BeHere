@@ -222,10 +222,25 @@ eventsConnect.updateEvent = updateEvent;
 // }
 // eventsConnect.getEventPreviews = getEventPreviews;
 
+/**
+ * Returns previews of all of the events that match the query.
+ * @param {object} queryObj A valid mongodb find object, for example,
+ *                          { $and: [ { organization: "rohan.gov" },
+ *                          { $or: [ { <category1>: { $regex: <searchTerm>, $options: "i" } },
+ *                              { <category2>: { $regex: <searchTerm>, $options: "i" } }] } ]}
+ * @param {number} skip The number of matching documents to skip before the first one returned. Should be a positive integer.
+ * @param {number} limit The number of matching documents to return. If limit is 0, returns all of them. Should be a positive integer.
+ * @returns {object} { success: Boolean,
+ *                     msg: a string explaining the operation outcome,
+ *                     events: An array of event objects, or null
+ *                     err: null, or the error that was caught
+ *                     }
+ */
 export async function getEventPreviews(queryObj, skip, limit) {
   // TODO: validate params
-  skip = skip ? Math.max(skip, 0) : 0;
-  limit = limit ? Math.max(limit, 0) : 0;
+  // Mea updated
+  skip = skip ? Math.max(Math.floor(skip), 0) : 0;
+  limit = limit ? Math.max(Math.floor(limit), 0) : 0;
   // create date/time variable to use within db call query
   const client = new MongoClient(uri);
   try {
@@ -252,6 +267,7 @@ export async function getEventPreviews(queryObj, skip, limit) {
       })
       .sort({
         start: 1,
+        finish: 1,
         creator: 1,
       })
       .skip(skip)
@@ -285,6 +301,18 @@ export async function getEventPreviews(queryObj, skip, limit) {
 eventsConnect.getEventPreviews = getEventPreviews;
 
 // Ilana-Mahmea
+/**
+ * Returns the count of all of the events that match the query.
+ * @param {object} queryObj A valid mongodb find object, for example,
+ *                          { $and: [ { organization: "rohan.gov" },
+ *                          { $or: [ { <category1>: { $regex: <searchTerm>, $options: "i" } },
+ *                              { <category2>: { $regex: <searchTerm>, $options: "i" } }] } ]}
+ * @returns {object} { success: Boolean,
+ *                     msg: a string explaining the operation outcome,
+ *                     events: An array of event objects, or null
+ *                     err: null, or the error that was caught
+ *                     }
+ */
 export async function getEventCount(queryObj) {
   // TODO: validate params
   // create date/time variable to use within db call query

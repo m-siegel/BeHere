@@ -458,6 +458,8 @@ router.post("/api/feed/getEventPreviews", async (req, res) => {
         const searchTerm = req.body.query?.searchBy?.searchTerm;
         const searchCategories = req.body.query?.searchBy?.searchCategories;
         const tags = req.body.query?.filterBy?.tags;
+        const earliestFinish =
+          req.body.query?.filterBy?.dateTime?.earliestFinish;
 
         // Search for match with orgName AND searchTerm AND filters
         const queryObj = {
@@ -480,20 +482,12 @@ router.post("/api/feed/getEventPreviews", async (req, res) => {
             tags: { $in: tags.map((t) => t.toLowerCase()) },
           });
         }
+        if (earliestFinish) {
+          queryObj.$and.push({ finish: { $gte: earliestFinish } });
+        }
 
         const skip = req.body.pagination?.skip;
         const limit = req.body.pagination?.limit;
-
-        // TODO: delete, just for testing
-        // console.log("queryObj: ", queryObj);
-        // console.log("1: ", queryObj.$and[1]);
-        // console.log("2: ", queryObj.$and[2]);
-        // return res.json({
-        //   success: false,
-        //   message: "Just testing",
-        //   events: null,
-        //   err: null,
-        // });
 
         const eventsResponse = await eventsConnect.getEventPreviews(
           queryObj,
@@ -565,6 +559,8 @@ router.post("/api/feed/getEventCount", async (req, res) => {
         const searchTerm = req.body.query?.searchBy?.searchTerm;
         const searchCategories = req.body.query?.searchBy?.searchCategories;
         const tags = req.body.query?.filterBy?.tags;
+        const earliestFinish =
+          req.body.query?.filterBy?.dateTime?.earliestFinish;
 
         // Search for match with orgName AND searchTerm AND filters
         const queryObj = {
@@ -586,6 +582,9 @@ router.post("/api/feed/getEventCount", async (req, res) => {
           queryObj.$and.push({
             tags: { $in: tags.map((t) => t.toLowerCase()) },
           });
+        }
+        if (earliestFinish) {
+          queryObj.$and.push({ finish: { $gte: earliestFinish } });
         }
 
         const eventsResponse = await eventsConnect.getEventCount(queryObj);

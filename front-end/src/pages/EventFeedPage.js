@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 
 function EventFeedPage({ isAuth }) {
   // For loading previews
-
   const [doneSearch, setDoneSearch] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
@@ -96,6 +95,8 @@ function EventFeedPage({ isAuth }) {
     },
     filterBy: {
       tags: [],
+      // Only show events that have not already ended
+      dateTime: { earliestFinish: new Date().toISOString() },
     },
   });
 
@@ -161,6 +162,7 @@ function EventFeedPage({ isAuth }) {
       },
       filterBy: {
         tags: checkboxOptions.filter((x) => currentSelections.tags[x]),
+        dateTime: { earliestFinish: new Date().toISOString() },
       },
     });
     setPage(0);

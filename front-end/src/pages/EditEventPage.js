@@ -6,6 +6,7 @@ import EventForm from "../components/EventForm.js";
 import useAlert from "../hooks/useAlert.js";
 import ConfirmDeleteComponent from "../components/ConfirmDeleteComponent.js";
 import PropTypes from "prop-types";
+import "../stylesheets/EditEventPage.css";
 
 function EditEventPage({ isAuth }) {
   const [del, setDel] = useState(false);
@@ -22,16 +23,22 @@ function EditEventPage({ isAuth }) {
   }, [isAuth, navigate]);
 
   return (
-    <BasePage>
-      <AlertComponent />
-      <div className="card">
-        <div className="card-body">
-          <h1>Edit your event</h1>
-          <EventForm setAlert={setAlert} setDel={setDel} navigate={navigate} />
+    <div className="EditEventPage">
+      <BasePage>
+        <AlertComponent />
+        <div className="card">
+          <div className="card-body">
+            <h1>Edit your event</h1>
+            <EventForm
+              setAlert={setAlert}
+              setDel={setDel}
+              navigate={navigate}
+            />
+          </div>
         </div>
-      </div>
-      <ConfirmDeleteComponent del={del} setDel={setDel} setAlert={setAlert} />
-    </BasePage>
+        <ConfirmDeleteComponent del={del} setDel={setDel} setAlert={setAlert} />
+      </BasePage>
+    </div>
   );
 }
 

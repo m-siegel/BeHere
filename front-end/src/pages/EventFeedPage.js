@@ -186,7 +186,7 @@ function EventFeedPage({ isAuth }) {
           }),
         })
       ).json();
-      if (res && res.events?.length) {
+      if (res && res.events) {
         setPreviews(res.events);
       } else {
         setTotalResults(0);

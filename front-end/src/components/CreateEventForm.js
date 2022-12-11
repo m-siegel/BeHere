@@ -68,13 +68,10 @@ function CreateEventForm({ setAlert, navigate }) {
 
   async function onSubmit(evt) {
     evt.preventDefault();
-    // let tags = checkedState.forEach((t, i) => {
-    //   if (checkedState[i]) {
-    //     tags.push(tagValues[i]);
-    //   }
-    // });
+
+    // To disable create-event button to prevent dups
+    setValidForm(false);
     let tags = [];
-    // const checkboxes = document.getElementsByName("tags");
     for (let i = 0; i < tagValues.length; i++) {
       if (checkedState[i]) {
         tags.push(tagValues[i]);
@@ -196,117 +193,6 @@ function CreateEventForm({ setAlert, navigate }) {
               </div>
             );
           })}
-
-          {/* <div class="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="art/crafts"
-              name="tags"
-              value="art/crafts"
-            ></input>
-            <label for="art/crafts"> Art/Crafts</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="drink"
-              name="tags"
-              className="form-check-input"
-              value="drink"
-            ></input>
-            <label for="drink"> Drink</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="food"
-              name="tags"
-              className="form-check-input"
-              value="food"
-            ></input>
-            <label for="food"> Food</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="games"
-              name="tags"
-              className="form-check-input"
-              value="games"
-            ></input>
-            <label for="games"> Games</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="hangout"
-              name="tags"
-              className="form-check-input"
-              value="hangout"
-            ></input>
-            <label for="drink"> Hangout</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="learning"
-              name="tags"
-              className="form-check-input"
-              value="learning"
-            ></input>
-            <label for="learning"> Learning</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="music/entertainment"
-              name="tags"
-              className="form-check-input"
-              value="music/entertainment"
-            ></input>
-            <label for="music/entertainment"> Music/Entertainment</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="networking"
-              name="tags"
-              className="form-check-input"
-              value="networking"
-            ></input>
-            <label for="networking"> Networking</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="outdoor"
-              name="tags"
-              className="form-check-input"
-              value="outdoor"
-            ></input>
-            <label for="outdoor"> Outdoor</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="party"
-              name="tags"
-              className="form-check-input"
-              value="party"
-            ></input>
-            <label for="party"> Party</label>
-          </div>
-          <div class="form-check">
-            <input
-              type="checkbox"
-              id="tours/exploration"
-              name="tags"
-              className="form-check-input"
-              value="tours/exploration"
-            ></input>
-            <label for="tours/exploration"> Tours/Exploration</label>
-          </div> */}
         </fieldset>
         <div className="row mt-3">
           <button

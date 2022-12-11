@@ -11,10 +11,10 @@ import EventPreviewNavbar from "./EventPreviewNavbar.js";
  */
 function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
   const info = previewObject;
-  let rsvped = "";
-  rsvped = info.rsvpYes?.includes(userId) ? "Yes" : rsvped;
-  rsvped = info.rsvpMaybe?.includes(userId) ? "Maybe" : rsvped;
-  rsvped = info.rsvpNo?.includes(userId) ? "No" : rsvped;
+  let rsvped = previewObject.rsvps?.find(
+    (elem) => elem.userId === userId
+  )?.status;
+  rsvped = rsvped ? rsvped : "";
 
   function handleClickRSVP(rsvpStatus) {
     onRSVP(info, rsvpStatus);

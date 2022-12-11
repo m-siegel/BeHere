@@ -28,6 +28,13 @@ function EventPreviewNavbar({
   handleClickLike,
   handleClickRSVP,
 }) {
+  function getNewRSVPFromClick(clicked) {
+    if (clicked === rsvped) {
+      return "";
+    }
+    return clicked;
+  }
+
   function getRSVPText(rsvpStatus) {
     switch (rsvpStatus) {
       case "Yes":
@@ -40,6 +47,7 @@ function EventPreviewNavbar({
         return "RSVP";
     }
   }
+
   return (
     <nav className="row">
       {
@@ -95,7 +103,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "Yes" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("Yes");
+                  handleClickRSVP(getNewRSVPFromClick("Yes"));
                 }}
               >
                 Going
@@ -103,7 +111,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "Maybe" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("Maybe");
+                  handleClickRSVP(getNewRSVPFromClick("Maybe"));
                 }}
               >
                 Maybe
@@ -111,7 +119,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "No" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("No");
+                  handleClickRSVP(getNewRSVPFromClick("No"));
                 }}
               >
                 Not Going

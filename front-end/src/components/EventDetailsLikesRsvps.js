@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 /**
  * Fetches and displays the rsvp and like information for an event on the detailedEvents page.
  */
-function EventDetailsLikesRsvps({ eventId }) {
+function EventDetailsLikesRsvps({ eventInfo }) {
   const [likes, setLikes] = useState([]);
   const [rsvpYes, setRsvpYes] = useState([]);
   const [rsvpMaybe, setRsvpMaybe] = useState([]);
@@ -21,32 +21,56 @@ function EventDetailsLikesRsvps({ eventId }) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ eventId: eventId }),
+            body: JSON.stringify({
+              userIds: eventInfo.likes?.concat(
+                eventInfo.rsvps?.map((rsvp) => rsvp._userId)
+              ),
+              // likeIds: eventInfo.likes,
+              // yesIds: eventInfo.rsvps.filter((obj) => obj.status === "Yes"),
+              // maybeIds: eventInfo.rsvps.filter((obj) => obj.status === "Maybe"),
+              // noIds: eventInfo.rsvps.filter((obj) => obj.status === "No"),
+            }),
           })
         ).json();
 
-        if (res.err?.likeErr) {
-          console.error("Like error: ", res.err.likeErr);
-        }
-        if (res.err?.yesErr) {
-          console.error("Yes error: ", res.err.yesErr);
-        }
-        if (res.err?.maybeErr) {
-          console.error("Maybe error: ", res.err.maybeErr);
-        }
-        if (res.err?.noErr) {
-          console.error("No error: ", res.err.noErr);
-        }
-        setLikes(res?.likeUsers ? res.likeUsers : []);
-        setRsvpYes(res?.yesUsers ? res.yesUsers : []);
-        setRsvpMaybe(res?.maybeUsers ? res.maybeUsers : []);
-        setRsvpNo(res?.noUsers ? res.noUsers : []);
+        // TODO handle if error
+
+        // TODO: not working
+        setLikes(
+          res?.users?.filter((user) =>
+            eventInfo.likes?.find((like) => like === user._id)
+          )
+        );
+        // TODO: make more efficient
+        console.log(res?.users);
+        console.log(eventInfo.rsvps);
+        setRsvpYes(
+          res?.users?.filter(
+            (user) =>
+              eventInfo.rsvps?.find((rsvp) => rsvp.userId === user._id)
+                ?.status === "Yes"
+          )
+        );
+        setRsvpMaybe(
+          res?.users?.filter(
+            (user) =>
+              eventInfo.rsvps?.find((rsvp) => rsvp.userId === user._id)
+                ?.status === "Maybe"
+          )
+        );
+        setRsvpNo(
+          res?.users?.filter(
+            (user) =>
+              eventInfo.rsvps?.find((rsvp) => rsvp.userId === user._id)
+                ?.status === "No"
+          )
+        );
       } catch (e) {
         console.error(e);
       }
     }
     loadRSVPs();
-  }, [eventId]);
+  }, [eventInfo]);
 
   return (
     <div className="EventDetailsLikesRsvps">
@@ -172,7 +196,7 @@ function EventDetailsLikesRsvps({ eventId }) {
 }
 
 EventDetailsLikesRsvps.propTypes = {
-  eventId: PropTypes.string,
+  eventInfo: PropTypes.object.isRequired,
 };
 
 export default EventDetailsLikesRsvps;

@@ -304,10 +304,10 @@ router.post("/api/getUsernameById", async (req, res) => {
 });
 
 router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
-  const eventId = req.body.eventId;
-  if (eventId) {
+  const userIds = req.body.userIds;
+  if (userIds?.length) {
     try {
-      const dbResult = await userConnect.getRsvpLikeUserPreviews(eventId);
+      const dbResult = await userConnect.getRsvpLikeUserPreviews(userIds);
       return res.json(dbResult);
     } catch (e) {
       console.error(e);
@@ -315,15 +315,15 @@ router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
         success: false,
         message:
           "An error was encountered in the route for getting the user rsvp and like previews.",
-        username: "",
+        users: [],
         err: e,
       });
     }
   } else {
     return res.json({
       success: false,
-      message: "No event id found.",
-      username: null,
+      message: "No users found.",
+      users: [],
       err: null,
     });
   }

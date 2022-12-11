@@ -259,9 +259,7 @@ export async function getEventPreviews(queryObj, skip, limit) {
           location: 1,
           start: 1,
           followedBy: 1,
-          rsvpYes: 1,
-          rsvpMaybe: 1,
-          rsvpNo: 1,
+          rsvps: 1,
           likes: 1,
         },
       })

@@ -8,6 +8,10 @@
   z-index: 2;
 }
 
+.EventFeedPage .dbMessage {
+  margin-left: 1em;
+}
+
 .EventFeedPage .EventPreview .card {
   margin-bottom: 10px;
   margin-top: 10px;

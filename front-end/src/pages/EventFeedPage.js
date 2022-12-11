@@ -279,12 +279,12 @@ function EventFeedPage({ isAuth }) {
               </div>
             ))
           ) : doneSearch ? (
-            <div>
+            <div className="dbMessage">
               <div>No events are listed for your organization.</div>
               <div>Check back later or create a new event yourself!</div>
             </div>
           ) : (
-            <div>Checking events...</div>
+            <div className="dbMessage">Checking events...</div>
           )}
         </div>
       </BasePage>

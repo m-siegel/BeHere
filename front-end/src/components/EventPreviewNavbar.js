@@ -1,6 +1,6 @@
 /* Ilana-Mahmea */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import IconLinkButton from "./base-page-components/IconLinkButton.js";
@@ -28,11 +28,28 @@ function EventPreviewNavbar({
   handleClickLike,
   handleClickRSVP,
 }) {
-  function getNewRSVPFromClick(clicked) {
+  const [disableLike, setDisableLike] = useState(false);
+  const [disableRSVP, setDisableRSVP] = useState(false);
+
+  useEffect(() => {
+    setDisableLike(false);
+    // Enable clicking again once like has been registered.
+    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+  }, [likes]);
+
+  useEffect(() => {
+    setDisableRSVP(false);
+    // Enable clicking again once like has been registered.
+    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+  }, [rsvped]);
+
+  function handleRSVP(clicked) {
+    setDisableRSVP(true);
     if (clicked === rsvped) {
-      return "";
+      handleClickRSVP("");
+    } else {
+      handleClickRSVP(clicked);
     }
-    return clicked;
   }
 
   function getRSVPText(rsvpStatus) {
@@ -82,7 +99,11 @@ function EventPreviewNavbar({
                 : `${likes.length} likes`
               : "Like"
           }
-          onClick={handleClickLike}
+          onClick={() => {
+            setDisableLike(true);
+            handleClickLike();
+          }}
+          disabled={disableLike}
         ></IconOnClickButton>
       </div>
 
@@ -98,12 +119,13 @@ function EventPreviewNavbar({
                 <IconCalendarHeartOutline />
               )
             }
+            disabled={disableRSVP}
             descriptionText={getRSVPText(rsvped)}
             dropdownMenu={[
               <button
                 className={rsvped === "Yes" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP(getNewRSVPFromClick("Yes"));
+                  handleRSVP("Yes");
                 }}
               >
                 Going
@@ -111,7 +133,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "Maybe" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP(getNewRSVPFromClick("Maybe"));
+                  handleRSVP("Maybe");
                 }}
               >
                 Maybe
@@ -119,7 +141,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "No" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP(getNewRSVPFromClick("No"));
+                  handleRSVP("No");
                 }}
               >
                 Not Going

@@ -12,12 +12,14 @@ function IconOnClickButton({
   onClick,
   className,
   inline = false,
+  disabled = false,
 }) {
   return (
     <button
       type="button"
       className={`IconButton IconOnClickButton btn ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {icon}
       {inline ? (

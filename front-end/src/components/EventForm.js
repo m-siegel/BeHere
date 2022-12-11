@@ -133,7 +133,7 @@ function EventForm({ setAlert, setDel, navigate }) {
   }
 
   function handleCancel() {
-    navigate("/dashboard");
+    navigate("/my-events");
   }
 
   return (

@@ -113,8 +113,8 @@ function CreateEventForm({ setAlert, navigate }) {
         message: (
           <div>
             <p>
-              Head over to your <Link to="/dashboard">dashboard</Link> to verify
-              the event.
+              Head over to <Link to="/my-events">My Events</Link> to verify the
+              event.
             </p>
           </div>
         ),

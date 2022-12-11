@@ -1,13 +1,14 @@
 // By Tim
 
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheets/LoginForm.css";
 
 /**
  * Form to log into the website.
  */
-function LoginForm() {
+function LoginForm({ setAlert }) {
   const navigate = useNavigate();
 
   const [contactEmail, setContactEmail] = useState("");
@@ -15,7 +16,11 @@ function LoginForm() {
 
   async function onSubmit(evt) {
     evt.preventDefault();
-
+    setAlert({
+      type: "info",
+      heading: "",
+      message: <div>Authenticating...</div>,
+    });
     const res = await fetch("/login", {
       method: "POST",
       headers: {
@@ -31,6 +36,15 @@ function LoginForm() {
     if (resJSON.authenticated) {
       navigate("/home", { replace: true });
     } else {
+      setAlert({
+        type: "failure",
+        heading: "Try again",
+        message: (
+          <div>
+            <p>Incorrect credentials. Please try again.</p>
+          </div>
+        ),
+      });
       setContactEmail("");
       setPassword("");
     }
@@ -84,6 +98,8 @@ function LoginForm() {
   );
 }
 
-LoginForm.propTypes = {};
+LoginForm.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+};
 
 export default LoginForm;

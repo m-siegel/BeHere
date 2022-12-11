@@ -131,7 +131,7 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
   const event = req.body.event;
   const rsvpType = req.body.rsvpStatus;
 
-  if (user && event && rsvpType) {
+  if (user && event) {
     try {
       const eventDbResponse = await eventsConnect.eventRsvp(
         user,

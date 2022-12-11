@@ -1,12 +1,23 @@
+/* Ilana-Mahmea */
+
 import React from "react";
 import PropTypes from "prop-types";
 import FilterForm from "./FilterForm.js";
 
+/**
+ * A button and an offcanvas that contains a FilterForm.
+ * @param {Array<string>} checkboxOptions Options to display as checkboxes.
+ * @param {object<string: bool>} currentSelections Lookup for whether each of the checkbox options is selected.
+ * @param {func} setSelections Setter for anscestor's state that determines currentSelections.
+ * @param {func} handleFilter Function to call when the FilterForm's onSubmit event is triggered, after initial event's default is prevented.
+ * @param {bool} disableButtons Whether or not to disable the submit button for FilterForm.
+ * @returns {element} A button and an offcanvas that contains a FilterForm.
+ */
 function FilterComponent({
   checkboxOptions,
   currentSelections,
   setSelections,
-  find,
+  handleFilter,
   disableButtons,
 }) {
   return (
@@ -43,7 +54,7 @@ function FilterComponent({
             currentSelections={currentSelections}
             setSelections={setSelections}
             checkboxOptions={checkboxOptions}
-            find={find}
+            handleFilter={handleFilter}
             disableButtons={disableButtons}
           />
         </div>
@@ -56,7 +67,7 @@ FilterComponent.propTypes = {
   checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
-  find: PropTypes.func.isRequired,
+  handleFilter: PropTypes.func.isRequired,
   disableButtons: PropTypes.bool,
 };
 

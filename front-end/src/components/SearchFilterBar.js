@@ -1,12 +1,24 @@
 /* Ilana-Mahmea */
 
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import SearchComponent from "./SearchComponent.js";
 import FilterComponent from "./FilterComponent.js";
 import "../stylesheets/SearchFilterBar.css";
 
 /**
+ * Contains the search and filter components
+ * @param {Array<string>} categoriesArray
+ * @param {string} searchTerm
+ * @param {func} setSearchTerm
+ * @param {string} currentCategory
+ * @param {func} setCategory
+ * @param {Array<string>} checkboxOptions
+ * @param {object<string: bool>} currentSelections
+ * @param {func} setSelections
+ * @param {func} handleSearchOrFilter
+ * @param {bool} disableButtons
+ * @returns {element} Component row with search and filter capabilities.
  */
 function SearchFilterBar({
   categoriesArray,
@@ -17,7 +29,7 @@ function SearchFilterBar({
   checkboxOptions,
   currentSelections,
   setSelections,
-  find,
+  handleSearchOrFilter,
   disableButtons,
 }) {
   return (
@@ -29,7 +41,7 @@ function SearchFilterBar({
           setSearchTerm={setSearchTerm}
           currentCategory={currentCategory} // Changed this
           setCategory={setCategory}
-          find={find}
+          handleSearch={handleSearchOrFilter}
           disableButtons={disableButtons}
         />
       </div>
@@ -39,7 +51,7 @@ function SearchFilterBar({
           checkboxOptions={checkboxOptions}
           currentSelections={currentSelections}
           setSelections={setSelections}
-          find={find}
+          handleFilter={handleSearchOrFilter}
           disableButtons={disableButtons}
         />
       </div>
@@ -56,7 +68,7 @@ SearchFilterBar.propTypes = {
   checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
-  find: PropTypes.func.isRequired,
+  handleSearchOrFilter: PropTypes.func.isRequired,
   disableButtons: PropTypes.bool,
 };
 

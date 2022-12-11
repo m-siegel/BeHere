@@ -1,19 +1,34 @@
+/* Ilana-Mahmea */
+
 import React from "react";
 import PropTypes from "prop-types";
 // import FormInput from "./FormInput.js";
 
+/**
+ * Search bar.
+ * @param {Array<string>} categoriesArray Options for the selection menu.
+ * @param {string} searchTerm The current search term, to be displayed in the search box.
+ * @param {func} setSearchTerm Setter for the ancestor's state that controles searchTerm.
+ *     Will be used onChange of text input in search box.
+ * @param {string} currentCategory The current category selected and to be displayed by the selection menu.
+ * @param {func} setCategory Setter for the ancestor's state that controles currentCategory.
+ *     Will be used onChange of selection input.
+ * @param {func} handleSearch Function to call when search form is submitted, after initial event's default is prevented.
+ * @param {bool} disableButtons Whether or not to disable the submit button.
+ * @returns {element} Component with input text for search term and selection input for search modifier.
+ */
 function SearchComponent({
   searchTerm,
   setSearchTerm,
   categoriesArray,
   currentCategory,
   setCategory,
-  find,
+  handleSearch,
   disableButtons,
 }) {
   function handleSubmit(evt) {
     evt.preventDefault();
-    find();
+    handleSearch();
   }
 
   return (
@@ -70,7 +85,7 @@ SearchComponent.propTypes = {
   categoriesArray: PropTypes.arrayOf(PropTypes.string),
   currentCategory: PropTypes.string, // TODO: would be faster as a number
   setCategory: PropTypes.func,
-  find: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   disableButtons: PropTypes.bool,
 };
 

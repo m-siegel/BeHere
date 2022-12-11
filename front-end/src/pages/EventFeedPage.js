@@ -182,8 +182,10 @@ function EventFeedPage({ isAuth }) {
           }),
         })
       ).json();
-      if (res && res.events) {
+      if (res && res.events?.length) {
         setPreviews(res.events);
+      } else {
+        setTotalResults(0);
       }
       setDoneSearch(true);
     },
@@ -214,6 +216,7 @@ function EventFeedPage({ isAuth }) {
     }
   }
 
+  // For initial loading, to check authorization
   useEffect(() => {
     async function authOrRedirect() {
       if (!(await isAuth())) {
@@ -225,6 +228,7 @@ function EventFeedPage({ isAuth }) {
     authOrRedirect();
   }, [isAuth, navigate, loadEventPreviews]);
 
+  // To get search results
   useEffect(() => {
     loadEventPreviews(findQuery);
     if (currPage === 0) {
@@ -245,7 +249,7 @@ function EventFeedPage({ isAuth }) {
           checkboxOptions={checkboxOptions}
           currentSelections={currentSelections}
           setSelections={setSelections}
-          find={find}
+          handleSearchOrFilter={find}
           disableButtons={!doneSearch}
         />
         <PaginationComponent

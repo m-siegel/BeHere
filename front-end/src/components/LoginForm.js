@@ -57,7 +57,7 @@ function LoginForm({ setAlert }) {
         <form id="login-form" onSubmit={onSubmit}>
           <div className="mb-3">
             <label className="form-label" htmlFor="contactEmail">
-              Organization email:
+              Contact email:
             </label>
             <input
               className="form-control"

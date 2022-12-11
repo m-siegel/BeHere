@@ -34,7 +34,7 @@ function LoginForm({ setAlert }) {
     const resJSON = await res.json();
 
     if (resJSON.authenticated) {
-      navigate("/home", { replace: true });
+      navigate("/event-feed", { replace: true });
     } else {
       setAlert({
         type: "failure",

@@ -1,4 +1,4 @@
-@import "../stylesheets/timeaColors.css";
+@import "../stylesheets/timeaVariables.css";
 
 /* General styling */
 
@@ -8,22 +8,21 @@
 
 /* Title styling */
 
-.EventDetailsPage .title-row {
+/* .EventDetailsPage .title-row {
   z-index: 0;
   text-align: center;
-}
+} */
 
-.EventDetailsPage .title-row .card {
+/* .EventDetailsPage .title-row .card {
   margin-top: 5px;
   margin-bottom: 5px;
   height: 4.5em;
   overflow: scroll;
-  background-color: var(--timea-blue);
-}
+} */
 
-.EventDetailsPage .title-row .card .card-body{
+/* .EventDetailsPage .title-row .card .card-body{
   padding: 0;
-}
+} */
 
 /* Description and RSVP column styling */
 
@@ -35,13 +34,16 @@
 /* Description and tags styling */
 
 .EventDetailsPage .EventDetailsDescription {
-  background-color: var(--timea-purple);
   margin-bottom: 5px;
 }
 
-.EventDetailsPage .EventDetailsDescription .card {
-  width: auto;
+.EventDetailsPage .EventDetailsLikesRsvps {
+  overflow: scroll;
 }
+
+/* .EventDetailsPage .EventDetailsDescription .card {
+  width: auto;
+} */
 
 .EventDetailsPage .tags-list {
   padding-left: 0;
@@ -58,16 +60,9 @@
 /* RSVPs and likes styling */
 
 .EventDetailsPage .EventDetailsLikesRsvps {
-   background-color: var(--timea-blue);
    margin-bottom: 5px;
-}
-
-.EventDetailsPage .EventDetailsLikesRsvps .card {
-   background-color: var(--timea-blue);
 }
 
 /* Location and time styling */
 
-.EventDetailsPage .EventDetailsLocationTime {
-  background-color: var(--timea-orange);
-}
+

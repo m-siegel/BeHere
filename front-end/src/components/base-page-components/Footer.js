@@ -8,7 +8,7 @@ import React from "react";
 function Footer() {
   return (
     <div className="Footer row">
-      <div>© Tim Crawley and Ilana-Mahmea Siegel</div>
+      <div>© 2022 Tim Crawley and Ilana-Mahmea Siegel</div>
     </div>
   );
 }

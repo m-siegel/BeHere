@@ -1,0 +1,45 @@
+@import "../stylesheets/timeaVariables.css";
+
+.NotAuthBasePage {
+  background-color: var(--timea-background-purple);
+  min-height: 100vh;
+}
+
+.NotAuthBasePage :focus {
+  border: 1px solid var(--timea-background-white);
+  outline: 4px solid var(--timea-action-purple);
+}
+
+.NotAuthBasePage>.container-fluid {
+  padding-left: 0;
+}
+
+.NotAuthBasePage .col {
+  display: flex;
+  justify-content: center;
+}
+
+/* Image and image column */
+
+.NotAuthBasePage .img-col {
+  justify-items: left;
+  justify-content: left;
+  overflow: hidden;
+}
+
+.NotAuthBasePage img {
+  max-height: 100vh;
+}
+
+/* Text and text column */
+
+.NotAuthBasePage .text-col {
+  align-items: center;
+  margin-top: 0;
+  padding-left: 50px;
+  padding-right: 30px;
+}
+
+
+
+

@@ -12,8 +12,13 @@ function IconButtonDropdown(props) {
     <div
       className={`IconButton IconButtonDropdown dropdown-center col ${props.className}`}
     >
-      <div data-bs-toggle="dropdown">
-        <button className="btn col" type="button" aria-expanded="false">
+      <div data-bs-toggle="dropdown" disabled={props.disabled}>
+        <button
+          className="btn col"
+          type="button"
+          aria-expanded="false"
+          disabled={props.disabled}
+        >
           {props.icon}
           <p>
             <small className="timea-text-muted">{props.descriptionText}</small>

@@ -1,0 +1,16 @@
+/* TODO: add MyEventsPage class to this so it's not global */
+.filter-buttons>button {
+  margin: 0 10px;
+}
+
+.MyEventsPage .EventPreview.color-0 .card {
+  background-color: var(--timea-orange);
+}
+
+.MyEventsPage .EventPreview.color-1 .card {
+  background-color: var(--timea-blue);
+}
+
+.MyEventsPage .EventPreview.color-2 .card {
+  background-color: var(--timea-purple);
+}

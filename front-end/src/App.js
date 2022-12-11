@@ -3,11 +3,11 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import DashboardPage from "./pages/DashboardPage.js";
+import MyEventsPage from "./pages/MyEventsPage.js";
 import EditEventPage from "./pages/EditEventPage.js";
 import ErrorPage from "./pages/ErrorPage.js";
 import EventDetailsPage from "./pages/EventDetailsPage.js";
-import HomePage from "./pages/HomePage.js";
+import EventFeedPage from "./pages/EventFeedPage.js";
 import IndexPage from "./pages/IndexPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import RegisterPage from "./pages/RegisterPage.js";
@@ -40,12 +40,12 @@ function App() {
       element: <RegisterPage isAuth={isAuth}></RegisterPage>,
     },
     {
-      path: "/home",
-      element: <HomePage isAuth={isAuth}></HomePage>,
+      path: "/event-feed",
+      element: <EventFeedPage isAuth={isAuth}></EventFeedPage>,
     },
     {
-      path: "/dashboard",
-      element: <DashboardPage isAuth={isAuth}></DashboardPage>,
+      path: "/my-events",
+      element: <MyEventsPage isAuth={isAuth}></MyEventsPage>,
     },
     {
       path: "/event/:id",
@@ -60,7 +60,7 @@ function App() {
       element: <EditEventPage isAuth={isAuth}></EditEventPage>,
     },
     {
-      path: "/settings",
+      path: "/account-settings",
       element: <UserSettingsPage isAuth={isAuth}></UserSettingsPage>,
     },
   ]);

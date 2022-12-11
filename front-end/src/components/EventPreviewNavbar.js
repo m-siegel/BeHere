@@ -1,6 +1,6 @@
 /* Ilana-Mahmea */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import IconLinkButton from "./base-page-components/IconLinkButton.js";
@@ -12,6 +12,8 @@ import IconStarFilled from "./icon-components/IconStarFilled.js";
 import IconStarOutline from "./icon-components/IconStarOutline.js";
 import IconThreeDots from "./icon-components/IconThreeDots.js";
 import IconPencilOutline from "./icon-components/IconPencilOutline.js";
+
+import timeaColors from "./timeaColors.js";
 
 /**
  * Enables rsvp and like actions and can link to edit and details pages for an event.
@@ -26,6 +28,43 @@ function EventPreviewNavbar({
   handleClickLike,
   handleClickRSVP,
 }) {
+  const [disableLike, setDisableLike] = useState(false);
+  const [disableRSVP, setDisableRSVP] = useState(false);
+
+  useEffect(() => {
+    setDisableLike(false);
+    // Enable clicking again once like has been registered.
+    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+  }, [likes]);
+
+  useEffect(() => {
+    setDisableRSVP(false);
+    // Enable clicking again once like has been registered.
+    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+  }, [rsvped]);
+
+  function handleRSVP(clicked) {
+    setDisableRSVP(true);
+    if (clicked === rsvped) {
+      handleClickRSVP("");
+    } else {
+      handleClickRSVP(clicked);
+    }
+  }
+
+  function getRSVPText(rsvpStatus) {
+    switch (rsvpStatus) {
+      case "Yes":
+        return "Going";
+      case "No":
+        return "Not Going";
+      case "Maybe":
+        return "Maybe";
+      default:
+        return "RSVP";
+    }
+  }
+
   return (
     <nav className="row">
       {
@@ -46,11 +85,13 @@ function EventPreviewNavbar({
         <IconOnClickButton
           icon={
             likes?.includes(userId) ? (
-              <IconStarFilled color="blue" />
+              <IconStarFilled color={timeaColors.action} />
             ) : (
               <IconStarOutline />
             )
           }
+          // TODO: this and rsvp have current value like
+          // TODO: aria that is always "like", same for rsvp
           descriptionText={
             likes?.length
               ? likes.length === 1
@@ -58,7 +99,11 @@ function EventPreviewNavbar({
                 : `${likes.length} likes`
               : "Like"
           }
-          onClick={handleClickLike}
+          onClick={() => {
+            setDisableLike(true);
+            handleClickLike();
+          }}
+          disabled={disableLike}
         ></IconOnClickButton>
       </div>
 
@@ -69,17 +114,18 @@ function EventPreviewNavbar({
             className="rsvp-dropdown col"
             icon={
               rsvped ? (
-                <IconCalendarHeartFilled color="blue" />
+                <IconCalendarHeartFilled color={timeaColors.action} />
               ) : (
                 <IconCalendarHeartOutline />
               )
             }
-            descriptionText="RSVP"
+            disabled={disableRSVP}
+            descriptionText={getRSVPText(rsvped)}
             dropdownMenu={[
               <button
                 className={rsvped === "Yes" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("Yes");
+                  handleRSVP("Yes");
                 }}
               >
                 Going
@@ -87,7 +133,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "Maybe" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("Maybe");
+                  handleRSVP("Maybe");
                 }}
               >
                 Maybe
@@ -95,7 +141,7 @@ function EventPreviewNavbar({
               <button
                 className={rsvped === "No" ? "btn active" : "btn"}
                 onClick={() => {
-                  handleClickRSVP("No");
+                  handleRSVP("No");
                 }}
               >
                 Not Going

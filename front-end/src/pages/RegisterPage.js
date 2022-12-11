@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import useAlert from "../hooks/useAlert";
 import PropTypes from "prop-types";
+import NotAuthBasePage from "../components/base-page-components/NotAuthBasePage.js";
 
 function RegisterPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
@@ -14,7 +15,7 @@ function RegisterPage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (await isAuth()) {
-        navigate("/home", { replace: true });
+        navigate("/event-feed", { replace: true });
       }
     }
     authOrRedirect();
@@ -22,30 +23,52 @@ function RegisterPage({ isAuth }) {
 
   return (
     <div className="RegisterPage">
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col d-none d-sm-flex img-col">
-            <img
-              src="/media/example-images/pexels-do-castle-2158963.jpeg"
-              className="img-fluid"
-              alt="Three people riding mountain bikes through bright green grass and trees."
-            ></img>
-          </div>
-          <div className="col form-col">
-            <div>
-              <AlertComponent />
-              <h1>Register</h1>
-              <RegisterForm setAlert={setAlert} />
-              <div className="bottom-link">
-                Already have an account?{" "}
-                <Link to="/login" className="link">
-                  Go to login.
+      <NotAuthBasePage
+        image={
+          <img
+            src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
+            // TODO: change alt
+            alt="Three people riding mountain bikes through bright green grass and trees."
+          ></img>
+        }
+      >
+        <AlertComponent />
+
+        <div className="card card-body">
+          <h1>Register</h1>
+          <div className="row form-row">
+            <RegisterForm setAlert={setAlert} />
+            <div className="bottom-link">
+              Already have an account?{" "}
+              {/* <Link to="/login" className="link"> */}
+              <button
+                className="btn btn-link"
+                onClick={() => {
+                  navigate("/login", { replace: true });
+                }}
+              >
+                Go to login.
+              </button>
+              {/* </Link> */}
+            </div>
+            <div className="row">
+              <p>
+                Or go{" "}
+                <Link to="/" className="link">
+                  {/* <button
+                  className="btn btn-link btn-landing"
+                  onClick={() => {
+                    navigate("/", { replace: true });
+                  }}
+                > */}
+                  back to the Landing Page
+                  {/* </button> */}
                 </Link>
-              </div>
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      </NotAuthBasePage>
     </div>
   );
 }

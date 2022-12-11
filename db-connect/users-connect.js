@@ -703,51 +703,61 @@ userConnect.getUsersByOrganizations = getUsersByOrganizations;
  *     Object indicating the success of the operation and containing the retrieved objects.
  *     See getUserPreviews for the shape of the objects returned in the users arrays.
  */
-export async function getRsvpLikeUserPreviews(eventIdString) {
-  if (typeof eventIdString !== "string") {
-    return {
-      success: false,
-      message: "eventIdString must be a string",
-      user: null,
-      err: new TypeError(
-        `eventIdString must be a string, not a ${typeof eventIdString}`
-      ),
-    };
+// export async function getRsvpLikeUserPreviews(eventIdString) {
+//   if (typeof eventIdString !== "string") {
+//     return {
+//       success: false,
+//       message: "eventIdString must be a string",
+//       user: null,
+//       err: new TypeError(
+//         `eventIdString must be a string, not a ${typeof eventIdString}`
+//       ),
+//     };
+//   }
+//   const likeRes = await getUserPreviews({ likedEvents: eventIdString });
+//   const yesRes = await getUserPreviews({ rsvpYesEvents: eventIdString });
+//   const maybeRes = await getUserPreviews({ rsvpMaybeEvents: eventIdString });
+//   const noRes = await getUserPreviews({ rsvpNoEvents: eventIdString });
+//   const res = { err: {}, success: true };
+//   if (likeRes.success) {
+//     res.likeUsers = likeRes.users;
+//   } else {
+//     res.likeMessage = likeRes.message;
+//     res.err.likeErr = likeRes.err;
+//     res.success = false;
+//   }
+//   if (yesRes.success) {
+//     res.yesUsers = yesRes.users;
+//   } else {
+//     res.yesMessage = yesRes.message;
+//     res.err.yesErr = yesRes.err;
+//     res.success = false;
+//   }
+//   if (maybeRes.success) {
+//     res.maybeUsers = maybeRes.users;
+//   } else {
+//     res.maybeMessage = maybeRes.message;
+//     res.err.maybeErr = maybeRes.err;
+//     res.success = false;
+//   }
+//   if (noRes.success) {
+//     res.noUsers = noRes.users;
+//   } else {
+//     res.noMessage = noRes.message;
+//     res.err.noErr = noRes.err;
+//     res.success = false;
+//   }
+//   return res;
+// }
+// userConnect.getRsvpLikeUserPreviews = getRsvpLikeUserPreviews;
+export async function getRsvpLikeUserPreviews(userIds) {
+  // TODO: validation
+  // TODO: try-catch
+  const query = { $or: userIds.map((id) => ({ _id: mongodb.ObjectId(id) })) };
+  const res = await getUserPreviews(query);
+  if (res.success) {
+    return res;
   }
-  const likeRes = await getUserPreviews({ likedEvents: eventIdString });
-  const yesRes = await getUserPreviews({ rsvpYesEvents: eventIdString });
-  const maybeRes = await getUserPreviews({ rsvpMaybeEvents: eventIdString });
-  const noRes = await getUserPreviews({ rsvpNoEvents: eventIdString });
-  const res = { err: {}, success: true };
-  if (likeRes.success) {
-    res.likeUsers = likeRes.users;
-  } else {
-    res.likeMessage = likeRes.message;
-    res.err.likeErr = likeRes.err;
-    res.success = false;
-  }
-  if (yesRes.success) {
-    res.yesUsers = yesRes.users;
-  } else {
-    res.yesMessage = yesRes.message;
-    res.err.yesErr = yesRes.err;
-    res.success = false;
-  }
-  if (maybeRes.success) {
-    res.maybeUsers = maybeRes.users;
-  } else {
-    res.maybeMessage = maybeRes.message;
-    res.err.maybeErr = maybeRes.err;
-    res.success = false;
-  }
-  if (noRes.success) {
-    res.noUsers = noRes.users;
-  } else {
-    res.noMessage = noRes.message;
-    res.err.noErr = noRes.err;
-    res.success = false;
-  }
-  return res;
 }
 userConnect.getRsvpLikeUserPreviews = getRsvpLikeUserPreviews;
 
@@ -833,6 +843,74 @@ export async function updateById(userIdString, updatesObj) {
   }
 }
 userConnect.updateById = updateById;
+
+/**
+ * Updates the user document with the id that matches the parameter userIdString.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {!Object} updatesObj Valid MongDB update object,
+ *     for example {$set: {username: "example"}},
+ * @returns {Object:
+ *     {success: boolean, ?updatedDocument: object, message: string, ?err: Error}}
+ *     Object indicating the success of the operation and containing the updated document.
+ */
+export async function updateAndGetUpdatedById(userIdString, updatesObj) {
+  const client = new mongodb.MongoClient(uri);
+  let idObj;
+  try {
+    idObj = convertStringToObjectId(userIdString);
+  } catch (e) {
+    return {
+      success: false,
+      message: "Error creating ObjectId from parameter idString.",
+      userIdString: userIdString,
+      err: e,
+    };
+  }
+  if (!(updatesObj instanceof Object)) {
+    return {
+      success: false,
+      updatedCount: 0,
+      message: "Updates object must be an object.",
+      err: new TypeError("updatesObj must be an Object"),
+    };
+  }
+  try {
+    await client.connect();
+    const database = client.db(databaseName);
+    const collection = database.collection(usersCollectionName);
+
+    const res = await collection.findOneAndUpdate({ _id: idObj }, updatesObj, {
+      returnDocument: "after",
+    });
+
+    if (res.ok === 1) {
+      return {
+        success: true,
+        updatedDocument: res.value,
+        message: "Successfully updated user.",
+        err: null,
+      };
+    } else {
+      return {
+        success: false,
+        updatedDocument: null,
+        message: "User not found.",
+        err: null,
+      };
+    }
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      updatedDocument: null,
+      msg: "Error updating user.",
+      err: e,
+    };
+  } finally {
+    await client.close();
+  }
+}
+userConnect.updateAndGetUpdatedById = updateAndGetUpdatedById;
 
 /**
  * Pushes the given eventRSVP object to the specified user docement's "following" array.

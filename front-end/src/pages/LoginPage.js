@@ -14,7 +14,7 @@ function LoginPage({ isAuth }) {
   useEffect(() => {
     async function authOrRedirect() {
       if (await isAuth()) {
-        navigate("/home", { replace: true });
+        navigate("/event-feed", { replace: true });
       }
     }
     authOrRedirect();

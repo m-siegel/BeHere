@@ -50,9 +50,7 @@ function EventDetailsPage({ event, className, isAuth }) {
   return (
     <div className={`EventDetailsPage ${className}`}>
       <BasePage>
-        <div className="row title-row">
-          <EventDetailsTitle title={eventInfo.name} />
-        </div>
+        <h1>{eventInfo.name ? eventInfo.name : "No event name to display"}</h1>
         <div className="row">
           <div className="description-and-rsvps col col-8">
             <div className="row">
@@ -62,7 +60,7 @@ function EventDetailsPage({ event, className, isAuth }) {
               />
             </div>
             <div className="row">
-              <EventDetailsLikesRsvps eventId={eventInfo._id} />
+              <EventDetailsLikesRsvps eventInfo={eventInfo} />
             </div>
           </div>
 

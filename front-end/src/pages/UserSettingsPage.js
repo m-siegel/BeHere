@@ -63,8 +63,9 @@ function UserSettingsPage({ isAuth }) {
     <div className="UserSettingsPage">
       <BasePage>
         <AlertComponent />
-        <h1>Settings</h1>
-        <div className="container">
+        <div className="card card-body">
+          <h1>Account Settings</h1>
+          {/* <div className="container"> */}
           <div className="row">
             <div className="centering-container">
               <UserSettingsForm setAlert={setAlert} />
@@ -73,54 +74,55 @@ function UserSettingsPage({ isAuth }) {
           <div className="centering-container">
             <button
               type="button"
-              className="btn btn-danger del-acct-btn"
+              className="btn btn-delete"
               data-bs-toggle="modal"
               data-bs-target="#deleteConfirmation"
             >
               Delete Account
             </button>
           </div>
+        </div>
 
-          <div
-            className="modal fade"
-            id="deleteConfirmation"
-            tabIndex="-1"
-            aria-labelledby="deleteConfirmationLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div className="modal-body">
-                  Are you sure you want to delete your account?
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    data-bs-dismiss="modal"
-                    className="btn btn-danger"
-                    onClick={handleDelete}
-                  >
-                    Delete Account
-                  </button>
-                </div>
+        <div
+          className="modal fade"
+          id="deleteConfirmation"
+          tabIndex="-1"
+          aria-labelledby="deleteConfirmationLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                Are you sure you want to delete your account?
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-grey"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  data-bs-dismiss="modal"
+                  className="btn btn-delete"
+                  onClick={handleDelete}
+                >
+                  Delete Account
+                </button>
               </div>
             </div>
           </div>
         </div>
+        {/* </div> */}
       </BasePage>
     </div>
   );

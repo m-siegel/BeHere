@@ -164,7 +164,86 @@ eventsConnect.updateEvent = updateEvent;
  *                            }
  */
 // Event previews -- need eventId, name, organization, creator, tags, location/time
-export async function getEventPreviews(organization) {
+// export async function getEventPreviews(organization) {
+//   // create date/time variable to use within db call query
+//   const client = new MongoClient(uri);
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(eventsCol);
+//     const res = await collection
+//       .find(
+//         {
+//           organization: organization,
+//           //start: { $gte: /* today's variable */}
+//         },
+//         {
+//           projection: {
+//             _id: 1,
+//             name: 1,
+//             organization: 1,
+//             creator: 1,
+//             tags: 1,
+//             location: 1,
+//             start: 1,
+//             followedBy: 1,
+//             rsvpYes: 1,
+//             rsvpMaybe: 1,
+//             rsvpNo: 1,
+//             likes: 1,
+//           },
+//         }
+//       )
+//       .sort({
+//         start: 1,
+//       });
+//     if (res) {
+//       return {
+//         success: true,
+//         msg: "Events found.",
+//         events: await res.toArray(),
+//         err: null,
+//       };
+//     }
+//     return {
+//       success: false,
+//       msg: "No events found.",
+//       events: null,
+//       err: null,
+//     };
+//   } catch (e) {
+//     console.error(e);
+//     return {
+//       success: false,
+//       msg: "An error occurred. Please try again later.",
+//       events: null,
+//       err: e,
+//     };
+//   } finally {
+//     client.close();
+//   }
+// }
+// eventsConnect.getEventPreviews = getEventPreviews;
+
+/**
+ * Returns previews of all of the events that match the query.
+ * @param {object} queryObj A valid mongodb find object, for example,
+ *                          { $and: [ { organization: "rohan.gov" },
+ *                          { $or: [ { <category1>: { $regex: <searchTerm>, $options: "i" } },
+ *                              { <category2>: { $regex: <searchTerm>, $options: "i" } }] } ]}
+ * @param {number} skip The number of matching documents to skip before the first one returned. Should be a positive integer.
+ * @param {number} limit The number of matching documents to return. If limit is 0, returns all of them. Should be a positive integer.
+ * @returns {object} { success: Boolean,
+ *                     msg: a string explaining the operation outcome,
+ *                     events: An array of event objects, or null
+ *                     err: null, or the error that was caught
+ *                     }
+ */
+export async function getEventPreviews(queryObj, skip, limit) {
+  // TODO: validate params
+  // Mea updated
+  skip = skip ? Math.max(Math.floor(skip), 0) : 0;
+  limit = limit ? Math.max(Math.floor(limit), 0) : 0;
   // create date/time variable to use within db call query
   const client = new MongoClient(uri);
   try {
@@ -172,31 +251,28 @@ export async function getEventPreviews(organization) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection
-      .find(
-        {
-          organization: organization,
-          //start: { $gte: /* today's variable */}
+      // TODO: only allow ending after current date
+      .find(queryObj, {
+        projection: {
+          _id: 1,
+          name: 1,
+          organization: 1,
+          creator: 1,
+          tags: 1,
+          location: 1,
+          start: 1,
+          followedBy: 1,
+          rsvps: 1,
+          likes: 1,
         },
-        {
-          projection: {
-            _id: 1,
-            name: 1,
-            organization: 1,
-            creator: 1,
-            tags: 1,
-            location: 1,
-            start: 1,
-            followedBy: 1,
-            rsvpYes: 1,
-            rsvpMaybe: 1,
-            rsvpNo: 1,
-            likes: 1,
-          },
-        }
-      )
+      })
       .sort({
         start: 1,
-      });
+        finish: 1,
+        creator: 1,
+      })
+      .skip(skip)
+      .limit(limit);
     if (res) {
       return {
         success: true,
@@ -215,7 +291,7 @@ export async function getEventPreviews(organization) {
     console.error(e);
     return {
       success: false,
-      msg: "An error occurred. Please try again later.",
+      msg: "An error occurred in the database. Please try again later.",
       events: null,
       err: e,
     };
@@ -224,6 +300,50 @@ export async function getEventPreviews(organization) {
   }
 }
 eventsConnect.getEventPreviews = getEventPreviews;
+
+// Ilana-Mahmea
+/**
+ * Returns the count of all of the events that match the query.
+ * @param {object} queryObj A valid mongodb find object, for example,
+ *                          { $and: [ { organization: "rohan.gov" },
+ *                          { $or: [ { <category1>: { $regex: <searchTerm>, $options: "i" } },
+ *                              { <category2>: { $regex: <searchTerm>, $options: "i" } }] } ]}
+ * @returns {object} { success: Boolean,
+ *                     msg: a string explaining the operation outcome,
+ *                     events: An array of event objects, or null
+ *                     err: null, or the error that was caught
+ *                     }
+ */
+export async function getEventCount(queryObj) {
+  // TODO: validate params
+  // create date/time variable to use within db call query
+  const client = new MongoClient(uri);
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(eventsCol);
+    const res = await collection
+      // TODO: only allow ending after current date
+      .countDocuments(queryObj);
+    return {
+      success: true,
+      msg: "Successful query.",
+      count: res,
+      err: null,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      msg: "An error occurred in the database. Please try again later.",
+      count: 0,
+      err: e,
+    };
+  } finally {
+    client.close();
+  }
+}
+eventsConnect.getEventCount = getEventCount;
 
 /**
  * Returns all of the events that the user created.

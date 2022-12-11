@@ -1,0 +1,24 @@
+@import "../stylesheets/timeaVariables.css";
+
+.PaginationComponent {
+  padding-left: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.PaginationComponent .connector-text {
+  padding-right: 0;
+}
+
+.PaginationComponent .btn {
+  border: 1px solid var(--timea-button-grey-darker);
+}
+
+.PaginationComponent .btn:hover {
+  background-color: var(--timea-button-grey);
+  color: var(--timea-background-white);
+}
+
+.PaginationComponent {
+  background-color: var(--timea-background-purple);
+}

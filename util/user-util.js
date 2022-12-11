@@ -131,6 +131,8 @@ function initializeUserObj(
   return user;
 }
 
+// TODO: combine these below, factor out checking, move some validation to the front end
+
 /**
  * Updates a user based on the attributes of the parameter object if the parameter object's username and email
  * fields are valid.
@@ -139,7 +141,7 @@ function initializeUserObj(
  *     Should include firstName, lastName, username, password, contactEmail and orgEmail attributes.
  * @returns {Object} Object indicating the success or failure of the registration. The return object
  *     has the following attributes:
- *     - success: boolean. Whether or not the registration was successful.
+ *     - success: boolean. Whether or not the update was successful.
  *     - message: string. Indicates where the failure was if the registration was not successful, or success message.
  */
 export async function updateUserDocument(userIdString, newUserDoc) {
@@ -227,5 +229,94 @@ export async function updateUserDocument(userIdString, newUserDoc) {
   }
 }
 userUtil.updateUserDocument = updateUserDocument;
+
+/**
+ * Updates a user based on the attributes of the parameter object if the parameter object's username and email
+ * fields are valid.
+ * @param {string} userIdString String representation of the _id field of the user document to update.
+ * @param {Object} newUserDoc Object that the user document should be set to.
+ *     Should include firstName, lastName, username, password, contactEmail and orgEmail attributes.
+ * @returns {Object} Object indicating the success or failure of the update. The return object
+ *     has the following attributes:
+ *     - success: boolean. Whether or not the registration was successful.
+ *     - message: string. Indicates where the failure was if the registration was not successful, or success message.
+ *     - updatedDocument: the updated user document.
+ */
+export async function updateAndGetUpdatedById(userIdString, newUserDoc) {
+  if (!generalUtil.validEmailStructure(newUserDoc.organizationEmails[0])) {
+    return {
+      success: false,
+      message: `${newUserDoc.organizationEmails[0]} is an invalid email address.`,
+    };
+  }
+  if (!generalUtil.validEmailStructure(newUserDoc.contactEmail)) {
+    return {
+      success: false,
+      message: `${newUserDoc.contactEmail} is an invalid email address.`,
+    };
+  }
+  let otherUserRes = await userConnect.getUserByUsername(newUserDoc.username);
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The username ${newUserDoc.username} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByContactEmail(
+    newUserDoc.contactEmail
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.contactEmail} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByOrgEmail(newUserDoc.contactEmail);
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.contactEmail} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByContactEmail(
+    newUserDoc.organizationEmails[0]
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.organizationEmails[0]} has been claimed by another user.`,
+    };
+  }
+  otherUserRes = await userConnect.getUserByOrgEmail(
+    newUserDoc.organizationEmails[0]
+  );
+  if (otherUserRes?.user && otherUserRes.user._id !== userIdString) {
+    return {
+      success: false,
+      message: `The email ${newUserDoc.organizationEmails[0]} has been claimed by another user.`,
+    };
+  }
+
+  newUserDoc.organizations[0] = generalUtil.getOrgFromEmail(
+    newUserDoc.organizationEmails[0]
+  );
+
+  // Update in database
+  try {
+    const res = await userConnect.updateAndGetUpdatedById(userIdString, {
+      $set: newUserDoc,
+    });
+    return res;
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      message:
+        "There was a problem connecting to the database. Try again later!",
+      updatedDocument: null,
+    };
+  }
+}
+userUtil.updateAndGetUpdatedById = updateAndGetUpdatedById;
 
 export default userUtil;

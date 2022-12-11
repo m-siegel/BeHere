@@ -8,6 +8,7 @@ import FormInput from "./FormInput";
  * Form for updating user settings.
  */
 function UserSettingsForm({ setAlert }) {
+  const [dbTrueUserObj, setDbTrueUserObj] = useState({});
   const [userObj, setUserObj] = useState({});
 
   useEffect(() => {
@@ -20,15 +21,20 @@ function UserSettingsForm({ setAlert }) {
           })
         ).json();
         if (res) {
-          setUserObj(res);
+          setDbTrueUserObj(res);
         }
       } catch (e) {
         console.error(e);
-        setUserObj({});
+        setDbTrueUserObj({});
       }
     }
     loadUser();
   }, []);
+
+  // Update user obj to match db user obj
+  useEffect(() => {
+    setUserObj(dbTrueUserObj);
+  }, [dbTrueUserObj]);
 
   async function onSubmit(evt) {
     evt.preventDefault();
@@ -50,6 +56,7 @@ function UserSettingsForm({ setAlert }) {
         })
       ).json();
       alertUser(res);
+      setDbTrueUserObj(res?.updatedDocument ? res.updatedDocument : {});
     } catch (e) {
       console.error("Error in onSubmit: ", e);
     }
@@ -140,9 +147,22 @@ function UserSettingsForm({ setAlert }) {
           }
         />
         <div className="centering-container">
-          <button type="submit" className="btn btn-primary">
-            Save Changes
-          </button>
+          <div className="col-auto">
+            <button type="submit" className="btn btn-action">
+              Save Changes
+            </button>
+          </div>
+          <div className="col-auto">
+            <button
+              type="reset"
+              className="btn btn-grey"
+              onClick={() => {
+                setUserObj(dbTrueUserObj);
+              }}
+            >
+              Cancel Changes
+            </button>
+          </div>
         </div>
       </form>
     </div>

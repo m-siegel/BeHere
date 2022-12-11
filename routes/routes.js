@@ -5,7 +5,7 @@ import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
 import userConnect, { getUserById } from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
-import { registerUser, updateUserDocument } from "../util/user-util.js";
+import { registerUser, updateAndGetUpdatedById } from "../util/user-util.js";
 
 const router = express.Router();
 
@@ -131,43 +131,23 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
   const event = req.body.event;
   const rsvpType = req.body.rsvpStatus;
 
-  if (user && event && rsvpType) {
+  if (user && event) {
     try {
       const eventDbResponse = await eventsConnect.eventRsvp(
         user,
         event,
         rsvpType
       );
-      const userDbResponse = await userConnect.updateRSVP(
-        user._id,
-        event._id,
-        rsvpType
-      );
-
-      if (eventDbResponse.success && userDbResponse.success) {
+      if (eventDbResponse.success) {
         return res.json({
           success: true,
           msg: "Successfully updated rsvp",
           err: null,
         });
-      } else if (userDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
-          err: null,
-        });
-      } else if (eventDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update user. Message: ${userDbResponse.message}`,
-          err: null,
-        });
       }
       return res.json({
         success: false,
-        msg: `Could not update event or user. 
-          User failure message: ${userDbResponse.message}.
-          Event failure message: ${eventDbResponse.message}`,
+        msg: `Could not update event. ${eventDbResponse.message}`,
         err: null,
       });
     } catch (e) {
@@ -304,10 +284,10 @@ router.post("/api/getUsernameById", async (req, res) => {
 });
 
 router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
-  const eventId = req.body.eventId;
-  if (eventId) {
+  const userIds = req.body.userIds;
+  if (userIds?.length) {
     try {
-      const dbResult = await userConnect.getRsvpLikeUserPreviews(eventId);
+      const dbResult = await userConnect.getRsvpLikeUserPreviews(userIds);
       return res.json(dbResult);
     } catch (e) {
       console.error(e);
@@ -315,15 +295,15 @@ router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
         success: false,
         message:
           "An error was encountered in the route for getting the user rsvp and like previews.",
-        username: "",
+        users: [],
         err: e,
       });
     }
   } else {
     return res.json({
       success: false,
-      message: "No event id found.",
-      username: null,
+      message: "No users found.",
+      users: [],
       err: null,
     });
   }
@@ -386,13 +366,208 @@ router.post("/toggleLike", async (req, res) => {
  *                            err: null, or the error that was caught
  *                            }
  */
-router.get("/api/getEventPreviews", async (req, res) => {
+// router.get("/api/getEventPreviews", async (req, res) => {
+//   try {
+//     if (req.session.passport?.user?.organizations?.length) {
+//       try {
+//         // V2: get events for any of the user's orgs
+//         const orgName = req.session.passport?.user?.organizations[0];
+//         const eventsResponse = await eventsConnect.getEventPreviews(orgName);
+//         return res.json(eventsResponse);
+//       } catch (e) {
+//         console.error(e);
+//         return res.json({
+//           success: false,
+//           message: "Encountered error in /getEventPreviews",
+//           events: null,
+//           err: e,
+//         });
+//       }
+//     } else {
+//       return res.json({
+//         success: false,
+//         message: "User has no organizations.",
+//         events: null,
+//         err: null,
+//       });
+//     }
+//   } catch (e) {
+//     return res.json({
+//       success: false,
+//       message:
+//         "Error encountered with getting user organizations from session.",
+//       events: null,
+//       err: e,
+//     });
+//   }
+// });
+
+router.post("/api/feed/getEventPreviews", async (req, res) => {
   try {
     if (req.session.passport?.user?.organizations?.length) {
       try {
+        // Create query object
+        /*
+         * Query object structure:
+         * {
+         *   // Basic requirements AND search AND filters must be met
+         *   $and: [
+         *     // Basic requirement -- must be event for given organization
+         *     { organization: "rohan.gov" },
+         *     // Search terms. Can appear in any of the specified categories
+         *     {
+         *       $or: [
+         *         { <category1>: { $regex: <searchTerm>, $options: "i" } },
+         *         { <category2>: { $regex: <searchTerm>, $options: "i" } },
+         *         ...
+         *       ],
+         *     },
+         *     // Filters. TODO: Different categories of filter should be ANDed (ie tags and time)
+         *
+         *     {
+         *       // Find events with any of the specified tags in their tags arrays
+         *       tags: {$in: [<tag1>, <tag2>, ...]}
+         *     },
+         *   ];
+         * }
+         *
+         */
+
         // V2: get events for any of the user's orgs
         const orgName = req.session.passport?.user?.organizations[0];
-        const eventsResponse = await eventsConnect.getEventPreviews(orgName);
+        const searchTerm = req.body.query?.searchBy?.searchTerm;
+        const searchCategories = req.body.query?.searchBy?.searchCategories;
+        const tags = req.body.query?.filterBy?.tags;
+        const earliestFinish =
+          req.body.query?.filterBy?.dateTime?.earliestFinish;
+
+        // Search for match with orgName AND searchTerm AND filters
+        const queryObj = {
+          $and: [{ organization: orgName }],
+        };
+        // Find searchTerm anywhere in the specified places ("or" search)
+        if (searchTerm && searchCategories?.length) {
+          const searchObj = { $or: [] };
+          searchCategories.forEach((cat) => {
+            const o = {};
+            o[cat.toLowerCase()] = { $regex: searchTerm, $options: "i" };
+            searchObj.$or.push(o);
+          });
+          queryObj.$and.push(searchObj);
+        }
+        // Find any of the given tags ("or" search)
+        if (tags?.length) {
+          // TODO: standardize lower vs title case
+          queryObj.$and.push({
+            tags: { $in: tags.map((t) => t.toLowerCase()) },
+          });
+        }
+        if (earliestFinish) {
+          queryObj.$and.push({ finish: { $gte: earliestFinish } });
+        }
+
+        const skip = req.body.pagination?.skip;
+        const limit = req.body.pagination?.limit;
+
+        const eventsResponse = await eventsConnect.getEventPreviews(
+          queryObj,
+          skip,
+          limit
+        );
+        return res.json(eventsResponse);
+      } catch (e) {
+        console.error(e);
+        return res.json({
+          success: false,
+          message: "Encountered error in /getEventPreviews",
+          events: null,
+          err: e,
+        });
+      }
+    } else {
+      return res.json({
+        success: false,
+        message: "User has no organizations.",
+        events: null,
+        err: null,
+      });
+    }
+  } catch (e) {
+    return res.json({
+      success: false,
+      message:
+        "Error encountered with getting user organizations from session.",
+      events: null,
+      err: e,
+    });
+  }
+});
+
+router.post("/api/feed/getEventCount", async (req, res) => {
+  try {
+    if (req.session.passport?.user?.organizations?.length) {
+      try {
+        // Create query object
+        /*
+         * Query object structure:
+         * {
+         *   // Basic requirements AND search AND filters must be met
+         *   $and: [
+         *     // Basic requirement -- must be event for given organization
+         *     { organization: "rohan.gov" },
+         *     // Search terms. Can appear in any of the specified categories
+         *     {
+         *       $or: [
+         *         { <category1>: { $regex: <searchTerm>, $options: "i" } },
+         *         { <category2>: { $regex: <searchTerm>, $options: "i" } },
+         *         ...
+         *       ],
+         *     },
+         *     // Filters. TODO: Different categories of filter should be ANDed (ie tags and time)
+         *
+         *     {
+         *       // Find events with any of the specified tags in their tags arrays
+         *       tags: {$in: [<tag1>, <tag2>, ...]}
+         *     },
+         *   ];
+         * }
+         *
+         */
+
+        // V2: get events for any of the user's orgs
+        const orgName = req.session.passport?.user?.organizations[0];
+        const searchTerm = req.body.query?.searchBy?.searchTerm;
+        const searchCategories = req.body.query?.searchBy?.searchCategories;
+        const tags = req.body.query?.filterBy?.tags;
+        const earliestFinish =
+          req.body.query?.filterBy?.dateTime?.earliestFinish;
+
+        // Search for match with orgName AND searchTerm AND filters
+        const queryObj = {
+          $and: [{ organization: orgName }],
+        };
+        // Find searchTerm anywhere in the specified places ("or" search)
+        if (searchTerm && searchCategories?.length) {
+          const searchObj = { $or: [] };
+          searchCategories.forEach((cat) => {
+            const o = {};
+            o[cat.toLowerCase()] = { $regex: searchTerm, $options: "i" };
+            searchObj.$or.push(o);
+          });
+          queryObj.$and.push(searchObj);
+        }
+        // Find any of the given tags ("or" search)
+        if (tags?.length) {
+          // TODO: standardize lower vs title case
+          queryObj.$and.push({
+            tags: { $in: tags.map((t) => t.toLowerCase()) },
+          });
+        }
+        if (earliestFinish) {
+          queryObj.$and.push({ finish: { $gte: earliestFinish } });
+        }
+
+        const eventsResponse = await eventsConnect.getEventCount(queryObj);
         return res.json(eventsResponse);
       } catch (e) {
         console.error(e);
@@ -481,7 +656,7 @@ router.post("/api/updateUserDocument", async (req, res) => {
           "Our system thinks you're trying to update a user other than yourself. Please clear your browser and try again later.",
       });
     }
-    return res.json(await updateUserDocument(_id, newUserDoc));
+    return res.json(await updateAndGetUpdatedById(_id, newUserDoc));
   } catch (e) {
     console.error(e);
     return res.json({

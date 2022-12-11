@@ -1,4 +1,4 @@
-@import "./timeaColors.css";
+@import "./timeaVariables.css";
 
 .EventPreview .preview-tags li:first-child {
   list-style-type: none;
@@ -45,5 +45,5 @@
 }
 
 .EventPreview .rsvp-dropdown .btn.active {
-  color: blue;
+  color: var(--timea-action-purple);
 }

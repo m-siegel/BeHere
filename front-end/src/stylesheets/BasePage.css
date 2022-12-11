@@ -1,4 +1,4 @@
-@import "./timeaColors.css";
+@import "./timeaVariables.css";
 
 /* For general use */
 .centering-container {
@@ -9,22 +9,23 @@
 
 /* BasePage styling */
 .BasePage {
-  background-color: var(--timea-dark-brown);
-  color: #FFF;
+  background-color: var(--timea-background-purple);
+  color: var(--timea-text-darkbrown);
   width: 100vw;
 }
 
-.BasePage main {
-  min-height: 85vh;
+.BasePage :focus {
+  border: 1px solid var(--timea-background-white);
+  outline: 4px solid var(--timea-action-purple);
 }
 
 .BasePage .Navbar {
-  background-color: var(--timea-yellow);
-  min-height: 10vh;
+  background-color: var(--timea-background-white);
   width: 100vw;
   margin-left: 0;
   margin-right: 0;
-  color: var(--timea-dark-brown);
+  color: var(--timea-text-darkbrown);
+  border-bottom: 2px solid var(--timea-background-purple);
 }
 
 .BasePage header {
@@ -35,25 +36,22 @@
 }
 
 .BasePage .Navbar .col:hover {
-  background-color: #FFF;
+  background-color: var(--timea-background-purple);
 }
 
 .BasePage .Footer {
-  min-height: 5vh;
   width: 100vw;
   margin-left: 0;
   margin-right: 0;
+  position: fixed;
+  bottom: 0;
   text-align: center;
-}
-
-.BasePage .Footer>div {
-  padding-top: .2em;
-  background-color: var(--timea-yellow);
-  color: var(--timea-dark-brown);
+  background-color: var(--timea-background-white);
+  border-top: 2px solid var(--timea-background-purple);
 }
 
 .BasePage .Navbar .IconButton {
-  color: var(--timea-dark-brown)
+  color: var(--timea-text-darkbrown)
 }
 
 .BasePage .Navbar .IconButton .Icon {
@@ -70,13 +68,15 @@
   height: 1em;
 }
 
-.BasePage .card {
-  color: var(--timea-dark-brown);
+.BasePage .card,
+.BasePage .card input {
+  background-color: var(--timea-background-white);
 }
 
-.BasePage .card h2 {
+
+/* .BasePage .card h2 {
   text-align: center;
-}
+} */
 
 .BasePage .centering-container {
   display: flex;

@@ -128,7 +128,7 @@ function EventForm({ setAlert, setDel }) {
             Start time:{" "}
           </label>
           <input
-            type="text"
+            type="datetime-local"
             className="form-control"
             id="start"
             name="start"
@@ -144,7 +144,7 @@ function EventForm({ setAlert, setDel }) {
             End time:{" "}
           </label>
           <input
-            type="text"
+            type="datetime-local"
             className="form-control"
             id="finish"
             name="finish"

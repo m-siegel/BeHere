@@ -81,7 +81,7 @@ function EventFeedPage({ isAuth }) {
       searchBy: {
         searchTerm: searchTerm,
         searchCategories:
-          currentCategory === "Anything"
+          currentCategory === "Anywhere"
             ? categoriesArray.slice(1)
             : [currentCategory],
       },

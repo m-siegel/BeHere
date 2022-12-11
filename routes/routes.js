@@ -5,7 +5,7 @@ import passport from "passport";
 import eventsConnect, { toggleLike } from "../db-connect/events-connect.js";
 import userConnect, { getUserById } from "../db-connect/users-connect.js";
 import { eventify } from "../util/event-util.js";
-import { registerUser, updateUserDocument } from "../util/user-util.js";
+import { registerUser, updateAndGetUpdatedById } from "../util/user-util.js";
 
 const router = express.Router();
 
@@ -656,7 +656,7 @@ router.post("/api/updateUserDocument", async (req, res) => {
           "Our system thinks you're trying to update a user other than yourself. Please clear your browser and try again later.",
       });
     }
-    return res.json(await updateUserDocument(_id, newUserDoc));
+    return res.json(await updateAndGetUpdatedById(_id, newUserDoc));
   } catch (e) {
     console.error(e);
     return res.json({

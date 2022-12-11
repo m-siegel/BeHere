@@ -845,6 +845,74 @@ export async function updateById(userIdString, updatesObj) {
 userConnect.updateById = updateById;
 
 /**
+ * Updates the user document with the id that matches the parameter userIdString.
+ * @param {string} userIdString String version of the _id of the document to update.
+ * @param {!Object} updatesObj Valid MongDB update object,
+ *     for example {$set: {username: "example"}},
+ * @returns {Object:
+ *     {success: boolean, ?updatedDocument: object, message: string, ?err: Error}}
+ *     Object indicating the success of the operation and containing the updated document.
+ */
+export async function updateAndGetUpdatedById(userIdString, updatesObj) {
+  const client = new mongodb.MongoClient(uri);
+  let idObj;
+  try {
+    idObj = convertStringToObjectId(userIdString);
+  } catch (e) {
+    return {
+      success: false,
+      message: "Error creating ObjectId from parameter idString.",
+      userIdString: userIdString,
+      err: e,
+    };
+  }
+  if (!(updatesObj instanceof Object)) {
+    return {
+      success: false,
+      updatedCount: 0,
+      message: "Updates object must be an object.",
+      err: new TypeError("updatesObj must be an Object"),
+    };
+  }
+  try {
+    await client.connect();
+    const database = client.db(databaseName);
+    const collection = database.collection(usersCollectionName);
+
+    const res = await collection.findOneAndUpdate({ _id: idObj }, updatesObj, {
+      returnDocument: "after",
+    });
+
+    if (res.ok === 1) {
+      return {
+        success: true,
+        updatedDocument: res.value,
+        message: "Successfully updated user.",
+        err: null,
+      };
+    } else {
+      return {
+        success: false,
+        updatedDocument: null,
+        message: "User not found.",
+        err: null,
+      };
+    }
+  } catch (e) {
+    console.error(e);
+    return {
+      success: false,
+      updatedDocument: null,
+      msg: "Error updating user.",
+      err: e,
+    };
+  } finally {
+    await client.close();
+  }
+}
+userConnect.updateAndGetUpdatedById = updateAndGetUpdatedById;
+
+/**
  * Pushes the given eventRSVP object to the specified user docement's "following" array.
  * @param {string} userIdString String version of the _id of the document to update.
  * @param {Object} eventRSVP The eventRSVP object to push to the following array.

@@ -138,36 +138,40 @@ router.post("/rsvp", checkAuthenticated, async (req, res) => {
         event,
         rsvpType
       );
-      const userDbResponse = await userConnect.updateRSVP(
-        user._id,
-        event._id,
-        rsvpType
-      );
-
-      if (eventDbResponse.success && userDbResponse.success) {
+      // const userDbResponse = await userConnect.updateRSVP(
+      //   user._id,
+      //   event._id,
+      //   rsvpType
+      // );
+      if (eventDbResponse.success) {
         return res.json({
           success: true,
           msg: "Successfully updated rsvp",
           err: null,
         });
-      } else if (userDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
-          err: null,
-        });
-      } else if (eventDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update user. Message: ${userDbResponse.message}`,
-          err: null,
-        });
+
+        // if (eventDbResponse.success && userDbResponse.success) {
+        //   return res.json({
+        //     success: true,
+        //     msg: "Successfully updated rsvp",
+        //     err: null,
+        //   });
+        // } else if (userDbResponse.success) {
+        //   return res.json({
+        //     success: false,
+        //     msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+        //     err: null,
+        //   });
+        // } else if (eventDbResponse.success) {
+        //   return res.json({
+        //     success: false,
+        //     msg: `Could not update user. Message: ${userDbResponse.message}`,
+        //     err: null,
+        //   });
       }
       return res.json({
         success: false,
-        msg: `Could not update event or user. 
-          User failure message: ${userDbResponse.message}.
-          Event failure message: ${eventDbResponse.message}`,
+        msg: `Could not update event. ${eventDbResponse.message}`,
         err: null,
       });
     } catch (e) {

@@ -23,12 +23,12 @@ function CreateEventPage({ isAuth }) {
   return (
     <div className="CreateEventPage">
       <BasePage>
-        <AlertComponent />
         <div className="card">
           <div className="card-body">
             <h1>Create an event</h1>
             <CreateEventForm setAlert={setAlert} navigate={navigate} />
           </div>
+          <AlertComponent />
         </div>
       </BasePage>
     </div>

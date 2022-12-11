@@ -17,8 +17,92 @@ function EventFeedPage({ isAuth }) {
 
   const [AlertComponent, setAlert] = useAlert();
 
-  async function loadPreviews() {
-    const res = await (await fetch("/api/getEventPreviews")).json();
+  // For search/filter
+  const [findQuery, setFindQuery] = useState({
+    searchBy: {
+      searchTerm: "",
+      searchCategories: [],
+    },
+    filterBy: {
+      tags: [],
+    },
+  });
+
+  // For search
+  const categoriesArray = [
+    "Anywhere",
+    "Name",
+    "Description",
+    "Tags",
+    "Location",
+  ];
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentCategory, setCategory] = useState(
+    categoriesArray[0] ? categoriesArray[0] : "Select an Option"
+  ); // TODO: faster as a number (index)
+
+  // For filter
+  const checkboxOptions = [
+    "Active",
+    "Games",
+    "Food",
+    "Drink",
+    "Music/Entertainment",
+    "Outdoor",
+    "Art/Craft",
+    "Learning",
+    "Tours/Exploration",
+    "Networking",
+    "Hangout",
+    "Party",
+  ];
+
+  function objFromOptions() {
+    const obj = {};
+    checkboxOptions.forEach((opt) => {
+      obj[opt] = false;
+    });
+    return obj;
+  }
+
+  const [currentSelections, setSelections] = useState({
+    // TODO: use map?
+    tags: objFromOptions(),
+  });
+
+  function find() {
+    // console.log({
+    //   searchTerm: searchTerm,
+    //   category: currentCategory,
+    //   filters: currentSelections,
+    // });
+    setFindQuery({
+      searchBy: {
+        searchTerm: searchTerm,
+        searchCategories:
+          currentCategory === "Anything"
+            ? categoriesArray.slice(1)
+            : [currentCategory],
+      },
+      filterBy: {
+        tags: checkboxOptions.filter((x) => currentSelections.tags[x]),
+      },
+    });
+  }
+
+  // Loading
+
+  // TODO: delete?
+  async function loadPreviews(query) {
+    setCheckedEvents(false);
+    const res = await (
+      await fetch("/api/feed/getEventPreviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: query }),
+      })
+    ).json();
     if (res && res.events) {
       setPreviews(res.events);
     }
@@ -47,6 +131,12 @@ function EventFeedPage({ isAuth }) {
     }
     authOrRedirect();
   }, [isAuth, navigate]);
+
+  useEffect(() => {
+    loadPreviews(findQuery);
+  }, [findQuery]);
+
+  // Like and RSVP handlers (used by event previews)
 
   async function handleRSVP(event, rsvp) {
     setAlert({
@@ -117,7 +207,17 @@ function EventFeedPage({ isAuth }) {
     <div className="EventFeedPage">
       <BasePage>
         <h1>Upcoming Events</h1>
-        <SearchFilterBar />
+        <SearchFilterBar
+          categoriesArray={categoriesArray}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          currentCategory={currentCategory}
+          setCategory={setCategory}
+          checkboxOptions={checkboxOptions}
+          currentSelections={currentSelections}
+          setSelections={setSelections}
+          find={find}
+        />
         <AlertComponent />
         <div className="row">
           {previews.length ? (

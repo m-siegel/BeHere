@@ -6,7 +6,7 @@ function FilterComponent({
   checkboxOptions,
   currentSelections,
   setSelections,
-  filter,
+  find,
 }) {
   return (
     <div className="FilterComponent">
@@ -42,7 +42,7 @@ function FilterComponent({
             currentSelections={currentSelections}
             setSelections={setSelections}
             checkboxOptions={checkboxOptions}
-            filter={filter}
+            find={find}
           />
         </div>
       </div>
@@ -54,7 +54,7 @@ FilterComponent.propTypes = {
   checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
-  filter: PropTypes.func.isRequired,
+  find: PropTypes.func.isRequired,
 };
 
 export default FilterComponent;

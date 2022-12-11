@@ -161,7 +161,69 @@ eventsConnect.updateEvent = updateEvent;
  *                            }
  */
 // Event previews -- need eventId, name, organization, creator, tags, location/time
-export async function getEventPreviews(organization) {
+// export async function getEventPreviews(organization) {
+//   // create date/time variable to use within db call query
+//   const client = new MongoClient(uri);
+//   try {
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(eventsCol);
+//     const res = await collection
+//       .find(
+//         {
+//           organization: organization,
+//           //start: { $gte: /* today's variable */}
+//         },
+//         {
+//           projection: {
+//             _id: 1,
+//             name: 1,
+//             organization: 1,
+//             creator: 1,
+//             tags: 1,
+//             location: 1,
+//             start: 1,
+//             followedBy: 1,
+//             rsvpYes: 1,
+//             rsvpMaybe: 1,
+//             rsvpNo: 1,
+//             likes: 1,
+//           },
+//         }
+//       )
+//       .sort({
+//         start: 1,
+//       });
+//     if (res) {
+//       return {
+//         success: true,
+//         msg: "Events found.",
+//         events: await res.toArray(),
+//         err: null,
+//       };
+//     }
+//     return {
+//       success: false,
+//       msg: "No events found.",
+//       events: null,
+//       err: null,
+//     };
+//   } catch (e) {
+//     console.error(e);
+//     return {
+//       success: false,
+//       msg: "An error occurred. Please try again later.",
+//       events: null,
+//       err: e,
+//     };
+//   } finally {
+//     client.close();
+//   }
+// }
+// eventsConnect.getEventPreviews = getEventPreviews;
+
+export async function getEventPreviews(queryObj) {
+  console.log(JSON.stringify(queryObj));
   // create date/time variable to use within db call query
   const client = new MongoClient(uri);
   try {
@@ -169,28 +231,22 @@ export async function getEventPreviews(organization) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection
-      .find(
-        {
-          organization: organization,
-          //start: { $gte: /* today's variable */}
+      .find(queryObj, {
+        projection: {
+          _id: 1,
+          name: 1,
+          organization: 1,
+          creator: 1,
+          tags: 1,
+          location: 1,
+          start: 1,
+          followedBy: 1,
+          rsvpYes: 1,
+          rsvpMaybe: 1,
+          rsvpNo: 1,
+          likes: 1,
         },
-        {
-          projection: {
-            _id: 1,
-            name: 1,
-            organization: 1,
-            creator: 1,
-            tags: 1,
-            location: 1,
-            start: 1,
-            followedBy: 1,
-            rsvpYes: 1,
-            rsvpMaybe: 1,
-            rsvpNo: 1,
-            likes: 1,
-          },
-        }
-      )
+      })
       .sort({
         start: 1,
       });
@@ -212,7 +268,7 @@ export async function getEventPreviews(organization) {
     console.error(e);
     return {
       success: false,
-      msg: "An error occurred. Please try again later.",
+      msg: "An error occurred in the database. Please try again later.",
       events: null,
       err: e,
     };

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 function FilterForm({
   checkboxOptions,
   currentSelections,
   setSelections,
-  filter,
+  find,
 }) {
   function toggleOption(opt, val) {
     const newObj = { ...currentSelections };
@@ -15,7 +15,7 @@ function FilterForm({
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    filter();
+    find();
   }
 
   return (
@@ -52,7 +52,7 @@ FilterForm.propTypes = {
   checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired, // TODO: do without this
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
-  filter: PropTypes.func.isRequired,
+  find: PropTypes.func.isRequired,
 };
 
 export default FilterForm;

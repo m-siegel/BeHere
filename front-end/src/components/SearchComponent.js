@@ -8,11 +8,11 @@ function SearchComponent({
   categoriesArray,
   currentCategory,
   setCategory,
-  search,
+  find,
 }) {
   function handleSubmit(evt) {
     evt.preventDefault();
-    search();
+    find();
   }
 
   return (
@@ -38,22 +38,14 @@ function SearchComponent({
               className="form-select"
               aria-label="Search alternatives"
               name="event-attribute"
+              selected={currentCategory}
               onChange={(evt) => setCategory(evt.target.value)}
             >
-              {categoriesArray.map((category) => {
-                if (category === currentCategory) {
-                  return (
-                    <option key={category} selected>
-                      {category}
-                    </option>
-                  );
-                }
-                return (
-                  <option value={category} key={category}>
-                    {category}
-                  </option>
-                );
-              })}
+              {categoriesArray.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
             </select>
           </span>
           <span className="col-auto">
@@ -73,7 +65,7 @@ SearchComponent.propTypes = {
   categoriesArray: PropTypes.arrayOf(PropTypes.string),
   currentCategory: PropTypes.string, // TODO: would be faster as a number
   setCategory: PropTypes.func,
-  search: PropTypes.func.isRequired,
+  find: PropTypes.func.isRequired,
 };
 
 export default SearchComponent;

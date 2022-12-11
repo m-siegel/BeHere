@@ -8,70 +8,17 @@ import "../stylesheets/SearchFilterBar.css";
 
 /**
  */
-function SearchFilterBar() {
-  // States
-
-  // For search
-  const categoriesArray = [
-    "Anywhere",
-    "Name",
-    "Description",
-    "Tags",
-    "Location",
-  ];
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentCategory, setCategory] = useState("Anywhere"); // TODO: faster as a number (index)
-
-  // For filter
-  const checkboxOptions = [
-    "Active",
-    "Games",
-    "Food",
-    "Drink",
-    "Music/Entertainment",
-    "Outdoor",
-    "Art/Craft",
-    "Learning",
-    "Tours/Exploration",
-    "Networking",
-    "Hangout",
-    "Party",
-  ];
-
-  function objFromOptions() {
-    const obj = {};
-    checkboxOptions.forEach((opt) => {
-      obj[opt] = false;
-    });
-    return obj;
-  }
-
-  const [currentSelections, setSelections] = useState({
-    tags: objFromOptions(),
-    // TODO: include this?
-    // dateTimeRange: {
-    //   start: "",
-    //   end: "",
-    // },
-  });
-
-  // Functions
-
-  // For search
-
-  function handleSearch() {
-    console.log({
-      searchTerm: searchTerm,
-      category: currentCategory,
-    });
-  }
-
-  function handleFilter() {
-    console.log({
-      filters: currentSelections,
-    });
-  }
-
+function SearchFilterBar({
+  categoriesArray,
+  searchTerm,
+  setSearchTerm,
+  currentCategory,
+  setCategory,
+  checkboxOptions,
+  currentSelections,
+  setSelections,
+  find,
+}) {
   return (
     <div className="SearchFilterBar row">
       <div className="col-auto">
@@ -79,9 +26,9 @@ function SearchFilterBar() {
           categoriesArray={categoriesArray}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          currentCategory={"currentCategory"}
+          currentCategory={currentCategory} // Changed this
           setCategory={setCategory}
-          search={handleSearch}
+          find={find}
         />
       </div>
 
@@ -90,13 +37,23 @@ function SearchFilterBar() {
           checkboxOptions={checkboxOptions}
           currentSelections={currentSelections}
           setSelections={setSelections}
-          filter={handleFilter}
+          find={find}
         />
       </div>
     </div>
   );
 }
 
-SearchFilterBar.propTypes = {};
+SearchFilterBar.propTypes = {
+  categoriesArray: PropTypes.arrayOf(PropTypes.string).isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  setSearchTerm: PropTypes.func.isRequired,
+  currentCategory: PropTypes.string.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentSelections: PropTypes.object.isRequired,
+  setSelections: PropTypes.func.isRequired,
+  find: PropTypes.func.isRequired,
+};
 
 export default SearchFilterBar;

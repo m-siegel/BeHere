@@ -6,6 +6,7 @@ function FilterForm({
   currentSelections,
   setSelections,
   find,
+  disableButtons,
 }) {
   function toggleOption(opt, val) {
     const newObj = { ...currentSelections };
@@ -40,7 +41,11 @@ function FilterForm({
             </div>
           ))}
         </section>
-        <button className="btn btn-action" type="submit">
+        <button
+          className="btn btn-action"
+          type="submit"
+          disabled={disableButtons}
+        >
           Apply Filters
         </button>
       </form>
@@ -53,6 +58,7 @@ FilterForm.propTypes = {
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
   find: PropTypes.func.isRequired,
+  disableButtons: PropTypes.bool,
 };
 
 export default FilterForm;

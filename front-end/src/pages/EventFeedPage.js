@@ -1,6 +1,6 @@
 /* Ilana-Mahmea */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import BasePage from "../components/base-page-components/BasePage.js";
 import EventPreview from "../components/EventPreview.js";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function EventFeedPage({ isAuth }) {
   // For loading previews
 
-  const [checkedEvents, setCheckedEvents] = useState(false);
+  const [doneSearch, setDoneSearch] = useState(false);
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function EventFeedPage({ isAuth }) {
         });
       } else {
         // Load with new rsvps
-        await loadPreviewsPagination();
+        await loadEventPreviews();
       }
     } catch (e) {
       console.error(e);
@@ -75,7 +75,7 @@ function EventFeedPage({ isAuth }) {
         });
         return;
       } else {
-        await loadPreviewsPagination();
+        await loadEventPreviews();
         return;
       }
     } catch (e) {
@@ -166,11 +166,31 @@ function EventFeedPage({ isAuth }) {
     setPage(0);
   }
 
-  // TODO: wrap in try
-  async function loadPreviewsNewSearchFilter(query) {
-    setCheckedEvents(false);
-    setPage(0);
-    loadPreviewsPagination(query);
+  const loadEventPreviews = useCallback(
+    async (query) => {
+      setDoneSearch(false);
+      const res = await (
+        await fetch("/api/feed/getEventPreviews", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: query,
+            pagination: {
+              skip: currPage * resultsPerPage,
+              limit: resultsPerPage,
+            },
+          }),
+        })
+      ).json();
+      if (res && res.events) {
+        setPreviews(res.events);
+      }
+      setDoneSearch(true);
+    },
+    [currPage, resultsPerPage]
+  );
+
+  const loadEventCount = useCallback(async (query) => {
     const res = await (
       await fetch("/api/feed/getEventCount", {
         method: "POST",
@@ -181,28 +201,7 @@ function EventFeedPage({ isAuth }) {
     if (res && res.count) {
       setTotalResults(res.count);
     }
-    setCheckedEvents(true);
-  }
-
-  // TODO: wrap in try
-  async function loadPreviewsPagination(query) {
-    const res = await (
-      await fetch("/api/feed/getEventPreviews", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: query,
-          pagination: {
-            skip: currPage * resultsPerPage,
-            limit: resultsPerPage,
-          },
-        }),
-      })
-    ).json();
-    if (res && res.events) {
-      setPreviews(res.events);
-    }
-  }
+  }, []);
 
   async function getUserPassportInfo() {
     try {
@@ -220,20 +219,18 @@ function EventFeedPage({ isAuth }) {
       if (!(await isAuth())) {
         navigate("/", { replace: true });
       }
-      loadPreviewsNewSearchFilter();
       getUserPassportInfo();
       // Can return to clean up previous effect, eg stop fetch
     }
     authOrRedirect();
-  }, [isAuth, navigate]);
+  }, [isAuth, navigate, loadEventPreviews]);
 
   useEffect(() => {
-    loadPreviewsNewSearchFilter(findQuery);
-  }, [findQuery]);
-
-  useEffect(() => {
-    loadPreviewsPagination(findQuery);
-  }, [currPage]);
+    loadEventPreviews(findQuery);
+    if (currPage === 0) {
+      loadEventCount(findQuery);
+    }
+  }, [currPage, loadEventPreviews, loadEventCount, findQuery]);
 
   return (
     <div className="EventFeedPage">
@@ -249,12 +246,14 @@ function EventFeedPage({ isAuth }) {
           currentSelections={currentSelections}
           setSelections={setSelections}
           find={find}
+          disableButtons={!doneSearch}
         />
         <PaginationComponent
           currPage={currPage}
           setPage={setPage}
           resultsPerPage={resultsPerPage}
           totalResults={totalResults}
+          disableButtons={!doneSearch}
         />
         <AlertComponent />
         <div className="row">
@@ -270,7 +269,7 @@ function EventFeedPage({ isAuth }) {
                 ></EventPreview>
               </div>
             ))
-          ) : checkedEvents ? (
+          ) : doneSearch ? (
             <div>
               <div>No events are listed for your organization.</div>
               <div>Check back later or create a new event yourself!</div>

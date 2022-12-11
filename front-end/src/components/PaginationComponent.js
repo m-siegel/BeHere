@@ -7,6 +7,7 @@ function PaginationComponent({
   setPage,
   resultsPerPage,
   totalResults,
+  disableButtons,
 }) {
   return (
     <div className="PaginationComponent row">
@@ -23,7 +24,7 @@ function PaginationComponent({
         <button
           type="button"
           className="btn"
-          disabled={currPage === 0}
+          disabled={currPage === 0 || disableButtons}
           onClick={() => setPage(currPage - 1)}
         >
           <span aria-hidden="true">&laquo;</span> Prev
@@ -31,7 +32,9 @@ function PaginationComponent({
         <button
           type="button"
           className="btn"
-          disabled={(currPage + 1) * resultsPerPage >= totalResults}
+          disabled={
+            (currPage + 1) * resultsPerPage >= totalResults || disableButtons
+          }
           onClick={() => setPage(currPage + 1)}
         >
           Next <span aria-hidden="true">&raquo;</span>
@@ -46,6 +49,7 @@ PaginationComponent.propTypes = {
   setPage: PropTypes.func.isRequired,
   resultsPerPage: PropTypes.number.isRequired,
   totalResults: PropTypes.number.isRequired,
+  disableButtons: PropTypes.bool.isRequired,
 };
 
 export default PaginationComponent;

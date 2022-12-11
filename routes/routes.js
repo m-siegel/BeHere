@@ -588,17 +588,6 @@ router.post("/api/feed/getEventCount", async (req, res) => {
           });
         }
 
-        // TODO: delete, just for testing
-        // console.log("queryObj: ", queryObj);
-        // console.log("1: ", queryObj.$and[1]);
-        // console.log("2: ", queryObj.$and[2]);
-        // return res.json({
-        //   success: false,
-        //   message: "Just testing",
-        //   events: null,
-        //   err: null,
-        // });
-
         const eventsResponse = await eventsConnect.getEventCount(queryObj);
         return res.json(eventsResponse);
       } catch (e) {

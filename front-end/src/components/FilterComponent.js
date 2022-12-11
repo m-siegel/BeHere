@@ -7,6 +7,7 @@ function FilterComponent({
   currentSelections,
   setSelections,
   find,
+  disableButtons,
 }) {
   return (
     <div className="FilterComponent">
@@ -43,6 +44,7 @@ function FilterComponent({
             setSelections={setSelections}
             checkboxOptions={checkboxOptions}
             find={find}
+            disableButtons={disableButtons}
           />
         </div>
       </div>
@@ -55,6 +57,7 @@ FilterComponent.propTypes = {
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
   find: PropTypes.func.isRequired,
+  disableButtons: PropTypes.bool,
 };
 
 export default FilterComponent;

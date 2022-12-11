@@ -9,6 +9,7 @@ function SearchComponent({
   currentCategory,
   setCategory,
   find,
+  disableButtons,
 }) {
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -49,7 +50,11 @@ function SearchComponent({
             </select>
           </span>
           <span className="col-auto">
-            <button className="btn btn-action" type="submit">
+            <button
+              className="btn btn-action"
+              type="submit"
+              disabled={disableButtons}
+            >
               Search
             </button>
           </span>
@@ -66,6 +71,7 @@ SearchComponent.propTypes = {
   currentCategory: PropTypes.string, // TODO: would be faster as a number
   setCategory: PropTypes.func,
   find: PropTypes.func.isRequired,
+  disableButtons: PropTypes.bool,
 };
 
 export default SearchComponent;

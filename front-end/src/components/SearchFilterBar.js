@@ -18,6 +18,7 @@ function SearchFilterBar({
   currentSelections,
   setSelections,
   find,
+  disableButtons,
 }) {
   return (
     <div className="SearchFilterBar row">
@@ -29,6 +30,7 @@ function SearchFilterBar({
           currentCategory={currentCategory} // Changed this
           setCategory={setCategory}
           find={find}
+          disableButtons={disableButtons}
         />
       </div>
 
@@ -38,6 +40,7 @@ function SearchFilterBar({
           currentSelections={currentSelections}
           setSelections={setSelections}
           find={find}
+          disableButtons={disableButtons}
         />
       </div>
     </div>
@@ -54,6 +57,7 @@ SearchFilterBar.propTypes = {
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
   find: PropTypes.func.isRequired,
+  disableButtons: PropTypes.bool,
 };
 
 export default SearchFilterBar;

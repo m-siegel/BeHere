@@ -5,3 +5,15 @@
 #event-form textarea {
   margin-bottom: 15px;
 }
+
+.event-form .form-tag {
+  border: 1px solid black;
+  border-radius: 5px;
+  border-style: ridge;
+  padding: 1px;
+  margin: 2px
+}
+
+.event-form #cancel-button {
+  margin-right: 20px;
+}

@@ -7,9 +7,47 @@ import "../stylesheets/EventForm.css";
 /**
  * Form component for editing an event.
  */
-function EventForm({ setAlert, setDel }) {
+function EventForm({ setAlert, setDel, navigate }) {
+  const tagValues = [
+    "active",
+    "art/craft",
+    "drink",
+    "food",
+    "games",
+    "hangout",
+    "learning",
+    "music/entertainment",
+    "networking",
+    "outdoor",
+    "party",
+    "tours/exploration",
+  ];
   const [event, setEvent] = useState({});
+  const [enableTags, setEnableTags] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(tagValues.length).fill(false)
+  );
+  // const [newTags, setNewTags] = useState([]);
   const { eventId } = useParams();
+
+  const handleOnChange = (position) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+  };
+
+  const handleEnableTags = () => {
+    setEnableTags(!enableTags);
+  };
+
+  // const handleNewTags = (position) => {
+  //   let tags = [];
+  //   const updatedCheckedState = checkedState.map((item, index) =>
+  //     index === position ? !item : item
+  //   )
+  // }
 
   useEffect(() => {
     async function loadEvent() {
@@ -23,11 +61,30 @@ function EventForm({ setAlert, setDel }) {
         setEvent({});
       }
     }
+    // function loadTags() {
+    //   if (event.tags) {
+    //     let temp = [];
+    //     for (let i = 0; i < tagValues.length; i++) {
+    //       event.tags.includes(tagValues[i])
+    //         ? temp.push(true)
+    //         : temp.push(false);
+    //     }
+    //     setCheckedState(temp);
+    //   }
+    // }
     loadEvent();
+    //console.warn("event tags:", event.tags);
+    // loadTags();
   }, [eventId]);
 
   async function onSubmit(evt) {
     evt.preventDefault();
+    let tags = [];
+    for (let i = 0; i < tagValues.length; i++) {
+      if (checkedState[i]) {
+        tags.push(tagValues[i]);
+      }
+    }
     setAlert({
       type: "info",
       heading: "",
@@ -46,6 +103,7 @@ function EventForm({ setAlert, setDel }) {
           location: event.location,
           start: event.start,
           finish: event.finish,
+          tags: tags,
         }),
       });
       const responseJson = await res.json();
@@ -72,6 +130,10 @@ function EventForm({ setAlert, setDel }) {
         ),
       });
     }
+  }
+
+  function handleCancel() {
+    navigate("/dashboard");
   }
 
   return (
@@ -155,26 +217,80 @@ function EventForm({ setAlert, setDel }) {
             required
           ></input>
         </div>
-        <div className="centering-container">
+        <fieldset>
+          <legend>Tags</legend>
+          <div>
+            Tags previously chosen:{" "}
+            {event.tags
+              ? event.tags.map((tag, index) => {
+                  return (
+                    <span className="form-tag" key={index}>
+                      {tag}
+                    </span>
+                  );
+                })
+              : "no tags entered."}{" "}
+          </div>
+
+          <div className="centering-container mt-4">
+            <button
+              id="enable-tags"
+              type="button"
+              className={enableTags ? "btn btn-secondary" : "btn btn-primary"}
+              onClick={handleEnableTags}
+              //disabled={enableTags ? true : false}
+            >
+              {enableTags ? "Cancel" : "Change tags"}
+            </button>
+          </div>
+          {enableTags
+            ? tagValues.map((tag, index) => {
+                return (
+                  <div className="form-check" key={index}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={tag}
+                      name="tags"
+                      value={tag}
+                      checked={checkedState[index]}
+                      onChange={() => handleOnChange(index)}
+                    ></input>
+                    <label htmlFor={tag}>{tag}</label>
+                  </div>
+                );
+              })
+            : ""}
+        </fieldset>
+        <div className="centering-container mt-4">
+          <button
+            id="cancel-button"
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleCancel}
+          >
+            Cancel edits
+          </button>
           <button
             type="submit"
             id="submit-button"
-            className="btn btn-primary mb-3"
+            className="btn btn-primary"
+            onSubmit={onSubmit}
           >
             Confirm edits
           </button>
         </div>
+        <div className="centering-container mt-4">
+          <button
+            type="button"
+            id="delete-button"
+            className="btn btn-danger"
+            onClick={() => setDel(true)}
+          >
+            Delete event
+          </button>
+        </div>
       </form>
-      <div className="centering-container">
-        <button
-          type="click"
-          id="delete-button"
-          className="btn btn-danger"
-          onClick={() => setDel(true)}
-        >
-          Delete event
-        </button>
-      </div>
     </div>
   );
 }

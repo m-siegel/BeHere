@@ -27,7 +27,7 @@ function EditEventPage({ isAuth }) {
       <div className="card">
         <div className="card-body">
           <h1>Edit your event</h1>
-          <EventForm setAlert={setAlert} setDel={setDel} />
+          <EventForm setAlert={setAlert} setDel={setDel} navigate={navigate} />
         </div>
       </div>
       <ConfirmDeleteComponent del={del} setDel={setDel} setAlert={setAlert} />

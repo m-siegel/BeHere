@@ -122,6 +122,9 @@ export async function updateEvent(eventObj) {
         $set: {
           name: eventObj.name,
           description: eventObj.description,
+          location: eventObj.location,
+          start: eventObj.start,
+          finish: eventObj.finish,
           tags: eventObj.tags,
         },
       }
@@ -366,6 +369,8 @@ export async function getOneEvent(eventId) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection.findOne({ _id: id });
+    res.start = res.start.substr(0, 16);
+    res.finish = res.finish.substr(0, 16);
     if (res) {
       return {
         success: true,

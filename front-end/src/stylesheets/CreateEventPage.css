@@ -20,6 +20,14 @@
   }
 }
 
+.CreateEventPage .Alert {
+  position: fixed;
+  top: 100px;
+  width: 70vw;
+  z-index: 2;
+  
+}
+
 
 
 

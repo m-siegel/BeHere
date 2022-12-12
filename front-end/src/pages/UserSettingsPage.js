@@ -62,7 +62,9 @@ function UserSettingsPage({ isAuth }) {
   return (
     <div className="UserSettingsPage">
       <BasePage>
-        <AlertComponent />
+        <div className="centering-container">
+          <AlertComponent />
+        </div>
         <div className="card card-body">
           <h1>Account Settings</h1>
           {/* <div className="container"> */}

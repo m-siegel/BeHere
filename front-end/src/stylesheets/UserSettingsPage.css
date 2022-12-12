@@ -4,6 +4,15 @@
   z-index: 1;
   position: sticky;
   top: 10vh;
+  width: 50%;
+  padding-bottom: 0;
+}
+
+.UserSettingsPage .centering-container {
+  z-index: 1;
+  position: sticky;
+  top: 10vh;
+  padding-bottom: 0;
 }
 
 .UserSettingsPage h1 {
@@ -15,6 +24,7 @@
   margin-bottom: 10px;
 }
 
+
 .UserSettingsPage .UserSettingsForm input {
   /* smallest phone setting on dev tools is 360 wide */
   min-width: 340px;
@@ -24,7 +34,6 @@
   margin: 1em;
   margin-top: .5em;
   margin-bottom: 2em;
-  
 }
 
 .UserSettingsPage .btn-delete {

@@ -21,8 +21,8 @@ function LoginPage({ isAuth }) {
   }, [isAuth, navigate]);
 
   return (
-    <BasePage>
-      <div className="loginPage">
+    <div className="LoginPage">
+      <BasePage>
         <div className="container">
           <h1 className="title">Welcome to BeHere</h1>
           <AlertComponent />
@@ -32,8 +32,8 @@ function LoginPage({ isAuth }) {
             </div>
           </div>
         </div>
-      </div>
-    </BasePage>
+      </BasePage>
+    </div>
   );
 }
 

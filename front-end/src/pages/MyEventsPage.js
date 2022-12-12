@@ -130,7 +130,7 @@ function MyEventsPage({ isAuth }) {
           <button
             id="btnMyEvents"
             className={
-              myEventDisplayed ? "btn btn-primary" : "btn btn-outline-primary"
+              myEventDisplayed ? "btn btn-focused" : "btn btn-not-focused"
             }
             onClick={displayMyEvents}
           >
@@ -139,7 +139,7 @@ function MyEventsPage({ isAuth }) {
           <button
             id="btnFollowing"
             className={
-              myEventDisplayed ? "btn btn-outline-primary" : "btn btn-primary"
+              myEventDisplayed ? "btn btn-not-focused" : "btn btn-focused"
             }
             onClick={displayFollowingEvents}
           >

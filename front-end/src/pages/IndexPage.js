@@ -2,7 +2,7 @@
 
 import "../stylesheets/IndexPage.css";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NotAuthBasePage from "../components/base-page-components/NotAuthBasePage.js";
 
 function IndexPage() {

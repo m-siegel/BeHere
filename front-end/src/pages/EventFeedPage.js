@@ -119,17 +119,17 @@ function EventFeedPage({ isAuth }) {
   // For filter
   const checkboxOptions = [
     "Active",
-    "Games",
-    "Food",
-    "Drink",
-    "Music/Entertainment",
-    "Outdoor",
     "Art/Craft",
-    "Learning",
-    "Tours/Exploration",
-    "Networking",
+    "Drink",
+    "Food",
+    "Games",
     "Hangout",
+    "Learning",
+    "Music/Entertainment",
+    "Networking",
+    "Outdoor",
     "Party",
+    "Tours/Exploration",
   ];
 
   function objFromOptions() {
@@ -140,10 +140,15 @@ function EventFeedPage({ isAuth }) {
     return obj;
   }
 
-  const [currentSelections, setSelections] = useState({
+  const [currentSelections, setSelectionsTest] = useState({
     // TODO: use map?
     tags: objFromOptions(),
   });
+
+  function setSelections(selObj) {
+    console.log("selections: ", selObj);
+    setSelectionsTest(selObj);
+  }
 
   // For pagination
 

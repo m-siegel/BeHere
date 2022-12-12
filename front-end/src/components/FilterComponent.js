@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FilterForm from "./FilterForm.js";
+import "../stylesheets/FilterComponent.css";
 
 /**
  * A button and an offcanvas that contains a FilterForm.

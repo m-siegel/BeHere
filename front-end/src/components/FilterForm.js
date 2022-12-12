@@ -22,7 +22,6 @@ function FilterForm({
   function toggleOption(opt, val) {
     const newObj = { ...currentSelections };
     newObj.tags[`${opt}`] = val;
-    setSelections(newObj);
   }
 
   function handleSubmit(evt) {
@@ -38,6 +37,7 @@ function FilterForm({
     for (const opt in newObj.tags) {
       newObj.tags[opt] = true;
     }
+    console.log("new obj: ", newObj);
     setSelections(newObj);
   }
 
@@ -46,6 +46,7 @@ function FilterForm({
     for (const opt in newObj.tags) {
       newObj.tags[opt] = false;
     }
+    console.log("new obj: ", newObj);
     setSelections(newObj);
   }
 
@@ -53,38 +54,50 @@ function FilterForm({
     <div className="FilterForm">
       <form className="form-check" id="filterForm" onSubmit={handleSubmit}>
         <section>
-          <h3>Tags</h3>
-          <div className="row">
-            <div className="col-auto">
-              <button className="btn btn-sm btn-grey" onClick={checkAll}>
-                Check All
-              </button>
+          <fieldset>
+            <legend>Choose tags to filter by</legend>
+            <div className="row">
+              <div className="col-auto">
+                <button
+                  className="btn btn-sm btn-grey"
+                  type="button"
+                  onClick={checkAll}
+                >
+                  Check All
+                </button>
+              </div>
+              <div className="col-auto">
+                <button
+                  className="btn btn-sm btn-grey"
+                  type="button"
+                  onClick={uncheckAll}
+                >
+                  Uncheck All
+                </button>
+              </div>
             </div>
-            <div className="col-auto">
-              <button className="btn btn-sm btn-grey" onClick={uncheckAll}>
-                Uncheck All
-              </button>
+            <div className="checkbox-holder">
+              {checkboxOptions.map((option) => (
+                <div key={option}>
+                  <input
+                    className="form-check-input"
+                    id={option}
+                    name="tag"
+                    type="checkbox"
+                    value={option}
+                    checked={currentSelections[option]}
+                    onChange={(evt) => toggleOption(option, evt.target.checked)}
+                  />
+                  <label className="form-check-label" htmlFor={option}>
+                    {option}
+                  </label>
+                </div>
+              ))}
             </div>
-          </div>
-          {checkboxOptions.map((option) => (
-            <div key={option}>
-              <input
-                className="form-check-input"
-                id={option}
-                name="tag"
-                type="checkbox"
-                value={option}
-                checked={currentSelections[option]}
-                onChange={(evt) => toggleOption(option, evt.target.checked)}
-              />
-              <label className="form-check-label" htmlFor={option}>
-                {option}
-              </label>
-            </div>
-          ))}
+          </fieldset>
         </section>
         <button
-          className="btn btn-action"
+          className="btn btn-action submit-button"
           type="submit"
           disabled={disableButtons}
         >

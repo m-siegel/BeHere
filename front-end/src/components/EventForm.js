@@ -8,7 +8,7 @@ import "../stylesheets/EventForm.css";
 /**
  * Form component for editing an event.
  */
-function EventForm({ setAlert, setDel, navigate }) {
+function EventForm({ setAlert, /*setDel,*/ navigate }) {
   const tagValues = [
     "active",
     "art/craft",
@@ -143,6 +143,32 @@ function EventForm({ setAlert, setDel, navigate }) {
 
   function handleCancel() {
     navigate("/my-events");
+  }
+
+  async function finalizeDelete(eventId) {
+    setAlert({
+      type: "info",
+      heading: "",
+      message: <div>Attempting to delete...</div>,
+    });
+    try {
+      const res = await fetch("/api/delete-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: eventId,
+        }),
+      });
+      const responseJson = await res.json();
+      alertUser(responseJson);
+      setTimeout(() => {
+        navigate("/my-events", { replace: true });
+      }, 2000);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
@@ -283,7 +309,7 @@ function EventForm({ setAlert, setDel, navigate }) {
           <button
             type="submit"
             id="submit-button"
-            className="btn btn-primary"
+            className="btn btn-action"
             onSubmit={onSubmit}
           >
             Confirm edits
@@ -292,21 +318,68 @@ function EventForm({ setAlert, setDel, navigate }) {
         <div className="centering-container mt-4">
           <button
             type="button"
+            className="btn btn-delete"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmation"
+          >
+            Delete Account
+          </button>
+          {/* <button
+            type="button"
             id="delete-button"
             className="btn btn-danger"
             onClick={() => setDel(true)}
           >
             Delete event
-          </button>
+          </button> */}
         </div>
       </form>
+      <div
+        className="modal fade"
+        id="deleteConfirmation"
+        tabIndex="-1"
+        aria-labelledby="deleteConfirmationLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              Are you sure you want to delete your account?
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-grey"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                data-bs-dismiss="modal"
+                className="btn btn-delete"
+                onClick={() => finalizeDelete(eventId)}
+              >
+                Delete Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 EventForm.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  setDel: PropTypes.func.isRequired,
+  //setDel: PropTypes.func.isRequired,
 };
 
 export default EventForm;

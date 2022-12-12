@@ -15,7 +15,6 @@ import IconPersonFilled from "../icon-components/IconPersonFilled.js";
 import IconGear from "../icon-components/IconGear.js";
 import IconLogoutArrow from "../icon-components/IconLogoutArrow.js";
 import IconOnClickButton from "./IconOnClickButton.js";
-import timeaColors from "../timeaColors.js";
 
 function Navbar() {
   const pathname = window.location.pathname;

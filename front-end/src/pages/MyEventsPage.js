@@ -7,6 +7,7 @@ import useAlert from "../hooks/useAlert.js";
 import "../stylesheets/MyEventsPage.css";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import EventDetailsModal from "../components/EventDetailsModal.js";
 
 function MyEventsPage({ isAuth }) {
   const [previews, setPreviews] = useState([]);
@@ -16,6 +17,10 @@ function MyEventsPage({ isAuth }) {
   const navigate = useNavigate();
 
   const [AlertComponent, setAlert] = useAlert();
+
+  // For event details modal
+  const [currentEventId, setCurrentEventId] = useState("");
+  const [currentEventPreview, setCurrentEventPreview] = useState({});
 
   const loadData = useCallback(async () => {
     let data;
@@ -156,6 +161,10 @@ function MyEventsPage({ isAuth }) {
                   onRSVP={handleRSVP}
                   onLike={handleLike}
                   className={`color-${i % 3}`}
+                  onClickDetails={() => {
+                    setCurrentEventId(p._id);
+                    setCurrentEventPreview(p);
+                  }}
                 ></EventPreview>
               </div>
             ))
@@ -168,6 +177,10 @@ function MyEventsPage({ isAuth }) {
             <div>Checking events...</div>
           )}
         </div>
+        <EventDetailsModal
+          eventPreview={currentEventPreview}
+          eventId={currentEventId}
+        ></EventDetailsModal>
       </BasePage>
     </div>
   );

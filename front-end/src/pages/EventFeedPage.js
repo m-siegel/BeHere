@@ -18,14 +18,14 @@ function EventFeedPage({ isAuth }) {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
-  // For modal
+  // For event details modal
   const [currentEventId, setCurrentEventId] = useState("");
   const [currentEventPreview, setCurrentEventPreview] = useState({});
 
   const [AlertComponent, setAlert] = useAlert();
 
   // Like and RSVP handlers (used by event previews)
-
+  // TODO: make these hooks to use on myEvents page, too
   async function handleRSVP(event, rsvp) {
     setAlert({
       type: "success",

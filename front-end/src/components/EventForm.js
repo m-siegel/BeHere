@@ -174,7 +174,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
   return (
     <div className="event-form">
       <form id="event-form" onSubmit={onSubmit}>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Name of event:{" "}
           </label>
@@ -188,7 +188,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="description" className="form-label">
             Description:{" "}
           </label>
@@ -204,7 +204,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             required
           ></textarea>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="location" className="form-label">
             Location:{" "}
           </label>
@@ -220,7 +220,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="start" className="form-label">
             Start time:{" "}
           </label>
@@ -236,7 +236,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="finish" className="form-label">
             End time:{" "}
           </label>
@@ -271,13 +271,18 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             <button
               id="enable-tags"
               type="button"
-              className={enableTags ? "btn btn-secondary" : "btn btn-primary"}
+              className={
+                enableTags ? "btn btn-secondary" : "btn btn-not-focused"
+              }
               onClick={handleEnableTags}
               //disabled={enableTags ? true : false}
             >
               {enableTags ? "Cancel" : "Change tags"}
             </button>
           </div>
+          <p className="mt-3">
+            {enableTags ? "Apply the following tag(s):" : ""}
+          </p>
           {enableTags
             ? tagValues.map((tag, index) => {
                 return (
@@ -322,7 +327,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
             data-bs-toggle="modal"
             data-bs-target="#deleteConfirmation"
           >
-            Delete Account
+            Delete event
           </button>
           {/* <button
             type="button"
@@ -352,7 +357,8 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
               ></button>
             </div>
             <div className="modal-body">
-              Are you sure you want to delete your account?
+              Are you sure you want to delete this event? <b>Note:</b> This
+              action cannot be undone.
             </div>
             <div className="modal-footer">
               <button
@@ -367,7 +373,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
                 className="btn btn-delete"
                 onClick={() => finalizeDelete(eventId)}
               >
-                Delete Account
+                Delete event
               </button>
             </div>
           </div>

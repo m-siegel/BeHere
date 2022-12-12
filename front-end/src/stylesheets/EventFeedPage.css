@@ -56,15 +56,3 @@
 .EventFeedPage .SearchFilterBar .btn-grey:hover {
   background-color: var(--timea-button-grey-darker);
 }
-
-/* .EventFeedPage .EventPreview.color-0 .card {
-  background-color: var(--timea-orange);
-}
-
-.EventFeedPage .EventPreview.color-1 .card {
-  background-color: var(--timea-blue);
-}
-
-.EventFeedPage .EventPreview.color-2 .card {
-  background-color: var(--timea-purple);
-} */

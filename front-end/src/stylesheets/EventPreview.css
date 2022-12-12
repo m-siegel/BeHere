@@ -49,10 +49,6 @@
   border: none;
 }
 
-.EventPreview .btn:hover {
-  color: red;
-}
-
 .EventPreview .rsvp-dropdown .btn.active {
   color: var(--timea-action-purple);
 }

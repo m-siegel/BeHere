@@ -1,7 +1,8 @@
 // BY Tim Crawley
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import "../stylesheets/EventForm.css";
 
 /**
@@ -118,6 +119,14 @@ function EventForm({ setAlert, setDel, navigate }) {
       setAlert({
         type: "success",
         heading: "Update successful!",
+        message: (
+          <div>
+            <p>
+              Head over to <Link to="/my-events">My Events</Link> to verify the
+              updated event.
+            </p>
+          </div>
+        ),
       });
     } else {
       setAlert({

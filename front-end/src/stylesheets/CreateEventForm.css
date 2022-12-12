@@ -43,6 +43,20 @@
   }
 }
 
+
+
+.create-event-form .btn-active {
+  background-color: var(--timea-action-purple);
+  color: var(--timea-background-white);
+}
+
+.create-event-form .btn .btn-active :hover {
+  background-color: var(--timea-action-purple-darker);
+  cursor: pointer;
+}
+
+
+
 .create-event-form input[type="checkbox"]:checked {
   background-color: var(--timea-action-purple);
 }

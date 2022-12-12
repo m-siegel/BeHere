@@ -199,7 +199,7 @@ function CreateEventForm({ setAlert, navigate }) {
             disabled={validForm ? false : true}
             type="submit"
             id="submit-button"
-            className="btn btn-primary"
+            className="btn btn-active"
           >
             Create Event
           </button>

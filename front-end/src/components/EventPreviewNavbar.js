@@ -27,6 +27,7 @@ function EventPreviewNavbar({
   rsvped,
   handleClickLike,
   handleClickRSVP,
+  handleClickDetails,
 }) {
   const [disableLike, setDisableLike] = useState(false);
   const [disableRSVP, setDisableRSVP] = useState(false);
@@ -70,12 +71,15 @@ function EventPreviewNavbar({
       {
         // Details button
       }
-      <IconLinkButton
-        className="col"
-        icon={<IconThreeDots />}
-        descriptionText="Details"
-        linkPath={`/event/${eventId}`}
-      ></IconLinkButton>
+      <div className="col">
+        <IconOnClickButton
+          icon={<IconThreeDots />}
+          descriptionText="Details"
+          data-bs-toggle="modal"
+          data-bs-target="#eventDetailsModal"
+          onClick={handleClickDetails}
+        ></IconOnClickButton>
+      </div>
 
       {
         // Like button
@@ -170,6 +174,7 @@ EventPreviewNavbar.propTypes = {
   handleClickRSVP: PropTypes.func.isRequired,
   likes: PropTypes.arrayOf(PropTypes.string),
   rsvped: PropTypes.string,
+  handleClickDetails: PropTypes.func.isRequired,
 };
 
 export default EventPreviewNavbar;

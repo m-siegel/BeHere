@@ -9,7 +9,14 @@ import EventPreviewNavbar from "./EventPreviewNavbar.js";
 /**
  * Displays a preview of information for an event. Enables interaction with the event.
  */
-function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
+function EventPreview({
+  previewObject,
+  userId,
+  onRSVP,
+  onLike,
+  className,
+  onClickDetails,
+}) {
   const info = previewObject;
   let rsvped = previewObject.rsvps?.find(
     (elem) => elem.userId === userId
@@ -44,6 +51,7 @@ function EventPreview({ previewObject, userId, onRSVP, onLike, className }) {
               rsvped={rsvped}
               handleClickLike={handleClickLike}
               handleClickRSVP={handleClickRSVP}
+              handleClickDetails={onClickDetails}
             />
           </div>
         </div>
@@ -58,6 +66,7 @@ EventPreview.propTypes = {
   onRSVP: PropTypes.func.isRequired,
   onLike: PropTypes.func.isRequired,
   className: PropTypes.string,
+  onClickDetails: PropTypes.func.isRequired,
 };
 
 export default EventPreview;

@@ -7,6 +7,7 @@ import EventPreview from "../components/EventPreview.js";
 import useAlert from "../hooks/useAlert.js";
 import SearchFilterBar from "../components/SearchFilterBar.js";
 import PaginationComponent from "../components/PaginationComponent.js";
+import EventDetailsModal from "../components/EventDetailsModal.js";
 import "../stylesheets/EventFeedPage.css";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,10 @@ function EventFeedPage({ isAuth }) {
   const [previews, setPreviews] = useState([]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
+
+  // For modal
+  const [currentEventId, setCurrentEventId] = useState("");
+  const [currentEventPreview, setCurrentEventPreview] = useState({});
 
   const [AlertComponent, setAlert] = useAlert();
 
@@ -250,6 +255,7 @@ function EventFeedPage({ isAuth }) {
     <div className="EventFeedPage">
       <BasePage>
         <h1>Upcoming Events</h1>
+
         <SearchFilterBar
           categoriesArray={categoriesArray}
           searchTerm={searchTerm}
@@ -262,6 +268,7 @@ function EventFeedPage({ isAuth }) {
           handleSearchOrFilter={find}
           disableButtons={!doneSearch}
         />
+
         <PaginationComponent
           currPage={currPage}
           setPage={setPage}
@@ -269,7 +276,12 @@ function EventFeedPage({ isAuth }) {
           totalResults={totalResults}
           disableButtons={!doneSearch}
         />
+
         <AlertComponent />
+
+        {
+          // TODO: make this its own component
+        }
         <div className="row previews-row">
           {previews.length ? (
             previews.map((p, i) => (
@@ -280,6 +292,10 @@ function EventFeedPage({ isAuth }) {
                   onRSVP={handleRSVP}
                   onLike={handleLike}
                   className={`color-${i % 3}`}
+                  onClickDetails={() => {
+                    setCurrentEventId(p._id);
+                    setCurrentEventPreview(p);
+                  }}
                 ></EventPreview>
               </div>
             ))
@@ -292,6 +308,11 @@ function EventFeedPage({ isAuth }) {
             <div className="dbMessage">Checking events...</div>
           )}
         </div>
+
+        <EventDetailsModal
+          eventPreview={currentEventPreview}
+          eventId={currentEventId}
+        ></EventDetailsModal>
       </BasePage>
     </div>
   );

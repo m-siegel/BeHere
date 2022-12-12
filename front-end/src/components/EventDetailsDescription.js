@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
  */
 function EventDetailsDescription({ description, tags }) {
   return (
-    <div className="EventDetailsDescription">
+    <div className="EventDetailsDescription" id="eventDetailsDescription">
       {/* <div className="card-body"> */}
       <p>{description ? description : <i>{"No description to display"}</i>}</p>
       <hr />

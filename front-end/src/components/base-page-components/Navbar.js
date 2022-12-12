@@ -15,6 +15,7 @@ import IconPersonFilled from "../icon-components/IconPersonFilled.js";
 import IconGear from "../icon-components/IconGear.js";
 import IconLogoutArrow from "../icon-components/IconLogoutArrow.js";
 import IconOnClickButton from "./IconOnClickButton.js";
+import timeaColors from "../timeaColors.js";
 
 function Navbar() {
   const pathname = window.location.pathname;
@@ -45,12 +46,14 @@ function Navbar() {
     <nav className="row text-center Navbar">
       <IconLinkButton
         className={
-          pathname === "/event-feed" ? "nav-a col active" : "nav-a col"
+          pathname === "/event-feed"
+            ? "nav-a col timea-active css-activatable"
+            : "nav-a col"
         }
         aria-current="page"
         icon={
           pathname === "/event-feed" ? (
-            <IconHouseFilled color="blue" />
+            <IconHouseFilled />
           ) : (
             <IconHouseOutline />
           )
@@ -61,11 +64,13 @@ function Navbar() {
 
       <IconLinkButton
         className={
-          pathname === "/create-event" ? "nav-a col active" : "nav-a col"
+          pathname === "/create-event"
+            ? "nav-a col timea-active css-activatable"
+            : "nav-a col"
         }
         icon={
           pathname === "/create-event" ? (
-            <IconPlusSquareFilled color="blue" />
+            <IconPlusSquareFilled />
           ) : (
             <IconPlusSquareOutline />
           )
@@ -75,10 +80,14 @@ function Navbar() {
       ></IconLinkButton>
 
       <IconLinkButton
-        className={pathname === "/my-events" ? "nav-a col active" : "nav-a col"}
+        className={
+          pathname === "/my-events"
+            ? "nav-a col timea-active css-activatable"
+            : "nav-a col"
+        }
         icon={
           pathname === "/my-events" ? (
-            <IconCalendarWeekFilled color="blue" />
+            <IconCalendarWeekFilled />
           ) : (
             <IconCalendarWeekOutline />
           )
@@ -88,10 +97,12 @@ function Navbar() {
       ></IconLinkButton>
 
       <IconButtonDropdown
-        className={pathname === "/account-settings" ? "col active" : "col"}
+        className={
+          pathname === "/account-settings" ? "col timea-active" : "col"
+        }
         icon={
           pathname === "/account-settings" ? (
-            <IconPersonFilled color="blue" />
+            <IconPersonFilled />
           ) : (
             <IconPersonOutline />
           )
@@ -99,16 +110,12 @@ function Navbar() {
         descriptionText="Me"
         dropdownMenu={[
           <IconOnClickButton
-            className="dropdown-item"
+            className={`dropdown-item ${
+              pathname === "/account-settings" ? "timea-active" : ""
+            }`}
             // https://atomizedobjects.com/blog/react/how-to-redirect-in-reactjs/
             onClick={() => navigate("/account-settings", { replace: true })}
-            icon={
-              pathname === "/account-settings" ? (
-                <IconGear color="blue" />
-              ) : (
-                <IconGear />
-              )
-            }
+            icon={<IconGear />}
             descriptionText={" Account Settings"}
             inline={true}
           ></IconOnClickButton>,

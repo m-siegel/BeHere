@@ -28,6 +28,10 @@
   border-bottom: 2px solid var(--timea-background-purple);
 }
 
+.BasePage .Navbar .css-activatable * {
+  color: var(--timea-action-purple);
+}
+
 .BasePage header {
    /* sticky navbar */
    position: sticky;
@@ -36,7 +40,20 @@
 }
 
 .BasePage .Navbar .col:hover {
-  background-color: var(--timea-background-purple);
+  background-color: var(--timea-action-purple);
+}
+
+.BasePage .Navbar .col:hover * :not(.dropdown-menu *) {
+  color: var(--timea-background-white);
+}
+
+.BasePage .Navbar .dropdown-item:hover {
+  background-color: var(--timea-action-purple);
+  color: var(--timea-background-white)
+}
+
+.BasePage .Navbar .timea-active * {
+  color: var(--timea-action-purple);
 }
 
 .BasePage .Footer {
@@ -57,10 +74,6 @@
 .BasePage .Navbar .IconButton .Icon {
   width: 1.5em;
   height: 1.5em;
-}
-
-.BasePage .Navbar .IconButton:hover:not(.active) {
-  color: red
 }
 
 .BasePage .Navbar .dropdown-item .Icon {

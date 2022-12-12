@@ -1,3 +1,5 @@
+/* Ilana-Mahmea */
+
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import EventDetailsComponent from "./EventDetailsComponent.js";

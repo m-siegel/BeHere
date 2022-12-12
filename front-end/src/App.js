@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyEventsPage from "./pages/MyEventsPage.js";
 import EditEventPage from "./pages/EditEventPage.js";
 import ErrorPage from "./pages/ErrorPage.js";
-import EventDetailsPage from "./pages/EventDetailsPage.js";
 import EventFeedPage from "./pages/EventFeedPage.js";
 import IndexPage from "./pages/IndexPage.js";
 import LoginPage from "./pages/LoginPage.js";
@@ -46,10 +45,6 @@ function App() {
     {
       path: "/my-events",
       element: <MyEventsPage isAuth={isAuth}></MyEventsPage>,
-    },
-    {
-      path: "/event/:id",
-      element: <EventDetailsPage isAuth={isAuth}></EventDetailsPage>,
     },
     {
       path: "/create-event",

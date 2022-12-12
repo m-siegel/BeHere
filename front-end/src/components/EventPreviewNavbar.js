@@ -67,7 +67,11 @@ function EventPreviewNavbar({
   }
 
   return (
-    <nav className="row">
+    <div className="row">
+      {
+        // Must be div not nav because there's already a nav
+        // landmark with the navbar and all landmarks must be unique.
+      }
       {
         // Details button
       }
@@ -162,7 +166,7 @@ function EventPreviewNavbar({
           ></IconLinkButton>
         )
       }
-    </nav>
+    </div>
   );
 }
 

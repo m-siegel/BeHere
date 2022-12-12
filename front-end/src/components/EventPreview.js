@@ -35,7 +35,7 @@ function EventPreview({
     <div className={`EventPreview ${className}`}>
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title">{info.name}</h4>
+          <h2 className="card-title">{info.name}</h2>
           <div className="card-text">
             <EventPreviewText
               start={info.start}

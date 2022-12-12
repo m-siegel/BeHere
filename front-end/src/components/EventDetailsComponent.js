@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* Ilana-Mahmea */
+
 import PropTypes from "prop-types";
 import EventDetailsLikesRsvps from "./EventDetailsLikesRsvps.js";
 import EventDetailsLocationTime from "./EventDetailsLocationTime.js";

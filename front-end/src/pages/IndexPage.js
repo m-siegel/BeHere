@@ -10,15 +10,7 @@ function IndexPage() {
 
   return (
     <main className="IndexPage">
-      <NotAuthBasePage
-        image={
-          <img
-            src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
-            // TODO: change alt
-            alt="Three people riding mountain bikes through bright green grass and trees."
-          ></img>
-        }
-      >
+      <NotAuthBasePage>
         <div className="row title-row">
           <h1>B🐝 Here!</h1>
         </div>

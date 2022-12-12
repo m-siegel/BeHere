@@ -13,7 +13,7 @@ import IconStarOutline from "./icon-components/IconStarOutline.js";
 import IconThreeDots from "./icon-components/IconThreeDots.js";
 import IconPencilOutline from "./icon-components/IconPencilOutline.js";
 
-import timeaColors from "./timeaColors.js";
+import timeaColors from "../util/timeaColors.js";
 
 /**
  * Enables rsvp and like actions and can link to edit and details pages for an event.

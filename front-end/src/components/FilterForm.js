@@ -22,6 +22,7 @@ function FilterForm({
   function toggleOption(opt, val) {
     const newObj = { ...currentSelections };
     newObj.tags[`${opt}`] = val;
+    setSelections(newObj);
   }
 
   function handleSubmit(evt) {
@@ -37,7 +38,6 @@ function FilterForm({
     for (const opt in newObj.tags) {
       newObj.tags[opt] = true;
     }
-    console.log("new obj: ", newObj);
     setSelections(newObj);
   }
 
@@ -46,7 +46,6 @@ function FilterForm({
     for (const opt in newObj.tags) {
       newObj.tags[opt] = false;
     }
-    console.log("new obj: ", newObj);
     setSelections(newObj);
   }
 
@@ -85,7 +84,7 @@ function FilterForm({
                     name="tag"
                     type="checkbox"
                     value={option}
-                    checked={currentSelections[option]}
+                    checked={currentSelections.tags[option]}
                     onChange={(evt) => toggleOption(option, evt.target.checked)}
                   />
                   <label className="form-check-label" htmlFor={option}>

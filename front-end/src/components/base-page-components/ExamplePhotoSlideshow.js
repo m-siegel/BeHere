@@ -1,13 +1,13 @@
+/* Ilana-Mahmea */
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import photoDataArray from "../../util/exampleImagesData.js";
 
 function ExamplePhotoSlideshow() {
   const [currIndex, setCurrIndex] = useState(0);
-  // const [currImageData, setCurrImageData] = useState({});
 
   useEffect(() => {
-    // setCurrImageData(photoDataArray[currIndex]);
     const timeoutId = setTimeout(
       () => setCurrIndex((currIndex + 1) % photoDataArray.length),
       4000

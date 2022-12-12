@@ -208,7 +208,7 @@ function CreateEventForm({ setAlert, navigate }) {
           <button
             id="cancel-button"
             className="btn btn-secondary"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/my-events")}
           >
             Cancel
           </button>

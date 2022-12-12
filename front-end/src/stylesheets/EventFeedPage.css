@@ -18,6 +18,17 @@
   background-color: var(--timea-background-white);
 }
 
+/* .EventFeedPage .PaginationComponent {
+  position: sticky;
+  background-color: var(--timea-background-purple);
+  z-index: 1;
+  top: 10vh; 
+} */
+
+.EventFeedPage .previews-row {
+  margin-bottom: 30px;
+}
+
 .EventFeedPage .SearchFilterBar {
   background-color: var(--timea-background-white);
   border-top: 1px solid var(--timea-background-purple);

@@ -265,7 +265,7 @@ function EventFeedPage({ isAuth }) {
           disableButtons={!doneSearch}
         />
         <AlertComponent />
-        <div className="row">
+        <div className="row previews-row">
           {previews.length ? (
             previews.map((p, i) => (
               <div className="col" key={p._id}>

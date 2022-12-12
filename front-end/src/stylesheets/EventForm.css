@@ -84,3 +84,11 @@
 .event-form #cancel-button {
   margin-right: 20px;
 }
+
+/* .event-form input[type="checkbox"] {
+  background-color: var(--timea-background-purple);
+} */
+
+.event-form input[type="checkbox"]:checked {
+  background-color: var(--timea-action-purple);
+}

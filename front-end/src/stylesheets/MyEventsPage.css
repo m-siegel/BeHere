@@ -6,3 +6,65 @@
 .MyEventsPage .EventPreview .card {
   background-color: var(--timea-background-white);
 }
+
+.MyEventsPage .btn-focused {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.MyEventsPage .btn-not-focused {
+  background-color: var(--timea-background-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-action-purple);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+
+.MyEventsPage .btn-not-focused:hover {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.MyEventsPage .btn-focused {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.MyEventsPage .btn-not-focused {
+  background-color: var(--timea-background-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-action-purple);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+
+.MyEventsPage .btn-not-focused:hover {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}

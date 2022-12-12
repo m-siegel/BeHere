@@ -1,19 +1,94 @@
-#event-form input {
+/* .event-form input {
  margin-bottom: 15px;
 }
 
-#event-form textarea {
+.event-form textarea {
   margin-bottom: 15px;
+} */
+
+@media (max-width:499px) {
+  .event-form textarea {
+    width: 280px;
+    margin-bottom: 15px;
+  }
+  
+  .event-form input[type="text"] {
+    width: 280px;
+  }
+
+  .event-form input[type="datetime-local"] {
+    width: 280px;
+  }
+}
+
+@media (max-width:390px) {
+  .event-form textarea {
+    width: 220px;
+    margin-bottom: 15px;
+  }
+  
+  .event-form input[type="text"] {
+    width: 220px;
+  }
+
+  .event-form input[type="datetime-local"] {
+    width: 220px;
+  }
+}
+
+@media (min-width:500px) {
+  .event-form textarea {
+    width: 340px;
+    margin-bottom: 15px;
+  }
+  
+  .event-form input[type="text"] {
+    width: 340px;
+  }
+
+  .event-form input[type="datetime-local"] {
+    width: 340px;
+  }
+}
+
+.event-form .btn-not-focused {
+  background-color: var(--timea-background-white);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-action-purple);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+
+.event-form .btn-not-focused:hover {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
 }
 
 .event-form .form-tag {
-  border: 1px solid black;
+  border: 2px solid var(--timea-action-purple);
+  background-color: var(--timea-action-purple);
+  color: var(--timea-background-white);
   border-radius: 5px;
-  border-style: ridge;
-  padding: 1px;
+  padding: 2px;
   margin: 2px
 }
 
 .event-form #cancel-button {
   margin-right: 20px;
+}
+
+/* .event-form input[type="checkbox"] {
+  background-color: var(--timea-background-purple);
+} */
+
+.event-form input[type="checkbox"]:checked {
+  background-color: var(--timea-action-purple);
 }

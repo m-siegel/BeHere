@@ -428,7 +428,20 @@ export async function getUserFollowedEventPreviews(id) {
     const res = await collection
       .find(
         {
-          $or: [{ rsvpYes: id }, { rsvpMaybe: id }],
+          $or: [
+            {
+              rsvps: {
+                userId: id,
+                status: "Yes",
+              },
+            },
+            {
+              rsvps: {
+                userId: id,
+                status: "Maybe",
+              },
+            },
+          ],
         },
         {
           _id: 1,

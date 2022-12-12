@@ -37,13 +37,9 @@ function LoginForm({ setAlert }) {
       navigate("/event-feed", { replace: true });
     } else {
       setAlert({
-        type: "failure",
+        type: "warning",
         heading: "Try again",
-        message: (
-          <div>
-            <p>Incorrect credentials. Please try again.</p>
-          </div>
-        ),
+        message: <p>Incorrect credentials. Please try again.</p>,
       });
       setContactEmail("");
       setPassword("");

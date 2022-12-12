@@ -1,13 +1,14 @@
 // BY Tim Crawley
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import "../stylesheets/EventForm.css";
 
 /**
  * Form component for editing an event.
  */
-function EventForm({ setAlert, setDel, navigate }) {
+function EventForm({ setAlert, /*setDel,*/ navigate }) {
   const tagValues = [
     "active",
     "art/craft",
@@ -118,6 +119,14 @@ function EventForm({ setAlert, setDel, navigate }) {
       setAlert({
         type: "success",
         heading: "Update successful!",
+        message: (
+          <div>
+            <p>
+              Head over to <Link to="/my-events">My Events</Link> to verify the
+              updated event.
+            </p>
+          </div>
+        ),
       });
     } else {
       setAlert({
@@ -136,10 +145,36 @@ function EventForm({ setAlert, setDel, navigate }) {
     navigate("/my-events");
   }
 
+  async function finalizeDelete(eventId) {
+    setAlert({
+      type: "info",
+      heading: "",
+      message: <div>Attempting to delete...</div>,
+    });
+    try {
+      const res = await fetch("/api/delete-event", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: eventId,
+        }),
+      });
+      const responseJson = await res.json();
+      alertUser(responseJson);
+      setTimeout(() => {
+        navigate("/my-events", { replace: true });
+      }, 2000);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
     <div className="event-form">
       <form id="event-form" onSubmit={onSubmit}>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Name of event:{" "}
           </label>
@@ -153,7 +188,7 @@ function EventForm({ setAlert, setDel, navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="description" className="form-label">
             Description:{" "}
           </label>
@@ -169,7 +204,7 @@ function EventForm({ setAlert, setDel, navigate }) {
             required
           ></textarea>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="location" className="form-label">
             Location:{" "}
           </label>
@@ -185,7 +220,7 @@ function EventForm({ setAlert, setDel, navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="start" className="form-label">
             Start time:{" "}
           </label>
@@ -201,7 +236,7 @@ function EventForm({ setAlert, setDel, navigate }) {
             required
           ></input>
         </div>
-        <div className="row">
+        <div className="mb-3">
           <label htmlFor="finish" className="form-label">
             End time:{" "}
           </label>
@@ -236,13 +271,18 @@ function EventForm({ setAlert, setDel, navigate }) {
             <button
               id="enable-tags"
               type="button"
-              className={enableTags ? "btn btn-secondary" : "btn btn-primary"}
+              className={
+                enableTags ? "btn btn-secondary" : "btn btn-not-focused"
+              }
               onClick={handleEnableTags}
               //disabled={enableTags ? true : false}
             >
               {enableTags ? "Cancel" : "Change tags"}
             </button>
           </div>
+          <p className="mt-3">
+            {enableTags ? "Apply the following tag(s):" : ""}
+          </p>
           {enableTags
             ? tagValues.map((tag, index) => {
                 return (
@@ -274,7 +314,7 @@ function EventForm({ setAlert, setDel, navigate }) {
           <button
             type="submit"
             id="submit-button"
-            className="btn btn-primary"
+            className="btn btn-action"
             onSubmit={onSubmit}
           >
             Confirm edits
@@ -283,21 +323,69 @@ function EventForm({ setAlert, setDel, navigate }) {
         <div className="centering-container mt-4">
           <button
             type="button"
+            className="btn btn-delete"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteConfirmation"
+          >
+            Delete event
+          </button>
+          {/* <button
+            type="button"
             id="delete-button"
             className="btn btn-danger"
             onClick={() => setDel(true)}
           >
             Delete event
-          </button>
+          </button> */}
         </div>
       </form>
+      <div
+        className="modal fade"
+        id="deleteConfirmation"
+        tabIndex="-1"
+        aria-labelledby="deleteConfirmationLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              Are you sure you want to delete this event? <b>Note:</b> This
+              action cannot be undone.
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-grey"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                data-bs-dismiss="modal"
+                className="btn btn-delete"
+                onClick={() => finalizeDelete(eventId)}
+              >
+                Delete event
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 EventForm.propTypes = {
   setAlert: PropTypes.func.isRequired,
-  setDel: PropTypes.func.isRequired,
+  //setDel: PropTypes.func.isRequired,
 };
 
 export default EventForm;

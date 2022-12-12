@@ -1,7 +1,63 @@
+@media (max-width:499px) {
+  .EditEventPage .card {
+    width: 340px;
+    align-items: center;
+    margin-top: 20px;
+  }
+}
+@media (max-width:390px) {
+  .EditEventPage .card {
+    width: 270px;
+    align-items: center;
+    margin-top: 20px;
+  }
+}
+@media (min-width:500px) {
+  .EditEventPage .card {
+    width: 450px;
+    align-items: center;
+    margin-top: 20px;
+  }
+}
+
 .EditEventPage .Alert {
   position: fixed;
   top: 100px;
   width: 70vw;
   z-index: 2;
   
+}
+
+.EditEventPage .btn-delete {
+  background-color: var(--timea-button-red);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .btn-delete:hover {
+  background-color: var(--timea-button-red-darker);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .btn-action {
+  background-color: var(--timea-action-purple);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .btn-action:hover {
+  background-color: var(--timea-action-purple-darker);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .btn-grey {
+  background-color: var(--timea-button-grey);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .btn-grey:hover {
+  background-color: var(--timea-button-grey-darker);
+  color: var(--timea-background-white);
+}
+
+.EditEventPage .modal {
+color: var(--timea-dark-brown)
 }

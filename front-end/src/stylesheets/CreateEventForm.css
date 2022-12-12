@@ -42,3 +42,7 @@
     width: 340px;
   }
 }
+
+.create-event-form input[type="checkbox"]:checked {
+  background-color: var(--timea-action-purple);
+}

@@ -2,21 +2,22 @@
   .EditEventPage .card {
     width: 340px;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px auto;
+
   }
 }
 @media (max-width:390px) {
   .EditEventPage .card {
     width: 270px;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px auto;
   }
 }
 @media (min-width:500px) {
   .EditEventPage .card {
     width: 450px;
     align-items: center;
-    margin-top: 20px;
+    margin: 20px auto;
   }
 }
 

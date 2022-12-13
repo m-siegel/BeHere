@@ -359,7 +359,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body" id="deleteConfirmationLabel">
               Are you sure you want to delete this event? <b>Note:</b> This
               action cannot be undone.
             </div>

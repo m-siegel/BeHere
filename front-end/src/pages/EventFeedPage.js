@@ -16,6 +16,7 @@ import useRSVPHandler from "../hooks/useRSVPHandler.js";
 function EventFeedPage({ isAuth }) {
   // For loading previews
   const [doneSearch, setDoneSearch] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [previews, setPreviews] = useState(() => {
     const arr = [];
     for (let i = 0; i < 12; i++) {
@@ -118,7 +119,7 @@ function EventFeedPage({ isAuth }) {
   // Loading
 
   function find() {
-    setDoneSearch(false);
+    setLoading(true);
     setFindQuery({
       searchBy: {
         searchTerm: searchTerm,
@@ -137,6 +138,7 @@ function EventFeedPage({ isAuth }) {
 
   const loadEventPreviews = useCallback(
     async (query) => {
+      setDoneSearch(false);
       const res = await (
         await fetch("/api/feed/getEventPreviews", {
           method: "POST",
@@ -157,6 +159,7 @@ function EventFeedPage({ isAuth }) {
         setTotalResults(0);
       }
       setDoneSearch(true);
+      setLoading(false);
     },
     [currPage, resultsPerPage]
   );
@@ -251,7 +254,7 @@ function EventFeedPage({ isAuth }) {
                     setCurrentEventId(p._id);
                     setCurrentEventPreview(p);
                   }}
-                  loading={!doneSearch}
+                  loading={loading}
                 ></EventPreview>
               </div>
             ))

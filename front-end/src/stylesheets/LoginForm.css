@@ -15,6 +15,11 @@ div.card-body>h2 {
     font-family: var(--timea-heading-font);
 }
 
+.LoginPage :focus {
+    border: 1px solid var(--timea-background-white);
+    outline: 4px solid var(--timea-action-purple);
+  }
+
 .LoginPage .btn-focused {
   background-color: var(--timea-action-purple);
   border-color: var(--timea-action-purple);

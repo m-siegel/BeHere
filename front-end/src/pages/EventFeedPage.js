@@ -10,6 +10,8 @@ import PaginationComponent from "../components/PaginationComponent.js";
 import EventDetailsModal from "../components/EventDetailsModal.js";
 import "../stylesheets/EventFeedPage.css";
 import { useNavigate } from "react-router-dom";
+import useLikeHandler from "../hooks/useLikeHandler.js";
+import useRSVPHandler from "../hooks/useRSVPHandler.js";
 
 function EventFeedPage({ isAuth }) {
   // For loading previews
@@ -31,73 +33,19 @@ function EventFeedPage({ isAuth }) {
   const [AlertComponent, setAlert] = useAlert();
 
   // Like and RSVP handlers (used by event previews)
-  // TODO: make these hooks to use on myEvents page, too
-  async function handleRSVP(event, rsvp) {
-    setAlert({
-      type: "success",
-      message: "💌 RSVPing...",
-    });
-    setTimeout(() => {
-      setAlert({
-        message: "",
-      });
-    }, 2000);
-    try {
-      const res = await fetch("/rsvp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: event, rsvpStatus: rsvp }),
-      });
-      if (res.err) {
-        setAlert({
-          type: "warning",
-          message: "Error RSVPing. Please try again later.",
-        });
-      } else {
-        // Load with new rsvps
-        // TODO: something about this is whacky with the time filtering
-        // TODO: maybe just change the like instead of reloading everything (return something from here for update preview)
-        await loadEventPreviews(findQuery);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  const handleRSVP = useRSVPHandler({
+    setAlert,
+    doIfSuccessful: async () => {
+      await loadEventPreviews(findQuery);
+    },
+  });
 
-  async function handleLike(eventId) {
-    setAlert({
-      type: "success",
-      message: "Updating like...",
-    });
-    setTimeout(() => {
-      setAlert({
-        message: "",
-      });
-    }, 2000);
-    try {
-      const res = await fetch("/toggleLike", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId: eventId }),
-      });
-      if (res.err) {
-        setAlert({
-          type: "warning",
-          message: "Error toggling 'like'. Please try again later.",
-        });
-        return;
-      } else {
-        await loadEventPreviews(findQuery);
-        return;
-      }
-    } catch (e) {
-      console.error(e);
-      setAlert({
-        type: "warning",
-        message: "Error toggling 'like'. Please try again later.",
-      });
-    }
-  }
+  const handleLike = useLikeHandler({
+    setAlert,
+    doIfSuccessful: async () => {
+      await loadEventPreviews(findQuery);
+    },
+  });
 
   // For search/filter
 

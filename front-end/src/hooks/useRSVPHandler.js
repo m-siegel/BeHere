@@ -1,10 +1,9 @@
 /* Ilana-Mahmea */
 
-import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * Hook allows for easy rsvp/like action.
+ * Hook allows for easy rsvp action.
  */
 function useRSVPHandler({ setAlert, doIfSuccessful }) {
   async function handleRSVP(event, rsvp) {

@@ -1,11 +1,15 @@
 /* Ilana-Mahmea */
 
+.FilterComponent h2 {
+  margin-left: .7em;
+}
+
 .FilterComponent .FilterForm .checkbox-holder {
   margin-left: 1.5em;
 }
 
-.FilterComponent h2 {
-  margin-left: .7em;
+.FilterComponent .FilterForm input[type="checkbox"]:checked {
+  background-color: var(--timea-action-purple);
 }
 
 .FilterComponent .FilterForm .submit-button {

@@ -7,26 +7,32 @@ import "../../stylesheets/IconButtonDropdown.css";
 /**
  * Returns a dropdown button with the specified icon and text that controls a dropdown menu of the given items.
  */
-function IconButtonDropdown(props) {
+function IconButtonDropdown({
+  className,
+  icon,
+  disabled,
+  descriptionText,
+  dropdownMenu,
+  buttonOptions,
+}) {
   return (
-    <div
-      className={`IconButton IconButtonDropdown dropdown-center col ${props.className}`}
-    >
-      <div data-bs-toggle="dropdown" disabled={props.disabled}>
+    <div className={`IconButton IconButtonDropdown dropdown-center col`}>
+      <div data-bs-toggle="dropdown" disabled={disabled}>
         <button
-          className="btn col"
+          className={`btn col ${className}`}
           type="button"
           aria-expanded="false"
-          disabled={props.disabled}
+          disabled={disabled}
+          {...buttonOptions}
         >
-          {props.icon}
+          {icon}
           <p>
-            <small className="timea-text-muted">{props.descriptionText}</small>
+            <small className="timea-text-muted">{descriptionText}</small>
           </p>
         </button>
 
         <ul className="dropdown-menu">
-          {props.dropdownMenu.map((d, i) => (
+          {dropdownMenu.map((d, i) => (
             <li key={i}>{d}</li>
           ))}
         </ul>
@@ -40,6 +46,8 @@ IconButtonDropdown.propTypes = {
   icon: PropTypes.element.isRequired,
   descriptionText: PropTypes.string.isRequired,
   dropdownMenu: PropTypes.arrayOf(PropTypes.element),
+  disabled: PropTypes.bool,
+  buttonOptions: PropTypes.object,
 };
 
 export default IconButtonDropdown;

@@ -8,6 +8,15 @@
   position: sticky;
   top: 15vh;
   z-index: 2;
+  width: 50%;
+  padding-bottom: 0;
+}
+
+.EventFeedPage .centering-container {
+  z-index: 1;
+  position: sticky;
+  top: 10vh;
+  padding-bottom: 0;
 }
 
 .EventFeedPage .dbMessage {
@@ -56,15 +65,3 @@
 .EventFeedPage .SearchFilterBar .btn-grey:hover {
   background-color: var(--timea-button-grey-darker);
 }
-
-/* .EventFeedPage .EventPreview.color-0 .card {
-  background-color: var(--timea-orange);
-}
-
-.EventFeedPage .EventPreview.color-1 .card {
-  background-color: var(--timea-blue);
-}
-
-.EventFeedPage .EventPreview.color-2 .card {
-  background-color: var(--timea-purple);
-} */

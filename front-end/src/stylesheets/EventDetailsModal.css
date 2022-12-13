@@ -1,0 +1,115 @@
+/* Ilana-Mahmea */
+
+@import "../stylesheets/timeaVariables.css";
+
+/* .EventDetailsModal {
+  min-width: 90vw;
+} */
+
+.EventDetailsModal .modal-content {
+  background-color: var(--timea-background-purple);
+}
+
+.EventDetailsModal .row {
+  padding: 10px;
+}
+
+.EventDetailsModal .modal-header {
+  padding-bottom: 0;
+}
+
+.EventDetailsModal h1 {
+  margin-left: .25em;
+}
+
+.EventDetailsModal .modal-body {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.EventDetailsModal .btn-grey {
+  background-color: var(--timea-button-grey);
+  color: var(--timea-background-white);
+}
+
+.EventDetailsModal .btn-grey:hover {
+  background-color: var(--timea-button-grey-darker);
+  color: var(--timea-background-white);
+}
+
+/* EventDetailsDescription styling */
+
+.EventDetailsModal .EventDetailsDescription {
+  background-color: var(--timea-background-white);
+  margin-right: 1em;
+}
+
+.EventDetailsModal .EventDetailsDescription .descriptionHolder {
+  height: max(150px, 25vh);
+  overflow: scroll;
+  padding: 1em;
+}
+
+.EventDetailsModal .EventDetailsDescription .tags-list {
+  height: 2.5em;
+  overflow: scroll;
+  padding: 1em;
+  padding-top: 0;
+}
+
+.EventDetailsModal .EventDetailsDescription .tags-list li {
+  display: inline;
+  padding: .2em .4em;
+  margin: .5em;
+  border-radius: 20px;
+  background-color: var(--timea-background-purple);
+}
+
+
+/* EventDetailsLikesRsvps styling */
+
+.EventDetailsModal .EventDetailsLikesRsvps {
+  display: block;
+  height: max(150px, 25vh);
+  overflow: scroll;
+}
+
+.EventDetailsModal .EventDetailsLikesRsvps .nav-pills {
+  position: sticky;
+  top: 0;
+  background-color: var(--timea-background-purple);
+}
+
+.EventDetailsModal .EventDetailsLikesRsvps .nav-pills button {
+  margin-left: .5em;
+  margin-right: .5em;
+  padding-left: .1em;
+  padding-right: 0.1em;
+  background-color: var(--timea-background-white);
+  color: var(--timea-action-purple);
+  border: 1px solid var(--timea-action-purple);
+}
+
+.EventDetailsModal .EventDetailsLikesRsvps .nav-pills button:hover {
+  background-color: var(--timea-action-purple);
+  color: var(--timea-background-white);
+}
+
+/* EventDetailsLocationTime styling */
+
+.EventDetailsModal .EventDetailsLocationTime {
+  background-color: var(--timea-background-white);
+  margin-top: 0;
+  padding: 1em;
+}
+
+.EventDetailsModal .EventDetailsLocationTime h2 {
+  font-family: var(--timea-heading-font);
+  font-weight: bold;
+  font-size: x-large;
+}
+
+
+
+
+

@@ -10,12 +10,12 @@ import { Link } from "react-router-dom";
 function IconLinkButton({ icon, descriptionText, linkPath, className }) {
   return (
     <Link to={linkPath} className={`IconButton IconLinkButton ${className}`}>
-      <button type="button" className="btn">
+      <div type="button" className="btn">
         {icon}
         <p>
           <small className="timea-text-muted">{descriptionText}</small>
         </p>
-      </button>
+      </div>
     </Link>
   );
 }

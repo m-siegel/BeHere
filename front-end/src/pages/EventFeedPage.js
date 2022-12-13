@@ -14,21 +14,13 @@ import { useNavigate } from "react-router-dom";
 function EventFeedPage({ isAuth }) {
   // For loading previews
   const [doneSearch, setDoneSearch] = useState(false);
-  const [previews, setPreviews] = useState([
-    // TODO: make nicer
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ]);
+  const [previews, setPreviews] = useState(() => {
+    const arr = [];
+    for (let i = 0; i < 12; i++) {
+      arr.push({});
+    }
+    return arr;
+  });
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
@@ -178,6 +170,7 @@ function EventFeedPage({ isAuth }) {
   // Loading
 
   function find() {
+    setDoneSearch(false);
     setFindQuery({
       searchBy: {
         searchTerm: searchTerm,
@@ -196,7 +189,6 @@ function EventFeedPage({ isAuth }) {
 
   const loadEventPreviews = useCallback(
     async (query) => {
-      setDoneSearch(false);
       const res = await (
         await fetch("/api/feed/getEventPreviews", {
           method: "POST",

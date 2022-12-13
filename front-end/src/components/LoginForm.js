@@ -80,7 +80,7 @@ function LoginForm({ setAlert }) {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button className="btn btn-primary" id="btnSignUp" type="submit">
+            <button className="btn btn-focused" id="btnSignUp" type="submit">
               Log In
             </button>
           </div>

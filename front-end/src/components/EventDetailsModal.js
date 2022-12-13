@@ -27,6 +27,28 @@ function EventDetailsModal({ eventPreview, eventId /* , onEventLoaded */ }) {
           })
         ).json();
         if (res?.event) {
+          res.event.start = new Date(res.event.start).toLocaleDateString(
+            "en-us",
+            {
+              weekday: "long",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }
+          );
+          res.event.finish = new Date(res.event.finish).toLocaleDateString(
+            "en-us",
+            {
+              weekday: "long",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            }
+          );
           setEventInfo(res.event);
         }
       } catch (e) {

@@ -110,7 +110,3 @@ We encourage you to explore our site yourself, but here are a some screenshots o
 #### User Settings Page
 
 ![User Settings Page](./website-screenshots/delete-confirm-user.png)
-
-#### Narrow views of some pages
-
-![Home Page wide window](./website-screenshots/home-page-narrow.png) ![Edit Event Page](./website-screenshots/edit-page-narrow.png) ![Dashboard Page](./website-screenshots/dashboard-page-narrow.png)

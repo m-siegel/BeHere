@@ -15,10 +15,10 @@ function EventPreviewText({ start, location, tags, loading }) {
       {loading ? (
         <div className="loading">
           <div className="text-line">
-            <Skeleton height={20} />
+            <Skeleton height={24} className="Skeleton" />
           </div>
           <div className="text-line">
-            <Skeleton height={20} />
+            <Skeleton height={24} />
           </div>
         </div>
       ) : (
@@ -39,7 +39,7 @@ function EventPreviewText({ start, location, tags, loading }) {
           </div>
         </div>
       )}
-      {tags?.length ? (
+      {tags?.length && !loading ? (
         <div className="text-line-2-lines">
           <div>
             <h3>What</h3>
@@ -54,7 +54,9 @@ function EventPreviewText({ start, location, tags, loading }) {
           </ul>
         </div>
       ) : (
-        <div className="text-line-2-lines"></div>
+        <div className="text-line-2-lines">
+          {loading ? <Skeleton height={30} /> : <div></div>}
+        </div>
       )}
     </div>
   );

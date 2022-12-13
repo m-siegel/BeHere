@@ -39,7 +39,7 @@ function EventPreview({
       <div className="card">
         <div className="card-body">
           <h2 className="card-title" tabIndex="0">
-            {info.name || <Skeleton height={24} />}
+            {loading ? <Skeleton height={24} /> : info.name}
           </h2>
           <div className="card-text">
             <EventPreviewText

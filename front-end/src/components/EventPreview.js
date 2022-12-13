@@ -32,7 +32,7 @@ function EventPreview({
   }
 
   return (
-    <div className={`EventPreview ${className}`}>
+    <div className={`EventPreview ${className} ep-max-with`}>
       <div className="card">
         <div className="card-body">
           <h2 className="card-title">{info.name}</h2>

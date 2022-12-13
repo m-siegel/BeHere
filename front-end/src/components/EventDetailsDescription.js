@@ -20,7 +20,9 @@ function EventDetailsDescription({ description, tags }) {
           <hr />
           <ul className="tags-list">
             {tags.map((t) => (
-              <li key={t}>{t}</li>
+              <li className={t} key={t}>
+                {t}
+              </li>
             ))}
           </ul>
         </div>

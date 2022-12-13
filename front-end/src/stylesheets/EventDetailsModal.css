@@ -109,6 +109,46 @@
   font-size: x-large;
 }
 
+.EventDetailsModal .EventDetailsDescription .tags-list .li {
+  background-color: var(--timea-tag-other);
+}
+
+.EventDetailsModal .EventDetailsDescription .tags-list .active {
+  background-color: var(--timea-tag-active);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .drink {
+  background-color: var(--timea-tag-drink);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list [class="art/craft"] {
+  background-color: var(--timea-tag-art-craft);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .food {
+  background-color: var(--timea-tag-food);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .games {
+  background-color: var(--timea-tag-games);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .learning {
+  background-color: var(--timea-tag-learning);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list [class="music/entertainment"] {
+  background-color: var(--timea-tag-music-entertainment);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .networking {
+  background-color: var(--timea-tag-networking);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .outdoor {
+  background-color: var(--timea-tag-outdoor);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .party {
+  background-color: var(--timea-tag-party);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list [class="tours/exploration"] {
+  background-color: var(--timea-tag-tours-exploration);
+}
+.EventDetailsModal .EventDetailsDescription .tags-list .hangout {
+  background-color: var(--timea-tag-hangout);
+}
 
 
 

@@ -58,11 +58,9 @@
 }
 
 .EventDetailsModal .EventDetailsDescription .tags-list li {
-  display: inline;
-  padding: .2em .4em;
-  margin: .5em;
-  border-radius: 20px;
-  background-color: var(--timea-background-purple);
+  display: inline-block;
+  margin: .2em;
+  /* background-color: var(--timea-background-purple); */
 }
 
 

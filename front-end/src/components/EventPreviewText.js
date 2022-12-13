@@ -2,6 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import StyledTagComponent from "./StyledTagComponent.js";
 
 /**
  * Displays the main event information for an event preview.
@@ -29,11 +30,13 @@ function EventPreviewText({ start, location, tags }) {
             <h3>What</h3>
           </div>
 
-          <div className="preview-tags" tabIndex="0">
+          <ul className="preview-tags" tabIndex="0">
             {tags.map((t) => (
-              <span key={t}>{t} </span>
+              <li key={t}>
+                <StyledTagComponent tagName={t} />
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       ) : (
         <div className="text-line-2-lines"></div>

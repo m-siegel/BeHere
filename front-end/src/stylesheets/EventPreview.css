@@ -47,6 +47,11 @@
   margin-top: -1.5em;
 }
 
+.EventPreview .preview-tags li {
+  display: inline-block;
+  margin: .2em;
+}
+
 .EventPreview .text-line-2-lines {
   height: 2.5em;
 }

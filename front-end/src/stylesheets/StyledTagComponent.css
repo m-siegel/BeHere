@@ -1,6 +1,8 @@
 @import "../stylesheets/timeaVariables.css";
 
 .StyledTagComponent {
+  padding: .2em .4em;
+  border-radius: 20px;
   background-color: var(--timea-tag-other);
 }
 
@@ -12,7 +14,7 @@
   background-color: var(--timea-tag-drink);
 }
 
-.StyledTagComponent[class="art/craft"] {
+.StyledTagComponent.art-craft {
   background-color: var(--timea-tag-art-craft);
 }
 
@@ -28,7 +30,7 @@
   background-color: var(--timea-tag-learning);
 }
 
-.StyledTagComponent[class="music/entertainment"] {
+.StyledTagComponent.music-entertainment {
   background-color: var(--timea-tag-music-entertainment);
 }
 
@@ -44,7 +46,7 @@
   background-color: var(--timea-tag-party);
 }
 
-.StyledTagComponent[class="tours/exploration"] {
+.StyledTagComponent.tours-exploration {
   background-color: var(--timea-tag-tours-exploration);
 }
 

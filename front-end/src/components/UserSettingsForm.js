@@ -57,7 +57,9 @@ function UserSettingsForm({ setAlert }) {
         })
       ).json();
       alertUser(res);
-      setDbTrueUserObj(res?.updatedDocument ? res.updatedDocument : {});
+      if (res?.updatedDocument) {
+        setDbTrueUserObj(res.updatedDocument);
+      }
     } catch (e) {
       console.error("Error in onSubmit: ", e);
     }

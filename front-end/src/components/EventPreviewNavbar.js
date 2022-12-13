@@ -146,6 +146,7 @@ function EventPreviewNavbar({
                 }
                 disabled={disableRSVP}
                 descriptionText={getRSVPText(rsvped)}
+                uniqueId={`event-preview-navbar-dropdown-${eventId}`}
                 dropdownMenu={[
                   <button
                     className={rsvped === "Yes" ? "btn active" : "btn"}

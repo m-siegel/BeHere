@@ -14,6 +14,7 @@ function IconButtonDropdown({
   descriptionText,
   dropdownMenu,
   buttonOptions,
+  uniqueId,
 }) {
   return (
     <div className={`IconButton IconButtonDropdown dropdown-center col`}>
@@ -21,6 +22,7 @@ function IconButtonDropdown({
         <button
           className={`btn col ${className}`}
           type="button"
+          aria-controls={`#${uniqueId}`}
           aria-expanded="false"
           disabled={disabled}
           {...buttonOptions}
@@ -31,7 +33,7 @@ function IconButtonDropdown({
           </p>
         </button>
 
-        <ul className="dropdown-menu">
+        <ul className="dropdown-menu" id={uniqueId}>
           {dropdownMenu.map((d, i) => (
             <li key={i}>{d}</li>
           ))}
@@ -48,6 +50,7 @@ IconButtonDropdown.propTypes = {
   dropdownMenu: PropTypes.arrayOf(PropTypes.element),
   disabled: PropTypes.bool,
   buttonOptions: PropTypes.object,
+  uniqueId: PropTypes.string.isRequired,
 };
 
 export default IconButtonDropdown;

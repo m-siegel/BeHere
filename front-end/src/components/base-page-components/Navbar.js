@@ -107,6 +107,7 @@ function Navbar() {
           )
         }
         descriptionText="Me"
+        uniqueId="navbar-dropdown-menu"
         dropdownMenu={[
           <IconOnClickButton
             className={`dropdown-item ${

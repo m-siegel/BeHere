@@ -41,14 +41,9 @@ function RegisterPage({ isAuth }) {
             <div className="bottom-link">
               Already have an account?{" "}
               {/* <Link to="/login" className="link"> */}
-              <button
-                className="btn btn-link"
-                onClick={() => {
-                  navigate("/login", { replace: true });
-                }}
-              >
+              <Link to="/login" className="link">
                 Go to login.
-              </button>
+              </Link>
               {/* </Link> */}
             </div>
             <div className="row">

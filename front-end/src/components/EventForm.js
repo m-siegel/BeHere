@@ -122,8 +122,8 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
         message: (
           <div>
             <p>
-              Head over to <Link to="/my-events">My Events</Link> to verify the
-              updated event.
+              Redirecting you to the <Link to="/my-events">My Events</Link>{" "}
+              tab...
             </p>
           </div>
         ),
@@ -256,15 +256,18 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
           <legend>Tags</legend>
           <div>
             Tags previously chosen:{" "}
-            {event.tags
-              ? event.tags.map((tag, index) => {
-                  return (
-                    <span className="form-tag" key={index}>
-                      {tag}
-                    </span>
-                  );
-                })
-              : "no tags entered."}{" "}
+            <div className="current-tags">
+              {event.tags
+                ? event.tags.map((tag, index) => {
+                    return (
+                      <span className="form-tag" key={index}>
+                        {" "}
+                        {tag}{" "}
+                      </span>
+                    );
+                  })
+                : "no tags entered."}{" "}
+            </div>
           </div>
 
           <div className="centering-container mt-4">

@@ -2,10 +2,10 @@
 
 import React, { useEffect } from "react";
 import LoginForm from "../components/LoginForm.js";
-import BasePage from "../components/base-page-components/BasePage.js";
 import PropTypes from "prop-types";
 import useAlert from "../hooks/useAlert.js";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/base-page-components/Footer.js";
 
 function LoginPage({ isAuth }) {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ function LoginPage({ isAuth }) {
 
   return (
     <div className="LoginPage">
-      <BasePage>
-        <div className="container">
+      <div className="container">
+        <main>
           <h1 className="title">Welcome to BeHere</h1>
           <AlertComponent />
           <div className="row">
@@ -31,8 +31,11 @@ function LoginPage({ isAuth }) {
               <LoginForm setAlert={setAlert} />
             </div>
           </div>
-        </div>
-      </BasePage>
+        </main>
+      </div>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }

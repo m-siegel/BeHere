@@ -274,10 +274,31 @@ export async function getEventPreviews(queryObj, skip, limit) {
       .skip(skip)
       .limit(limit);
     if (res) {
+      const arr = await res.toArray();
+      arr.forEach((obj) => {
+        // obj.start = obj.start.substr(0, 16);
+        // obj.finish = obj.start.substr(0, 16);
+        obj.start = new Date(obj.start).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        obj.finish = new Date(obj.finish).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      });
       return {
         success: true,
         msg: "Events found.",
-        events: await res.toArray(),
+        events: arr,
         err: null,
       };
     }
@@ -380,13 +401,31 @@ export async function getUserCreatedEventPreviews(id) {
       )
       .sort({
         start: 1,
-      })
-      .toArray();
+      });
     if (res) {
+      const arr = await res.toArray();
+      arr.forEach((obj) => {
+        obj.start = new Date(obj.start).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        obj.finish = new Date(obj.finish).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      });
       return {
         success: true,
         msg: "Events found.",
-        events: res,
+        events: arr,
         err: null,
       };
     }
@@ -455,13 +494,31 @@ export async function getUserFollowedEventPreviews(id) {
       )
       .sort({
         start: 1,
-      })
-      .toArray();
+      });
     if (res) {
+      const arr = await res.toArray();
+      arr.forEach((obj) => {
+        obj.start = new Date(obj.start).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        obj.finish = new Date(obj.finish).toLocaleDateString("en-us", {
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      });
       return {
         success: true,
         msg: "Events found.",
-        events: res,
+        events: arr,
         err: null,
       };
     }

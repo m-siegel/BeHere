@@ -1,5 +1,6 @@
 h1 {
-    padding: 10px;
+    margin-top: 30px;
+    
 }
 .card {
     width: 400px;
@@ -7,9 +8,46 @@ h1 {
 }
 div.card-body>h2 {
     padding-top: 10px;
-    padding-bottom:20px;
-}
-#under-btn
-{
+    padding-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
+    border-bottom: 0.5px solid var(--timea-button-grey);
+    font-family: var(--timea-heading-font);
 }
+
+.LoginPage :focus {
+    border: 1px solid var(--timea-background-white);
+    outline: 4px solid var(--timea-action-purple);
+  }
+
+.LoginPage .btn-focused {
+  background-color: var(--timea-action-purple);
+  border-color: var(--timea-action-purple);
+  padding: 6px 9px;
+  color: var(--timea-background-white);
+  font: var(--timea-body-font);
+  border-radius: 5px;
+  box-shadow: none;
+  width: 150px;
+}
+
+.LoginPage label {
+    font-family: var(--timea-body-font);
+}
+
+
+.LoginPage p {
+    text-align: center;
+    font-family: var(--timea-body-font);
+}
+
+.LoginPage .Footer {
+    width: 100vw;
+    margin-left: 0;
+    margin-right: 0;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    background-color: var(--timea-background-white);
+    border-top: 2px solid var(--timea-background-purple);
+  }

@@ -199,7 +199,7 @@ function CreateEventForm({ setAlert, navigate }) {
             disabled={validForm ? false : true}
             type="submit"
             id="submit-button"
-            className="btn btn-primary"
+            className="btn btn-active"
           >
             Create Event
           </button>
@@ -208,7 +208,7 @@ function CreateEventForm({ setAlert, navigate }) {
           <button
             id="cancel-button"
             className="btn btn-secondary"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/my-events")}
           >
             Cancel
           </button>

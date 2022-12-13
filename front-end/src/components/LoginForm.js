@@ -52,7 +52,7 @@ function LoginForm({ setAlert }) {
         <h2>Log In</h2>
         <form id="login-form" onSubmit={onSubmit}>
           <div className="mb-3">
-            <label className="form-label" htmlFor="contactEmail">
+            <label className="form-label" htmlFor="email">
               Contact email:
             </label>
             <input
@@ -80,13 +80,16 @@ function LoginForm({ setAlert }) {
             />
           </div>
           <div className="d-flex justify-content-center">
-            <button className="btn btn-primary" id="btnSignUp" type="submit">
+            <button className="btn btn-focused" id="btnSignUp" type="submit">
               Log In
             </button>
           </div>
           <br />
-          <p id="under-btn">
+          <p>
             Not a member? <Link to="/register">Sign up</Link>.
+          </p>
+          <p>
+            Or go back to <Link to="/">the landing page</Link>.
           </p>
         </form>
       </div>

@@ -181,7 +181,7 @@ router.post("/api/delete-event", async (req, res) => {
 });
 
 /**
- * Responds with events for the dashboard page
+ * Responds with events for the my-events page
  */
 router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
   //const orgName = req?.session?.passport?.user?.organizations;
@@ -312,33 +312,31 @@ router.post("/api/getRsvpLikeUserPreviews", async (req, res) => {
 router.post("/toggleLike", async (req, res) => {
   const userId = req.session?.passport?.user?._id;
   const eventId = req.body.eventId;
-  if (userId && eventId) {
+  if (eventId) {
     try {
       const eventDbResponse = await toggleLike(eventId, userId);
-      const userDbResponse = await userConnect.toggleLike(userId, eventId);
-      if (eventDbResponse.success && userDbResponse.success) {
+      if (eventDbResponse.success) {
         return res.json({
           success: true,
           msg: "Successfully toggled like",
           err: null,
         });
-      } else if (userDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update event. Message: ${eventDbResponse.msg}`,
-          err: null,
-        });
-      } else if (eventDbResponse.success) {
-        return res.json({
-          success: false,
-          msg: `Could not update user. Message: ${userDbResponse.message}`,
-          err: null,
-        });
-      }
+      } // else if (userDbResponse.success) {
+      //   return res.json({
+      //     success: false,
+      //     msg: `Could not update event. Message: ${eventDbResponse.msg}`,
+      //     err: null,
+      //   });
+      // } else if (eventDbResponse.success) {
+      //   return res.json({
+      //     success: false,
+      //     msg: `Could not update user. Message: ${userDbResponse.message}`,
+      //     err: null,
+      //   });
+      // }
       return res.json({
         success: false,
-        msg: `Could not update event or user. 
-          User failure message: ${userDbResponse.message}.
+        msg: `Could not update event.
           Event failure message: ${eventDbResponse.message}`,
         err: null,
       });
@@ -352,7 +350,7 @@ router.post("/toggleLike", async (req, res) => {
   } else {
     return res.json({
       success: false,
-      msg: `Could not toggle like for user ${userId} and event ${eventId}.`,
+      msg: `Could not toggle like for event ${eventId}.`,
       err: null,
     });
   }

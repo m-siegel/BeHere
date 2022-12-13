@@ -12,6 +12,8 @@
 
 - **Project 3 release: [tag version 1.0.0](https://github.com/m-siegel/BeHere/releases/tag/1.0.0)\***
 
+- **PROJECT 4 RELEASE: [tag version 2.0.0](https://github.com/m-siegel/BeHere/releases/tag/2.0.0)**
+
 ## Other notes for TAs:
 
 - The styling for some components is done in other components' stylesheets. This is because components may be reused across different other components/pages, which may require different styling. For example, while the general shape of EventPreview components does not change, some styling, like the colors, may differ depending upon the parent component, so that styling is done in the stylesheet for whichever component is controling that particular EventPreview.
@@ -72,8 +74,10 @@ For a look into our design process, you can check out the links below or head ov
 - [Front-end design on Figma](https://www.figma.com/file/QOl1RSMSOqAbVQlL2AyFZ0/Project-3?node-id=0%3A1&t=83R8VOtuitiSVERk-0)
 - [Pictures of each of the Figma design pages](https://github.com/m-siegel/BeHere/tree/main/design-docs/Figma-designs)
 - [User Stories](https://docs.google.com/document/d/1jSwcehOhz0aGGsGV_AzXpy_ga3QOUyMMBPYmO0Uwqso/edit?usp=sharing)
-- [Project Overview presentation slides](https://docs.google.com/presentation/d/1AIoXCkqrgKIH0WkupYCgs28NksLDtNRU-kLlBTQW-GM/edit?usp=sharing)
-- [Demonstration video](https://youtu.be/UdZ8jQl9-rA)
+- [Project 4 Updates presentation slides](https://docs.google.com/presentation/d/1yyg4eNclxlR9EN2ccZ2uZWKLe1AT8A1W91-Y9T18XRE/edit#slide=id.g1b6128c5f38_0_190)
+- [Project 3 Overview presentation slides](https://docs.google.com/presentation/d/1AIoXCkqrgKIH0WkupYCgs28NksLDtNRU-kLlBTQW-GM/edit?usp=sharing)
+- [Project 4 Demonstration video](https://youtu.be/KJsPgMacAt4)
+- [Project 3 Demonstration video](https://youtu.be/UdZ8jQl9-rA)
 
 ## A Glimpse of our Site
 

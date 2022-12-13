@@ -30,12 +30,17 @@
 .NotAuthBasePage .credit-and-disclaimer {
   position: absolute;
   bottom: 1em;
-  background-color: var(--timea-background-purple);
+  background-color: var(--timea-background-white);
   width: 40%;
   padding-top: .5em;
   padding-bottom: .5em;
   padding-left: 1.5em;
   vertical-align: middle;
+}
+
+.NotAuthBasePage .credit-and-disclaimer a {
+  font-weight: bolder;
+  color: var(--timea-action-purple)
 }
 
 .NotAuthBasePage .credit-and-disclaimer p {

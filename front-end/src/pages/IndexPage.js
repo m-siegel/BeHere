@@ -9,7 +9,7 @@ function IndexPage() {
   const navigate = useNavigate();
 
   return (
-    <main className="IndexPage">
+    <div className="IndexPage">
       <NotAuthBasePage>
         <div className="row title-row">
           <h1>B🐝 Here!</h1>
@@ -82,7 +82,7 @@ function IndexPage() {
           </span>
         </div>
       </NotAuthBasePage>
-    </main>
+    </div>
   );
 }
 

@@ -39,6 +39,11 @@
   color: var(--timea-background-white);
 }
 
+.RegisterPage a {
+  font-weight: bolder;
+  color: var(--timea-action-purple)
+}
+
 /* .RegisterPage .text-col .btn-landing:focus,
 .RegisterPage .text-col .btn-landing:hover {
   border: 3px solid var(--timea-button-grey);

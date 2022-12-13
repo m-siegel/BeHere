@@ -276,7 +276,7 @@ function EventFeedPage({ isAuth }) {
           totalResults={totalResults}
           disableButtons={!doneSearch}
         />
-        <div className="centering-container">
+        <div className="centering-container alert-container">
           <AlertComponent />
         </div>
 

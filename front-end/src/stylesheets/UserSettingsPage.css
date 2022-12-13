@@ -8,7 +8,7 @@
   padding-bottom: 0;
 }
 
-.UserSettingsPage .centering-container {
+.UserSettingsPage .alert-container {
   z-index: 1;
   position: sticky;
   top: 10vh;
@@ -23,7 +23,6 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 
 .UserSettingsPage .UserSettingsForm input {
   /* smallest phone setting on dev tools is 360 wide */

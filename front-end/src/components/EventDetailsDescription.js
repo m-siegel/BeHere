@@ -18,7 +18,7 @@ function EventDetailsDescription({ description, tags }) {
       {tags?.length ? (
         <div>
           <hr />
-          <ul className="tags-list">
+          <ul className="tags-list" tabIndex="0">
             {tags.map((t) => (
               <li className={t} key={t}>
                 {t}

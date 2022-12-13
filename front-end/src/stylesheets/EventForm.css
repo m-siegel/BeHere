@@ -8,46 +8,46 @@
 
 @media (max-width:499px) {
   .event-form textarea {
-    width: 280px;
+    width: 300px;
     margin-bottom: 15px;
   }
   
   .event-form input[type="text"] {
-    width: 280px;
+    width: 300px;
   }
 
   .event-form input[type="datetime-local"] {
-    width: 280px;
+    width: 300px;
   }
 }
 
 @media (max-width:390px) {
   .event-form textarea {
-    width: 220px;
+    width: 230px;
     margin-bottom: 15px;
   }
   
   .event-form input[type="text"] {
-    width: 220px;
+    width: 230px;
   }
 
   .event-form input[type="datetime-local"] {
-    width: 220px;
+    width: 230px;
   }
 }
 
 @media (min-width:500px) {
   .event-form textarea {
-    width: 340px;
+    width: 420px;
     margin-bottom: 15px;
   }
   
   .event-form input[type="text"] {
-    width: 340px;
+    width: 420px;
   }
 
   .event-form input[type="datetime-local"] {
-    width: 340px;
+    width: 420px;
   }
 }
 
@@ -91,4 +91,8 @@
 
 .event-form input[type="checkbox"]:checked {
   background-color: var(--timea-action-purple);
+}
+
+.event-form .current-tags {
+  overflow: wrap;
 }

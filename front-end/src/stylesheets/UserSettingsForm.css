@@ -1,0 +1,17 @@
+@media (max-width:499px) {
+  .UserSettingsForm .form-control {
+    width: 250px;
+  }
+}
+
+@media (max-width:390px) {
+  .UserSettingsForm .form-control {
+    width: 220px;
+  }
+}
+
+@media (min-width:500px) {
+  .UserSettingsForm .form-control {
+    width: 340px;
+  }
+}

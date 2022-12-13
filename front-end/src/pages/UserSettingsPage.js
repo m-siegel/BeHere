@@ -65,23 +65,25 @@ function UserSettingsPage({ isAuth }) {
         <div className="centering-container alert-container">
           <AlertComponent />
         </div>
-        <div className="card card-body">
-          <h1>Account Settings</h1>
-          {/* <div className="container"> */}
-          <div className="row">
-            <div className="centering-container">
-              <UserSettingsForm setAlert={setAlert} />
+        <div className="card">
+          <div className="card-body">
+            <h1>Account Settings</h1>
+            {/* <div className="container"> */}
+            <div className="row">
+              <div className="centering-container">
+                <UserSettingsForm setAlert={setAlert} />
+              </div>
             </div>
-          </div>
-          <div className="centering-container">
-            <button
-              type="button"
-              className="btn btn-delete"
-              data-bs-toggle="modal"
-              data-bs-target="#deleteConfirmation"
-            >
-              Delete Account
-            </button>
+            <div className="centering-container">
+              <button
+                type="button"
+                className="btn btn-delete"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteConfirmation"
+              >
+                Delete Account
+              </button>
+            </div>
           </div>
         </div>
 

@@ -35,6 +35,29 @@
   margin-bottom: 2em;
 }
 
+@media (max-width:499px) {
+  .UserSettingsPage .card {
+    width: 340px;
+    align-items: center;
+    margin: 20px auto;
+
+  }
+}
+@media (max-width:390px) {
+  .UserSettingsPage .card {
+    width: 270px;
+    align-items: center;
+    margin: 20px auto;
+  }
+}
+@media (min-width:500px) {
+  .UserSettingsPage .card {
+    width: 450px;
+    align-items: center;
+    margin: 20px auto;
+  }
+}
+
 .UserSettingsPage .btn-delete {
   background-color: var(--timea-button-red);
   color: var(--timea-background-white);

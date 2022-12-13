@@ -154,7 +154,11 @@ function EventPreviewNavbar({
                       handleRSVP("Yes");
                     }}
                   >
-                    Going
+                    {rsvped === "Yes" ? (
+                      <strong>Going</strong>
+                    ) : (
+                      <span>Going</span>
+                    )}
                   </button>,
                   <button
                     className={rsvped === "Maybe" ? "btn active" : "btn"}
@@ -162,7 +166,11 @@ function EventPreviewNavbar({
                       handleRSVP("Maybe");
                     }}
                   >
-                    Maybe
+                    {rsvped === "Maybe" ? (
+                      <strong>Maybe</strong>
+                    ) : (
+                      <span>Maybe</span>
+                    )}
                   </button>,
                   <button
                     className={rsvped === "No" ? "btn active" : "btn"}
@@ -170,7 +178,11 @@ function EventPreviewNavbar({
                       handleRSVP("No");
                     }}
                   >
-                    Not Going
+                    {rsvped === "No" ? (
+                      <strong>Not Going</strong>
+                    ) : (
+                      <span>Not Going</span>
+                    )}
                   </button>,
                 ]}
               ></IconButtonDropdown>

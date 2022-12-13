@@ -14,7 +14,21 @@ import { useNavigate } from "react-router-dom";
 function EventFeedPage({ isAuth }) {
   // For loading previews
   const [doneSearch, setDoneSearch] = useState(false);
-  const [previews, setPreviews] = useState([]);
+  const [previews, setPreviews] = useState([
+    // TODO: make nicer
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ]);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
 
@@ -297,6 +311,7 @@ function EventFeedPage({ isAuth }) {
                     setCurrentEventId(p._id);
                     setCurrentEventPreview(p);
                   }}
+                  loading={!doneSearch}
                 ></EventPreview>
               </div>
             ))

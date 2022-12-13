@@ -12,6 +12,8 @@ import IconStarFilled from "./icon-components/IconStarFilled.js";
 import IconStarOutline from "./icon-components/IconStarOutline.js";
 import IconThreeDots from "./icon-components/IconThreeDots.js";
 import IconPencilOutline from "./icon-components/IconPencilOutline.js";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import timeaColors from "../util/timeaColors.js";
 
@@ -28,6 +30,7 @@ function EventPreviewNavbar({
   handleClickLike,
   handleClickRSVP,
   handleClickDetails,
+  loading,
 }) {
   const [disableLike, setDisableLike] = useState(false);
   const [disableRSVP, setDisableRSVP] = useState(false);
@@ -76,13 +79,17 @@ function EventPreviewNavbar({
         // Details button
       }
       <div className="col">
-        <IconOnClickButton
-          icon={<IconThreeDots />}
-          descriptionText="Details"
-          data-bs-toggle="modal"
-          data-bs-target="#eventDetailsModal"
-          onClick={handleClickDetails}
-        ></IconOnClickButton>
+        {loading ? (
+          <Skeleton circle={true} height={50} width={50} inline={true} />
+        ) : (
+          <IconOnClickButton
+            icon={<IconThreeDots />}
+            descriptionText="Details"
+            data-bs-toggle="modal"
+            data-bs-target="#eventDetailsModal"
+            onClick={handleClickDetails}
+          ></IconOnClickButton>
+        )}
       </div>
 
       {
@@ -90,82 +97,93 @@ function EventPreviewNavbar({
         // Div so aligns like others
       }
       <div className="col">
-        <IconOnClickButton
-          icon={
-            likes?.includes(userId) ? (
-              <IconStarFilled color={timeaColors.action} />
-            ) : (
-              <IconStarOutline />
-            )
-          }
-          // TODO: this and rsvp have current value like
-          // TODO: aria that is always "like", same for rsvp
-          descriptionText={
-            likes?.length
-              ? likes.length === 1
-                ? "1 like"
-                : `${likes.length} likes`
-              : "Like"
-          }
-          onClick={() => {
-            setDisableLike(true);
-            handleClickLike();
-          }}
-          disabled={disableLike}
-        ></IconOnClickButton>
-      </div>
-
-      {
-        // RSVP Menu if not created by user
-        creator !== userId ? (
-          <IconButtonDropdown
-            className="rsvp-dropdown col"
+        {loading ? (
+          <Skeleton circle={true} height={50} width={50} inline={true} />
+        ) : (
+          <IconOnClickButton
             icon={
-              rsvped ? (
-                <IconCalendarHeartFilled color={timeaColors.action} />
+              likes?.includes(userId) ? (
+                <IconStarFilled color={timeaColors.action} />
               ) : (
-                <IconCalendarHeartOutline />
+                <IconStarOutline />
               )
             }
-            disabled={disableRSVP}
-            descriptionText={getRSVPText(rsvped)}
-            dropdownMenu={[
-              <button
-                className={rsvped === "Yes" ? "btn active" : "btn"}
-                onClick={() => {
-                  handleRSVP("Yes");
-                }}
-              >
-                Going
-              </button>,
-              <button
-                className={rsvped === "Maybe" ? "btn active" : "btn"}
-                onClick={() => {
-                  handleRSVP("Maybe");
-                }}
-              >
-                Maybe
-              </button>,
-              <button
-                className={rsvped === "No" ? "btn active" : "btn"}
-                onClick={() => {
-                  handleRSVP("No");
-                }}
-              >
-                Not Going
-              </button>,
-            ]}
-          ></IconButtonDropdown>
-        ) : (
-          // Edit button if created by user
-          <IconLinkButton
-            className="col"
-            icon={<IconPencilOutline />}
-            descriptionText="Edit"
-            linkPath={`/edit/${eventId}`}
-          ></IconLinkButton>
-        )
-      }
+            // TODO: this and rsvp have current value like
+            // TODO: aria that is always "like", same for rsvp
+            descriptionText={
+              likes?.length
+                ? likes.length === 1
+                  ? "1 like"
+                  : `${likes.length} likes`
+                : "Like"
+            }
+            onClick={() => {
+              setDisableLike(true);
+              handleClickLike();
+            }}
+            disabled={disableLike}
+          ></IconOnClickButton>
+        )}
+      </div>
+
+      {loading ? (
+        <div className="col">
+          <Skeleton circle={true} height={50} width={50} inline={true} />
+        </div>
+      ) : (
+        <div className="col">
+          {
+            // RSVP Menu if not created by user
+            creator !== userId ? (
+              <IconButtonDropdown
+                className="rsvp-dropdown"
+                icon={
+                  rsvped ? (
+                    <IconCalendarHeartFilled color={timeaColors.action} />
+                  ) : (
+                    <IconCalendarHeartOutline />
+                  )
+                }
+                disabled={disableRSVP}
+                descriptionText={getRSVPText(rsvped)}
+                dropdownMenu={[
+                  <button
+                    className={rsvped === "Yes" ? "btn active" : "btn"}
+                    onClick={() => {
+                      handleRSVP("Yes");
+                    }}
+                  >
+                    Going
+                  </button>,
+                  <button
+                    className={rsvped === "Maybe" ? "btn active" : "btn"}
+                    onClick={() => {
+                      handleRSVP("Maybe");
+                    }}
+                  >
+                    Maybe
+                  </button>,
+                  <button
+                    className={rsvped === "No" ? "btn active" : "btn"}
+                    onClick={() => {
+                      handleRSVP("No");
+                    }}
+                  >
+                    Not Going
+                  </button>,
+                ]}
+              ></IconButtonDropdown>
+            ) : (
+              // Edit button if created by user
+              <IconLinkButton
+                icon={<IconPencilOutline />}
+                descriptionText="Edit"
+                linkPath={`/edit/${eventId}`}
+              ></IconLinkButton>
+            )
+          }
+        </div>
+      )}
     </div>
   );
 }
@@ -179,6 +197,7 @@ EventPreviewNavbar.propTypes = {
   likes: PropTypes.arrayOf(PropTypes.string),
   rsvped: PropTypes.string,
   handleClickDetails: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default EventPreviewNavbar;

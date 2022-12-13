@@ -3,6 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import StyledTagComponent from "./StyledTagComponent.js";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 /**
  * Contains the desription details for an event on the detailedEvents page.
@@ -11,9 +13,7 @@ function EventDetailsDescription({ description, tags }) {
   return (
     <div className="EventDetailsDescription" id="eventDetailsDescription">
       <div className="descriptionHolder" tabIndex="0">
-        <p>
-          {description ? description : <i>{"No description to display"}</i>}
-        </p>
+        <p>{description ? description : <Skeleton count={6} />}</p>
       </div>
 
       {tags?.length ? (

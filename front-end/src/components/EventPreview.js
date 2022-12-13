@@ -5,6 +5,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import EventPreviewText from "./EventPreviewText.js";
 import EventPreviewNavbar from "./EventPreviewNavbar.js";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 /**
  * Displays a preview of information for an event. Enables interaction with the event.
@@ -16,6 +18,7 @@ function EventPreview({
   onLike,
   className,
   onClickDetails,
+  loading,
 }) {
   const info = previewObject;
   let rsvped = previewObject.rsvps?.find(
@@ -36,13 +39,14 @@ function EventPreview({
       <div className="card">
         <div className="card-body">
           <h2 className="card-title" tabIndex="0">
-            {info.name}
+            {info.name || <Skeleton height={24} />}
           </h2>
           <div className="card-text">
             <EventPreviewText
               start={info.start}
               location={info.location}
               tags={info.tags}
+              loading={loading}
             />
 
             <EventPreviewNavbar
@@ -54,6 +58,7 @@ function EventPreview({
               handleClickLike={handleClickLike}
               handleClickRSVP={handleClickRSVP}
               handleClickDetails={onClickDetails}
+              loading={loading}
             />
           </div>
         </div>
@@ -69,6 +74,7 @@ EventPreview.propTypes = {
   onLike: PropTypes.func.isRequired,
   className: PropTypes.string,
   onClickDetails: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default EventPreview;

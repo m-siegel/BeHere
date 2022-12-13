@@ -19,6 +19,10 @@
   padding-bottom: 0;
 }
 
+.EventFeedPage h1 {
+  margin-left: .4em;
+}
+
 .EventFeedPage .dbMessage {
   margin-left: 1em;
 }

@@ -1,0 +1,53 @@
+@import "../stylesheets/timeaVariables.css";
+
+.StyledTagComponent {
+  background-color: var(--timea-tag-other);
+}
+
+.StyledTagComponent.active {
+  background-color: var(--timea-tag-active);
+}
+
+.StyledTagComponent.drink {
+  background-color: var(--timea-tag-drink);
+}
+
+.StyledTagComponent[class="art/craft"] {
+  background-color: var(--timea-tag-art-craft);
+}
+
+.StyledTagComponent.food {
+  background-color: var(--timea-tag-food);
+}
+
+.StyledTagComponent.games {
+  background-color: var(--timea-tag-games);
+}
+
+.StyledTagComponent.learning {
+  background-color: var(--timea-tag-learning);
+}
+
+.StyledTagComponent[class="music/entertainment"] {
+  background-color: var(--timea-tag-music-entertainment);
+}
+
+.StyledTagComponent.networking {
+  background-color: var(--timea-tag-networking);
+}
+
+.StyledTagComponent.outdoor {
+  background-color: var(--timea-tag-outdoor);
+}
+
+.StyledTagComponent.party {
+  background-color: var(--timea-tag-party);
+}
+
+.StyledTagComponent[class="tours/exploration"] {
+  background-color: var(--timea-tag-tours-exploration);
+}
+
+.StyledTagComponent.hangout {
+  background-color: var(--timea-tag-hangout);
+}

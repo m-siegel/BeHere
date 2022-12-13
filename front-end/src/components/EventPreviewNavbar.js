@@ -67,7 +67,7 @@ function EventPreviewNavbar({
   }
 
   return (
-    <div className="row">
+    <div className="EventPreviewNavbar row">
       {
         // Must be div not nav because there's already a nav
         // landmark with the navbar and all landmarks must be unique.

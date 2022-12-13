@@ -2,6 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import StyledTagComponent from "./StyledTagComponent.js";
 
 /**
  * Contains the desription details for an event on the detailedEvents page.
@@ -20,8 +21,8 @@ function EventDetailsDescription({ description, tags }) {
           <hr />
           <ul className="tags-list" tabIndex="0">
             {tags.map((t) => (
-              <li className={t} key={t}>
-                {t}
+              <li key={t}>
+                <StyledTagComponent tagName={t} />
               </li>
             ))}
           </ul>

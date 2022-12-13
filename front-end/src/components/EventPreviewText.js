@@ -8,32 +8,37 @@ import PropTypes from "prop-types";
  */
 function EventPreviewText({ start, location, tags }) {
   return (
-    <dl>
-      <div>
-        <dt>When</dt>
-        <dd>{start}</dd>
+    <div className="EventPreviewText">
+      <div className="text-line">
+        <span>
+          <h3>When</h3>
+        </span>
+
+        <span>{start}</span>
       </div>
-      <div>
-        <dt>Where</dt>
-        <dd>{location}</dd>
+      <div className="text-line">
+        <span>
+          <h3>Where</h3>
+        </span>
+
+        <span>{location}</span>
       </div>
       {tags?.length ? (
-        <div>
-          <dt>What</dt>
-          <dd>
-            {
-              <ul className="preview-tags">
-                {tags?.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            }
-          </dd>
+        <div className="text-line-2-lines">
+          <div>
+            <h3>What</h3>
+          </div>
+
+          <div className="preview-tags">
+            {tags.map((t) => (
+              <span key={t}>{t} </span>
+            ))}
+          </div>
         </div>
       ) : (
-        <div></div>
+        <div className="text-line-2-lines"></div>
       )}
-    </dl>
+    </div>
   );
 }
 

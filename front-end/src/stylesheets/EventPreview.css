@@ -2,47 +2,53 @@
 
 @import "./timeaVariables.css";
 
+.EventPreview .card {
+  min-width: 350px;
+  max-width: 500px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  background-color: var(--timea-background-white);
+}
+
 .EventPreview h2 {
   font-weight: bold;
   font-size: 1.5em;
+  height: 3.5em;
+  overflow: auto;
   margin-left: .3em;
   margin-right: .3em;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 0.5px solid var(--timea-button-grey);
+  font-family: var(--timea-heading-font);
 }
 
-.EventPreview .preview-tags li:first-child {
-  list-style-type: none;
+.EventPreview .EventPreviewText {
+  margin-left: .5em;
+}
+
+.EventPreview .text-line {
+  height: 2em;
+}
+
+.EventPreview h3 {
+  font-family: var(--timea-heading-font);
+  font-weight: bold;
+  font-size: 1em;
+  display: inline;
+  margin-right: .5em;
 }
 
 .EventPreview .preview-tags {
-  padding-left: 0;
-  margin-bottom: 0;
+  height: 2.5em;
+  overflow: scroll;
+  padding-left: 3em;
+  margin-top: -1.5em;
 }
 
-.EventPreview .preview-tags li {
-  display: inline-block;
-  padding: 0 0.5em;
-}
-
-/* https://unused-css.com/blog/css-horizontal-lists/ */
-.EventPreview .preview-tags li:not(:last-child) {
-  border-right: 1px solid #1c1717;
-}
-
-.EventPreview dl>div>dt {
-  display: inline-block;
-  padding: 0 0.5em;
-}
-
-.EventPreview dl>div>dd {
-  display: inline-block;
-}
-
-.EventPreview {
-  color: var(--timea-dark-brown);
-}
-
-.EventPreview .card {
-  max-width: 90vw;
+.EventPreview .text-line-2-lines {
+  height: 2.5em;
 }
 
 .EventPreview .btn {

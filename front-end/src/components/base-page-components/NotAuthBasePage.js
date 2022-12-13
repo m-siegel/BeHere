@@ -7,19 +7,19 @@ import ExamplePhotoSlideshow from "./ExamplePhotoSlideshow.js";
 
 function NotAuthBasePage(props) {
   return (
-    <main className="NotAuthBasePage">
+    <div className="NotAuthBasePage">
       <div className="container-fluid">
         <div className="row">
-          <div className="col d-none d-md-flex img-col">
+          <aside className="col d-none d-md-flex img-col">
             <ExamplePhotoSlideshow />
-          </div>
+          </aside>
 
-          <div className="col text-col">
+          <main className="col text-col">
             <div className="row">{props.children}</div>
-          </div>
+          </main>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -155,77 +155,6 @@ export async function updateEvent(eventObj) {
 eventsConnect.updateEvent = updateEvent;
 
 /**
- * Returns all of the events in the org (for event previews).
- * @param {string} organization      The name of the organization.
- * @returns {object}        { success: Boolean,
- *                            msg: a string explaining the operation outcome,
- *                            events: An array of event objects, or null
- *                            err: null, or the error that was caught
- *                            }
- */
-// Event previews -- need eventId, name, organization, creator, tags, location/time
-// export async function getEventPreviews(organization) {
-//   // create date/time variable to use within db call query
-//   const client = new MongoClient(uri);
-//   try {
-//     await client.connect();
-//     const db = client.db(dbName);
-//     const collection = db.collection(eventsCol);
-//     const res = await collection
-//       .find(
-//         {
-//           organization: organization,
-//           //start: { $gte: /* today's variable */}
-//         },
-//         {
-//           projection: {
-//             _id: 1,
-//             name: 1,
-//             organization: 1,
-//             creator: 1,
-//             tags: 1,
-//             location: 1,
-//             start: 1,
-//             followedBy: 1,
-//             rsvpYes: 1,
-//             rsvpMaybe: 1,
-//             rsvpNo: 1,
-//             likes: 1,
-//           },
-//         }
-//       )
-//       .sort({
-//         start: 1,
-//       });
-//     if (res) {
-//       return {
-//         success: true,
-//         msg: "Events found.",
-//         events: await res.toArray(),
-//         err: null,
-//       };
-//     }
-//     return {
-//       success: false,
-//       msg: "No events found.",
-//       events: null,
-//       err: null,
-//     };
-//   } catch (e) {
-//     console.error(e);
-//     return {
-//       success: false,
-//       msg: "An error occurred. Please try again later.",
-//       events: null,
-//       err: e,
-//     };
-//   } finally {
-//     client.close();
-//   }
-// }
-// eventsConnect.getEventPreviews = getEventPreviews;
-
-/**
  * Returns previews of all of the events that match the query.
  * @param {object} queryObj A valid mongodb find object, for example,
  *                          { $and: [ { organization: "rohan.gov" },
@@ -240,7 +169,7 @@ eventsConnect.updateEvent = updateEvent;
  *                     }
  */
 export async function getEventPreviews(queryObj, skip, limit) {
-  // TODO: validate params
+  // Need to validate params
   // Mea updated
   skip = skip ? Math.max(Math.floor(skip), 0) : 0;
   limit = limit ? Math.max(Math.floor(limit), 0) : 0;
@@ -251,7 +180,6 @@ export async function getEventPreviews(queryObj, skip, limit) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection
-      // TODO: only allow ending after current date
       .find(queryObj, {
         projection: {
           _id: 1,
@@ -336,7 +264,7 @@ eventsConnect.getEventPreviews = getEventPreviews;
  *                     }
  */
 export async function getEventCount(queryObj) {
-  // TODO: validate params
+  // Need to validate params
   // create date/time variable to use within db call query
   const client = new MongoClient(uri);
   try {
@@ -344,7 +272,6 @@ export async function getEventCount(queryObj) {
     const db = client.db(dbName);
     const collection = db.collection(eventsCol);
     const res = await collection
-      // TODO: only allow ending after current date
       .countDocuments(queryObj);
     return {
       success: true,
@@ -659,80 +586,6 @@ export async function eventRsvp(user, event, rsvpStatus) {
         err: null,
       };
     }
-    //     const existingRsvp = await getRsvp(eventId, userId, collection);
-    //     if (existingRsvp.exists) {
-    //       if (existingRsvp.status === rsvpStatus) {
-    //         return {
-    //           success: false,
-    //           msg: `The RSVP has already been set to ${existingRsvp.value}`,
-    //           err: null,
-    //         };
-    //       } else {
-    //         await removeRsvpFromEvent(
-    //           eventId,
-    //           userId,
-    //           collection,
-    //           existingRsvp.value
-    //         );
-    //       }
-    //     }
-    //     let res;
-    //     if (rsvpStatus === "Yes") {
-    //       res = await collection.updateOne(
-    //         { _id: eventId },
-    //         {
-    //           $addToSet: {
-    //             rsvpYes: userId.toString(),
-    //           },
-    //         }
-    //       );
-    //     } else if (rsvpStatus === "Maybe") {
-    //       res = await collection.updateOne(
-    //         { _id: eventId },
-    //         {
-    //           $addToSet: {
-    //             rsvpMaybe: userId.toString(),
-    //           },
-    //         }
-    //       );
-    //     } else if (rsvpStatus === "No") {
-    //       res = await collection.updateOne(
-    //         { _id: eventId },
-    //         {
-    //           $addToSet: {
-    //             rsvpNo: userId.toString(),
-    //           },
-    //         }
-    //       );
-    //     } else {
-    //       return {
-    //         success: false,
-    //         msg: "Unable to update - an invalid RSVP value was entered.",
-    //         err: null,
-    //       };
-    //     }
-    //     if (res.acknowledged && res.modifiedCount) {
-    //       return {
-    //         success: true,
-    //         msg: "RSVP updated successfully.",
-    //         err: null,
-    //       };
-    //     }
-    //     return {
-    //       success: false,
-    //       msg: "RSVP was unable to update.",
-    //       err: null,
-    //     };
-    //   } catch (e) {
-    //     console.error(e);
-    //     return {
-    //       success: false,
-    //       msg: "An error has occurred. Please try again later.",
-    //       err: e,
-    //     };
-    //   } finally {
-    //     client.close();
-    //   }
   } catch (e) {
     console.error(e);
     return {
@@ -745,92 +598,6 @@ export async function eventRsvp(user, event, rsvpStatus) {
   }
 }
 eventsConnect.eventRsvp = eventRsvp;
-
-/**
- * Returns am object that describes if a previous RSVP was already set.
- * @param {ObjectId} eventId A MongoDB Object Id of the event
- * @param {ObjectId} userId A MongoDB Object Id of the user
- * @param {object} collection A MongoDB collection object
- * @returns {object} {exists: boolean,
- *                    value: String representation of existing RSVP, or null}
- */
-async function getRsvp(eventId, userId, collection) {
-  // storing userIds as strings in arrays
-  const event = await collection.findOne({
-    _id: eventId,
-    "rsvp.userId": userId.toString(),
-  });
-  // const rsvpMaybe = await collection.findOne({
-  //   _id: eventId,
-  //   rsvpMaybe: userId.toString(),
-  // });
-  // const rsvpNo = await collection.findOne({
-  //   _id: eventId,
-  //   rsvpNo: userId.toString(),
-  // });
-
-  if (!event) {
-    return {
-      exists: false,
-      value: null,
-    };
-  } else {
-    return {
-      exists: true,
-      value: event.rsvp.status,
-    };
-  }
-}
-
-/**
- * Removes an existing RSVP for a user.
- * @param {ObjectId} eventId
- * @param {ObjectId} userId
- * @param {MongodbCollection} collection
- * @param {string} value
- * @returns void
- */
-async function removeRsvpFromEvent(eventId, userId, collection, value) {
-  let removeStatus;
-  switch (value) {
-    case "Yes":
-      removeStatus = await collection.updateOne(
-        { _id: eventId },
-        {
-          $pull: {
-            rsvpYes: userId.toString(),
-          },
-        }
-      );
-      console.log("case Yes remove status: ", removeStatus);
-      break;
-    case "Maybe":
-      removeStatus = await collection.updateOne(
-        { _id: eventId },
-        {
-          $pull: {
-            rsvpMaybe: userId.toString(),
-          },
-        }
-      );
-      console.log("case Maybe remove status: ", removeStatus);
-      break;
-    case "No":
-      removeStatus = await collection.updateOne(
-        { _id: eventId },
-        {
-          $pull: {
-            rsvpNo: userId.toString(),
-          },
-        }
-      );
-      console.log("case No remove status: ", removeStatus);
-      break;
-    default:
-      console.log("Invalid value.");
-  }
-  return;
-}
 
 export async function toggleLike(eventIdString, userIdString) {
   const eventId = new ObjectId(eventIdString);

@@ -23,17 +23,8 @@ function RegisterPage({ isAuth }) {
 
   return (
     <div className="RegisterPage">
-      <NotAuthBasePage
-        image={
-          <img
-            src="/media/example-images/pexels-joao-rabelo-11271432.jpeg"
-            // TODO: change alt
-            alt="Three people riding mountain bikes through bright green grass and trees."
-          ></img>
-        }
-      >
+      <NotAuthBasePage>
         <AlertComponent />
-
         <div className="card card-body">
           <h1>Register</h1>
           <div className="row form-row">

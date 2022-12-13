@@ -29,15 +29,13 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           })
         ).json();
 
-        // TODO handle if error
+        // Need to handle if error
 
-        // TODO: not working
         setLikes(
           res?.users?.filter((user) =>
             eventInfo.likes?.find((like) => like === user._id)
           )
         );
-        // TODO: make more efficient
         setRsvpYes(
           res?.users?.filter(
             (user) =>

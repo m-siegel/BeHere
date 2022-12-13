@@ -38,13 +38,13 @@ function EventPreviewNavbar({
   useEffect(() => {
     setDisableLike(false);
     // Enable clicking again once like has been registered.
-    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+    // NOTE: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
   }, [likes]);
 
   useEffect(() => {
     setDisableRSVP(false);
     // Enable clicking again once like has been registered.
-    // TODO: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
+    // NOTE: this is a quick fix. would enable liking again if for another reason preview reloaded and likes had changed (if someone else liked)
   }, [rsvped]);
 
   function handleRSVP(clicked) {
@@ -108,8 +108,6 @@ function EventPreviewNavbar({
                 <IconStarOutline />
               )
             }
-            // TODO: this and rsvp have current value like
-            // TODO: aria that is always "like", same for rsvp
             descriptionText={
               likes?.length
                 ? likes.length === 1

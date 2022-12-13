@@ -83,7 +83,7 @@ SearchComponent.propTypes = {
   searchTerm: PropTypes.string.isRequired,
   setSearchTerm: PropTypes.func.isRequired,
   categoriesArray: PropTypes.arrayOf(PropTypes.string),
-  currentCategory: PropTypes.string, // TODO: would be faster as a number
+  currentCategory: PropTypes.string, // NOTE: would be faster as a number
   setCategory: PropTypes.func,
   handleSearch: PropTypes.func.isRequired,
   disableButtons: PropTypes.bool,

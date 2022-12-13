@@ -321,19 +321,7 @@ router.post("/toggleLike", async (req, res) => {
           msg: "Successfully toggled like",
           err: null,
         });
-      } // else if (userDbResponse.success) {
-      //   return res.json({
-      //     success: false,
-      //     msg: `Could not update event. Message: ${eventDbResponse.msg}`,
-      //     err: null,
-      //   });
-      // } else if (eventDbResponse.success) {
-      //   return res.json({
-      //     success: false,
-      //     msg: `Could not update user. Message: ${userDbResponse.message}`,
-      //     err: null,
-      //   });
-      // }
+      }
       return res.json({
         success: false,
         msg: `Could not update event.
@@ -356,50 +344,6 @@ router.post("/toggleLike", async (req, res) => {
   }
 });
 
-/**
- * Gets the events for the users first organization. Sends a json
- * response with an object { success: Boolean,
- *                            msg: a string explaining the operation outcome,
- *                            events: An array of event objects, or null
- *                            err: null, or the error that was caught
- *                            }
- */
-// router.get("/api/getEventPreviews", async (req, res) => {
-//   try {
-//     if (req.session.passport?.user?.organizations?.length) {
-//       try {
-//         // V2: get events for any of the user's orgs
-//         const orgName = req.session.passport?.user?.organizations[0];
-//         const eventsResponse = await eventsConnect.getEventPreviews(orgName);
-//         return res.json(eventsResponse);
-//       } catch (e) {
-//         console.error(e);
-//         return res.json({
-//           success: false,
-//           message: "Encountered error in /getEventPreviews",
-//           events: null,
-//           err: e,
-//         });
-//       }
-//     } else {
-//       return res.json({
-//         success: false,
-//         message: "User has no organizations.",
-//         events: null,
-//         err: null,
-//       });
-//     }
-//   } catch (e) {
-//     return res.json({
-//       success: false,
-//       message:
-//         "Error encountered with getting user organizations from session.",
-//       events: null,
-//       err: e,
-//     });
-//   }
-// });
-
 router.post("/api/feed/getEventPreviews", async (req, res) => {
   try {
     if (req.session.passport?.user?.organizations?.length) {
@@ -420,7 +364,7 @@ router.post("/api/feed/getEventPreviews", async (req, res) => {
          *         ...
          *       ],
          *     },
-         *     // Filters. TODO: Different categories of filter should be ANDed (ie tags and time)
+         *     // Filters.
          *
          *     {
          *       // Find events with any of the specified tags in their tags arrays
@@ -521,7 +465,7 @@ router.post("/api/feed/getEventCount", async (req, res) => {
          *         ...
          *       ],
          *     },
-         *     // Filters. TODO: Different categories of filter should be ANDed (ie tags and time)
+         *     // Filters.
          *
          *     {
          *       // Find events with any of the specified tags in their tags arrays

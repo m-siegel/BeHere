@@ -74,7 +74,7 @@ function EventFeedPage({ isAuth }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentCategory, setCategory] = useState(
     categoriesArray[0] ? categoriesArray[0] : "Select an Option"
-  ); // TODO: faster as a number (index)
+  ); // NOTE: would be faster as a number (index)
 
   // For filter
   const checkboxOptions = [
@@ -101,7 +101,6 @@ function EventFeedPage({ isAuth }) {
   }
 
   const [currentSelections, setSelectionsTest] = useState({
-    // TODO: use map?
     tags: objFromOptions(),
   });
 
@@ -238,7 +237,7 @@ function EventFeedPage({ isAuth }) {
         </div>
 
         {
-          // TODO: make this its own component
+          // Should make this its own component?
         }
         <div className="row previews-row">
           {previews.length ? (

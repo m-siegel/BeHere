@@ -30,9 +30,6 @@ function FilterForm({
     handleFilter();
   }
 
-  // TODO: figure out why these triggers search while toggle doesn't
-  // TODO: figure out why doesn't trigger rerendering with check marks
-  // TODO: maybe delete these
   function checkAll() {
     const newObj = { ...currentSelections };
     for (const opt in newObj.tags) {
@@ -108,7 +105,7 @@ function FilterForm({
 }
 
 FilterForm.propTypes = {
-  checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired, // TODO: do without this
+  checkboxOptions: PropTypes.arrayOf(PropTypes.string).isRequired, // Would be better without this
   currentSelections: PropTypes.object.isRequired,
   setSelections: PropTypes.func.isRequired,
   handleFilter: PropTypes.func.isRequired,

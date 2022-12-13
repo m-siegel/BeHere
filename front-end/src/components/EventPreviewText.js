@@ -29,7 +29,7 @@ function EventPreviewText({ start, location, tags }) {
             <h3>What</h3>
           </div>
 
-          <div className="preview-tags">
+          <div className="preview-tags" tabIndex="0">
             {tags.map((t) => (
               <span key={t}>{t} </span>
             ))}

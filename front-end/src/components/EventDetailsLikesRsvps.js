@@ -124,6 +124,7 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           id="nav-rsvpYes"
           role="tabpanel"
           aria-labelledby="nav-rsvpyes-tab"
+          tabIndex="0"
         >
           {rsvpYes?.length
             ? rsvpYes.map((user) => (
@@ -140,6 +141,7 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           id="nav-rsvpMaybe"
           role="tabpanel"
           aria-labelledby="nav-rsvpMaybe-tab"
+          tabIndex="0"
         >
           {rsvpMaybe?.length
             ? rsvpMaybe.map((user) => (
@@ -156,6 +158,7 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           id="nav-rsvpNo"
           role="tabpanel"
           aria-labelledby="nav-rsvpNo-tab"
+          tabIndex="0"
         >
           {rsvpNo?.length
             ? rsvpNo.map((user) => (
@@ -172,6 +175,7 @@ function EventDetailsLikesRsvps({ eventInfo }) {
           id="nav-likes"
           role="tabpanel"
           aria-labelledby="nav-likes-tab"
+          tabIndex="0"
         >
           {likes?.length
             ? likes.map((user) => (

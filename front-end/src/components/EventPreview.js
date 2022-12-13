@@ -35,7 +35,9 @@ function EventPreview({
     <div className={`EventPreview ${className} ep-max-with`}>
       <div className="card">
         <div className="card-body">
-          <h2 className="card-title">{info.name}</h2>
+          <h2 className="card-title" tabIndex="0">
+            {info.name}
+          </h2>
           <div className="card-text">
             <EventPreviewText
               start={info.start}

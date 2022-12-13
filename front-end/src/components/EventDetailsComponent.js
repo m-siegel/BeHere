@@ -10,7 +10,7 @@ function EventDetailsComponent({ eventInfo }) {
     <div className={"EventDetailsComponent"}>
       <div className="row">
         <div
-          className="location-and-time d-lg-none col"
+          className="location-and-time d-lg-none col-12"
           id="location-and-time-before"
         >
           <div className="row">

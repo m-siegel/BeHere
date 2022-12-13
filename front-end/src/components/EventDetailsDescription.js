@@ -10,7 +10,7 @@ import StyledTagComponent from "./StyledTagComponent.js";
 function EventDetailsDescription({ description, tags }) {
   return (
     <div className="EventDetailsDescription" id="eventDetailsDescription">
-      <div className="descriptionHolder">
+      <div className="descriptionHolder" tabIndex="0">
         <p>
           {description ? description : <i>{"No description to display"}</i>}
         </p>

@@ -25,10 +25,6 @@ function EventDetailsLikesRsvps({ eventInfo }) {
               userIds: eventInfo.likes?.concat(
                 eventInfo.rsvps?.map((rsvp) => rsvp.userId)
               ),
-              // likeIds: eventInfo.likes,
-              // yesIds: eventInfo.rsvps.filter((obj) => obj.status === "Yes"),
-              // maybeIds: eventInfo.rsvps.filter((obj) => obj.status === "Maybe"),
-              // noIds: eventInfo.rsvps.filter((obj) => obj.status === "No"),
             }),
           })
         ).json();
@@ -72,7 +68,6 @@ function EventDetailsLikesRsvps({ eventInfo }) {
 
   return (
     <div className="EventDetailsLikesRsvps">
-      {/* <div className="card-body"> */}
       <nav className="nav nav-pills nav-fill" id="nav-tab" role="tablist">
         {
           // Tried splitting into a different component, but it didn't work.
@@ -188,7 +183,6 @@ function EventDetailsLikesRsvps({ eventInfo }) {
             : "No users to show here"}
         </div>
       </div>
-      {/* </div> */}
     </div>
   );
 }

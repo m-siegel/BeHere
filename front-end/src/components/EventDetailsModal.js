@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import EventDetailsComponent from "./EventDetailsComponent.js";
+import "../stylesheets/EventDetailsModal.css";
 
 function EventDetailsModal({ eventPreview, eventId /* , onEventLoaded */ }) {
   // Could move this up a level to clear before every reload
@@ -46,12 +47,12 @@ function EventDetailsModal({ eventPreview, eventId /* , onEventLoaded */ }) {
         aria-describedby="eventDetailsDescription"
         aria-hidden="true"
       >
-        <div className="modal-fullscreen modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-xl modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              {/* <h1 className="modal-title fs-5" id="eventDetailsModalLabel">
+              <h1 id="eventDetailsTitle">
                 {eventInfo.name ? eventInfo.name : "No event name to display"}
-              </h1> */}
+              </h1>
               <button
                 type="button"
                 className="btn-close"

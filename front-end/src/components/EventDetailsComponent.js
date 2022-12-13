@@ -8,11 +8,20 @@ import EventDetailsDescription from "./EventDetailsDescription.js";
 function EventDetailsComponent({ eventInfo }) {
   return (
     <div className={"EventDetailsComponent"}>
-      <h1 id="eventDetailsTitle">
-        {eventInfo.name ? eventInfo.name : "No event name to display"}
-      </h1>
       <div className="row">
-        <div className="description-and-rsvps col col-8">
+        <div
+          className="location-and-time d-lg-none col"
+          id="location-and-time-before"
+        >
+          <div className="row">
+            <EventDetailsLocationTime
+              start={eventInfo.start}
+              end={eventInfo.finish}
+              location={eventInfo.location}
+            />
+          </div>
+        </div>
+        <div className="description-and-rsvps col col-lg-8">
           <div className="row">
             <EventDetailsDescription
               description={eventInfo.description}
@@ -24,7 +33,10 @@ function EventDetailsComponent({ eventInfo }) {
           </div>
         </div>
 
-        <div className="location-and-time col col-4">
+        <div
+          className="location-and-time d-none d-lg-block col col-lg-4"
+          id="location-and-time-after"
+        >
           <div className="row">
             <EventDetailsLocationTime
               start={eventInfo.start}

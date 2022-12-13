@@ -15,6 +15,9 @@
 ## Other notes for TAs:
 
 - The styling for some components is done in other components' stylesheets. This is because components may be reused across different other components/pages, which may require different styling. For example, while the general shape of EventPreview components does not change, some styling, like the colors, may differ depending upon the parent component, so that styling is done in the stylesheet for whichever component is controling that particular EventPreview.
+- We addressed all critical, serious, moderate and minor issues from the AXE tests. We reviewed all of the AXE "Needs Review" issues, but did not eliminate all of them. There are two types of "Needs Review" issues that still show up:
+  - Possible color contrast issues because AXE cannot determine the background color. We looked into these and tried to eliminate them, but could not resolve all of them. We think they may have something to do with Bootstrap styling. We confirmed that the colors contrast enough on WebAIM.
+  - AXE said that links with similar names should have similar purposes in regard to links that take the user to /edit/eventId, where eventId is different for each event. We decided not to change it because the fact that the link is contained within a preview for the event makes it clear which event the "edit" link is for, and clearer than a button that does the navigation sneakily. Using a button with an onClick method that navigates to the "edit" page instead solves the issue from the AXE point of view, but doing so means that the user can no longer use the browser's "back" button to get back to where they were before, which we think would have a greater negative impact on user experience than the repeated links do.
 
 ## What
 

@@ -17,7 +17,7 @@ function UserSettingsPage({ isAuth }) {
     try {
       const deleteRes = await (
         await fetch("/api/deleteUserAccount", {
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },

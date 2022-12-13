@@ -175,7 +175,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
-router.post("/api/delete-event", async (req, res) => {
+router.delete("/api/delete-event", async (req, res) => {
   const dbResult = await eventsConnect.deleteEvent(req.body._id);
   return res.json(dbResult);
 });
@@ -695,7 +695,7 @@ router.post("/api/updateUserInfo", async (req, res) => {
   return res.json(resObject);
 });
 
-router.post("/api/deleteUserAccount", async (req, res) => {
+router.delete("/api/deleteUserAccount", async (req, res) => {
   const idString = req.session?.passport?.user?._id;
   const resObject = await userConnect.deleteByIdString(idString);
   return res.json(resObject);

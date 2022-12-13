@@ -153,7 +153,7 @@ function EventForm({ setAlert, /*setDel,*/ navigate }) {
     });
     try {
       const res = await fetch("/api/delete-event", {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

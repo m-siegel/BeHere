@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import FormInput from "./FormInput";
+import "../stylesheets/UserSettingsForm.css";
 
 /**
  * Form for updating user settings.

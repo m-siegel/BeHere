@@ -10,6 +10,7 @@
   .event-form textarea {
     width: 300px;
     margin-bottom: 15px;
+    background-color: var(--timea-background-white);
   }
   
   .event-form input[type="text"] {
@@ -25,6 +26,7 @@
   .event-form textarea {
     width: 230px;
     margin-bottom: 15px;
+    background-color: var(--timea-background-white);
   }
   
   .event-form input[type="text"] {
@@ -40,6 +42,7 @@
   .event-form textarea {
     width: 420px;
     margin-bottom: 15px;
+    background-color: var(--timea-background-white);
   }
   
   .event-form input[type="text"] {

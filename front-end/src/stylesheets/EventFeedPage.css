@@ -41,6 +41,7 @@
 } */
 
 .EventFeedPage .previews-row {
+  margin: .2em;
   margin-bottom: 30px;
 }
 

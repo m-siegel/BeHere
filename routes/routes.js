@@ -181,7 +181,7 @@ router.post("/api/delete-event", async (req, res) => {
 });
 
 /**
- * Responds with events for the dashboard page
+ * Responds with events for the my-events page
  */
 router.get("/api/getEventPreviews/dash/:type", async (req, res) => {
   //const orgName = req?.session?.passport?.user?.organizations;

@@ -12,11 +12,19 @@ function EventDetailsLocationTime({ location, start, end }) {
       <h2>When 🕰️</h2>
       <p>
         <strong>Start: </strong>
-        {start ? start : <i>{"No start time information to display"}</i>}
+        {start && start !== "Invalid Date" ? (
+          start
+        ) : (
+          <i>{"No start time information to display"}</i>
+        )}
       </p>
       <p>
         <strong>End: </strong>
-        {end ? end : <i>{"No end time information to display"}</i>}
+        {end && end !== "Invalid Date" ? (
+          end
+        ) : (
+          <i>{"No end time information to display"}</i>
+        )}
       </p>
       <hr />
       <h2>Where 📍</h2>

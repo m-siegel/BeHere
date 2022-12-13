@@ -22,7 +22,7 @@ function IconButtonDropdown({
         <button
           className={`btn col ${className}`}
           type="button"
-          aria-controls={`#${uniqueId}`}
+          aria-controls={uniqueId}
           aria-expanded="false"
           disabled={disabled}
           {...buttonOptions}

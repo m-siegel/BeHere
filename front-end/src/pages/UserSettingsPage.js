@@ -104,8 +104,11 @@ function UserSettingsPage({ isAuth }) {
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="modal-body">
-                Are you sure you want to delete your account?
+              <div className="modal-body" id="deleteConfirmationLabel">
+                <p>
+                  <strong>Are you sure you want to delete your account?</strong>
+                </p>
+                <p>This cannot be undone.</p>
               </div>
               <div className="modal-footer">
                 <button

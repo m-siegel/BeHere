@@ -109,7 +109,7 @@
   font-size: x-large;
 }
 
-.EventDetailsModal .EventDetailsDescription .tags-list .li {
+/* .EventDetailsModal .EventDetailsDescription .tags-list .li {
   background-color: var(--timea-tag-other);
 }
 
@@ -148,7 +148,7 @@
 }
 .EventDetailsModal .EventDetailsDescription .tags-list .hangout {
   background-color: var(--timea-tag-hangout);
-}
+} */
 
 
 
